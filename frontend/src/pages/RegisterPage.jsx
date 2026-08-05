@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
-import { HiAcademicCap, HiLightBulb, HiBriefcase, HiShieldCheck } from 'react-icons/hi';
+import InnovaLogo from '../components/InnovaLogo';
+import { HiAcademicCap, HiLightBulb, HiBriefcase, HiShieldCheck, HiSparkles, HiArrowRight } from 'react-icons/hi';
 
 export default function RegisterPage() {
   const [fullName, setFullName] = useState('');
@@ -42,26 +43,23 @@ export default function RegisterPage() {
   ];
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-dark)', padding: '2.5rem 1.5rem' }} className="animate-fade-in">
-      <div className="glass-card" style={{ width: '100%', maxWidth: '580px', padding: '3rem' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-dark)', padding: '2.5rem 1.5rem', position: 'relative', overflow: 'hidden' }} className="animate-fade-in">
+      {/* Background Floating Tiles */}
+      <div className="glass-card floating-tile-1" style={{ position: 'absolute', top: '10%', right: '6%', width: '210px', padding: '1.25rem', opacity: 0.6, pointerEvents: 'none' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#c084fc', fontSize: '0.8rem', fontWeight: '700' }}>
+          <HiSparkles /> Innovation Hub
+        </div>
+        <div style={{ fontSize: '1.05rem', fontWeight: '800', color: '#f8fafc', marginTop: '0.35rem' }}>$15B+ Grants</div>
+        <div style={{ fontSize: '0.725rem', color: '#94a3b8' }}>Live Matching Pool</div>
+      </div>
+
+      {/* Main Registration Card */}
+      <div className="glass-card pulse-glow" style={{ width: '100%', maxWidth: '600px', padding: '3rem', position: 'relative', zIndex: 10 }}>
         <div style={{ textAlign: 'center', marginBottom: '2.25rem' }}>
-          <div style={{
-            display: 'inline-flex',
-            width: '46px',
-            height: '46px',
-            borderRadius: '1rem',
-            background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
-            alignItems: 'center',
-            justify: 'center',
-            fontWeight: '900',
-            fontSize: '1.3rem',
-            color: '#ffffff',
-            marginBottom: '1rem',
-            boxShadow: '0 0 25px rgba(99, 102, 241, 0.5)'
-          }}>
-            IF
+          <div style={{ display: 'inline-block', marginBottom: '1.25rem' }}>
+            <InnovaLogo size={64} className="logo-animated" />
           </div>
-          <h2 style={{ fontSize: '2rem', fontWeight: '800', margin: '0 0 0.4rem 0', fontFamily: 'var(--font-heading)', color: '#f8fafc' }}>
+          <h2 style={{ fontSize: '2.1rem', fontWeight: '800', margin: '0 0 0.4rem 0', fontFamily: 'var(--font-heading)', color: '#f8fafc' }}>
             Create Your Account
           </h2>
           <p style={{ color: '#94a3b8', fontSize: '0.95rem', margin: 0 }}>
@@ -167,8 +165,14 @@ export default function RegisterPage() {
             </div>
           </div>
 
-          <button type="submit" className="btn-gradient" disabled={loading} style={{ width: '100%', marginTop: '0.5rem', padding: '0.85rem' }}>
-            {loading ? 'Creating Account...' : 'Register Account'}
+          <button type="submit" className="btn-gradient" disabled={loading} style={{ width: '100%', marginTop: '0.5rem', padding: '0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+            {loading ? (
+              <span className="shimmer-loading" style={{ padding: '0.2rem 1rem', borderRadius: '0.5rem', width: '100%', display: 'inline-block' }}>Creating Account...</span>
+            ) : (
+              <>
+                Register Account <HiArrowRight />
+              </>
+            )}
           </button>
         </form>
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import { HiLogout } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
+import InnovaLogo from './InnovaLogo';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
@@ -44,23 +45,9 @@ export default function Navbar() {
     }}>
       {/* Left Brand Logo */}
       <Link to="/dashboard" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
-        <div style={{
-          width: '38px',
-          height: '38px',
-          borderRadius: '0.75rem',
-          background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
-          display: 'flex',
-          alignItems: 'center',
-          justify: 'center',
-          fontWeight: '900',
-          color: '#ffffff',
-          fontSize: '1.1rem',
-          boxShadow: '0 0 20px rgba(99, 102, 241, 0.5)'
-        }}>
-          IF
-        </div>
+        <InnovaLogo size={42} className="logo-animated" />
         <div>
-          <span style={{ fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: '800', color: '#f8fafc', letterSpacing: '-0.5px' }}>
+          <span style={{ fontFamily: 'var(--font-heading)', fontSize: '1.3rem', fontWeight: '800', color: '#f8fafc', letterSpacing: '-0.5px' }}>
             InnovaFund <span style={{ color: '#6366f1' }}>AI</span>
           </span>
           <span style={{ display: 'block', fontSize: '0.65rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: '-2px' }}>

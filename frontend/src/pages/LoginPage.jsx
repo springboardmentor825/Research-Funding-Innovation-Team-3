@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
+import InnovaLogo from '../components/InnovaLogo';
+import { HiSparkles, HiShieldCheck, HiLightningBolt } from 'react-icons/hi';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -25,27 +27,36 @@ export default function LoginPage() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-dark)', padding: '2rem' }} className="animate-fade-in">
-      <div className="glass-card" style={{ width: '100%', maxWidth: '440px', padding: '2.75rem' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-dark)', padding: '2rem', position: 'relative', overflow: 'hidden' }} className="animate-fade-in">
+      {/* Decorative Floating Ambient Cards in Background */}
+      <div className="glass-card floating-tile-1" style={{ position: 'absolute', top: '15%', left: '8%', width: '220px', padding: '1.25rem', opacity: 0.65, pointerEvents: 'none' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#a5b4fc', fontSize: '0.8rem', fontWeight: '700' }}>
+          <HiSparkles /> Multi-Dataset AI
+        </div>
+        <div style={{ fontSize: '1.1rem', fontWeight: '800', color: '#f8fafc', marginTop: '0.35rem' }}>250M+ Papers</div>
+        <div style={{ fontSize: '0.725rem', color: '#94a3b8' }}>OpenAlex & CrossRef</div>
+      </div>
+
+      <div className="glass-card floating-tile-2" style={{ position: 'absolute', bottom: '15%', right: '8%', width: '220px', padding: '1.25rem', opacity: 0.65, pointerEvents: 'none' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#6ee7b7', fontSize: '0.8rem', fontWeight: '700' }}>
+          <HiShieldCheck /> Global IP Explorer
+        </div>
+        <div style={{ fontSize: '1.1rem', fontWeight: '800', color: '#f8fafc', marginTop: '0.35rem' }}>140M+ Patents</div>
+        <div style={{ fontSize: '0.725rem', color: '#94a3b8' }}>USPTO & Google Patents</div>
+      </div>
+
+      {/* Main Sign-In Card */}
+      <div className="glass-card pulse-glow" style={{ width: '100%', maxWidth: '450px', padding: '3rem', position: 'relative', zIndex: 10 }}>
         <div style={{ textAlign: 'center', marginBottom: '2.25rem' }}>
-          <div style={{
-            display: 'inline-flex',
-            width: '46px',
-            height: '46px',
-            borderRadius: '1rem',
-            background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
-            alignItems: 'center',
-            justify: 'center',
-            fontWeight: '900',
-            fontSize: '1.3rem',
-            color: '#ffffff',
-            marginBottom: '1rem',
-            boxShadow: '0 0 25px rgba(99, 102, 241, 0.5)'
-          }}>
-            IF
+          <div style={{ display: 'inline-block', marginBottom: '1.25rem' }}>
+            <InnovaLogo size={64} className="logo-animated" />
           </div>
-          <h2 style={{ fontSize: '1.85rem', fontWeight: '800', margin: '0 0 0.4rem 0', fontFamily: 'var(--font-heading)', color: '#f8fafc' }}>Welcome Back</h2>
-          <p style={{ color: '#94a3b8', fontSize: '0.95rem', margin: 0 }}>Sign in to InnovaFund AI Platform</p>
+          <h2 style={{ fontSize: '2rem', fontWeight: '800', margin: '0 0 0.4rem 0', fontFamily: 'var(--font-heading)', color: '#f8fafc' }}>
+            Welcome Back
+          </h2>
+          <p style={{ color: '#94a3b8', fontSize: '0.95rem', margin: 0 }}>
+            Sign in to InnovaFund AI Intelligence Platform
+          </p>
         </div>
 
         {error && (
@@ -64,7 +75,7 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              placeholder="name@university.edu"
+              placeholder="admin@researchsphere.ai"
             />
           </div>
 
@@ -81,8 +92,14 @@ export default function LoginPage() {
             />
           </div>
 
-          <button type="submit" className="btn-gradient" disabled={loading} style={{ width: '100%', marginTop: '0.5rem', padding: '0.85rem' }}>
-            {loading ? 'Authenticating...' : 'Sign In'}
+          <button type="submit" className="btn-gradient" disabled={loading} style={{ width: '100%', marginTop: '0.5rem', padding: '0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+            {loading ? (
+              <span className="shimmer-loading" style={{ padding: '0.2rem 1rem', borderRadius: '0.5rem', width: '100%', display: 'inline-block' }}>Authenticating...</span>
+            ) : (
+              <>
+                <HiLightningBolt /> Sign In to Portal
+              </>
+            )}
           </button>
         </form>
 

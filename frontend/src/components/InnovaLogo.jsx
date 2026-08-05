@@ -21,22 +21,22 @@ export default function InnovaLogo({ size = 42, className = '' }) {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         style={{
-          filter: 'drop-shadow(0px 0px 12px rgba(99, 102, 241, 0.6))',
+          filter: 'drop-shadow(0px 0px 14px rgba(2, 132, 199, 0.65))',
           transition: 'all 0.3s ease'
         }}
       >
         <defs>
-          {/* Main Gradient */}
+          {/* Main Corporate Cobalt Sky Gradient */}
           <linearGradient id="innovaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#6366f1" />
-            <stop offset="50%" stopColor="#8b5cf6" />
-            <stop offset="100%" stopColor="#06b6d4" />
+            <stop offset="0%" stopColor="#0284c7" />
+            <stop offset="50%" stopColor="#0ea5e9" />
+            <stop offset="100%" stopColor="#6366f1" />
           </linearGradient>
 
           {/* Accent Glow */}
           <linearGradient id="glowGrad" x1="100%" y1="0%" x2="0%" y2="100%">
             <stop offset="0%" stopColor="#38bdf8" />
-            <stop offset="100%" stopColor="#e879f9" />
+            <stop offset="100%" stopColor="#c084fc" />
           </linearGradient>
 
           {/* Ring Glow Filter */}
@@ -54,7 +54,7 @@ export default function InnovaLogo({ size = 42, className = '' }) {
           height="88"
           rx="26"
           fill="url(#innovaGrad)"
-          fillOpacity="0.2"
+          fillOpacity="0.22"
           stroke="url(#innovaGrad)"
           strokeWidth="3"
           filter="url(#neonFilter)"
@@ -67,8 +67,8 @@ export default function InnovaLogo({ size = 42, className = '' }) {
           width="76"
           height="76"
           rx="22"
-          fill="#060913"
-          fillOpacity="0.85"
+          fill="#030712"
+          fillOpacity="0.88"
           stroke="url(#glowGrad)"
           strokeWidth="1.5"
           strokeDasharray="180 30"
@@ -96,7 +96,7 @@ export default function InnovaLogo({ size = 42, className = '' }) {
         {/* Central AI Quantum Spark Node */}
         <circle cx="72" cy="70" r="5" fill="#38bdf8" filter="url(#neonFilter)" />
         <line x1="68" y1="48" x2="72" y2="70" stroke="#38bdf8" strokeWidth="2.5" strokeDasharray="3 3" />
-        <circle cx="50" cy="50" r="3" fill="#e879f9" />
+        <circle cx="50" cy="50" r="3" fill="#c084fc" />
       </svg>
     </div>
   );

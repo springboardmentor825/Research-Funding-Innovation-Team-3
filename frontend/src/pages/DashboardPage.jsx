@@ -13,28 +13,28 @@ export default function DashboardPage() {
     switch (user.role) {
       case 'researcher':
         return [
-          { label: 'Publications Indexed', value: '42', color: '#6366f1', icon: <HiBookOpen />, sub: '+5 this month' },
+          { label: 'Publications Indexed', value: '42', color: '#0ea5e9', icon: <HiBookOpen />, sub: '+5 this month' },
           { label: 'Citations Tracked', value: '1,204', color: '#8b5cf6', icon: <HiChartBar />, sub: 'Top 5% in field' },
           { label: 'Patents Cataloged', value: '3', color: '#06b6d4', icon: <HiLightBulb />, sub: '2 Granted' },
           { label: 'Innovation Impact', value: '88/100', color: '#10b981', icon: <HiSparkles />, sub: 'High commercial readiness' },
         ];
       case 'startup_founder':
         return [
-          { label: 'Funding Opportunity Matches', value: '14', color: '#6366f1', icon: <HiCurrencyDollar />, sub: '$4.2M total pool' },
+          { label: 'Funding Opportunity Matches', value: '14', color: '#0ea5e9', icon: <HiCurrencyDollar />, sub: '$4.2M total pool' },
           { label: 'Technology IP Matches', value: '8', color: '#8b5cf6', icon: <HiLightBulb />, sub: 'Licensing ready' },
           { label: 'Patents Monitored', value: '12', color: '#06b6d4', icon: <HiBookOpen />, sub: '3 Assignees' },
           { label: 'Market Potential', value: '92/100', color: '#10b981', icon: <HiChartBar />, sub: 'DeepTech Sector' },
         ];
       case 'administrator':
         return [
-          { label: 'Platform Registered Users', value: '1,248', color: '#6366f1', icon: <HiUsers />, sub: '840 Researchers' },
+          { label: 'Platform Registered Users', value: '1,248', color: '#0ea5e9', icon: <HiUsers />, sub: '840 Researchers' },
           { label: 'Datasets Connected', value: '6 APIs', color: '#8b5cf6', icon: <HiBookOpen />, sub: 'OpenAlex, USPTO, Lens' },
           { label: 'System Health Uptime', value: '99.9%', color: '#10b981', icon: <HiShieldCheck />, sub: 'PostgreSQL + MongoDB' },
           { label: 'Audit Events Logged', value: '4,892', color: '#06b6d4', icon: <HiChartBar />, sub: 'Dual DB Stream' },
         ];
       default:
         return [
-          { label: 'R&D Projects', value: '24', color: '#6366f1', icon: <HiBookOpen />, sub: 'Active' },
+          { label: 'R&D Projects', value: '24', color: '#0ea5e9', icon: <HiBookOpen />, sub: 'Active' },
           { label: 'Institutional Researchers', value: '142', color: '#8b5cf6', icon: <HiUsers />, sub: '12 Departments' },
           { label: 'Patents Cataloged', value: '89', color: '#06b6d4', icon: <HiLightBulb />, sub: 'USPTO + Google' },
           { label: 'Innovation Index', value: '9.4/10', color: '#10b981', icon: <HiSparkles />, sub: 'Top Tier' },
@@ -53,8 +53,8 @@ export default function DashboardPage() {
       {/* Header Banner */}
       <div className="glass-card" style={{ padding: '2rem 2.5rem', marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: '#a5b4fc', fontSize: '0.85rem', fontWeight: '600', marginBottom: '0.5rem' }}>
-            <HiSparkles /> Innovation Intelligence Dashboard
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: '#38bdf8', fontSize: '0.85rem', fontWeight: '600', marginBottom: '0.5rem' }}>
+            <HiSparkles /> Enterprise Innovation Intelligence Dashboard
           </div>
           <h1 style={{ fontSize: '2.25rem', fontWeight: '800', margin: '0 0 0.5rem 0', background: 'linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             Welcome back, {user.full_name}
@@ -75,7 +75,7 @@ export default function DashboardPage() {
           <div key={i} className="glass-card" style={{ padding: '1.5rem' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.85rem' }}>
               <span style={{ fontSize: '0.85rem', color: '#94a3b8', fontWeight: '500' }}>{stat.label}</span>
-              <div style={{ width: '40px', height: '40px', borderRadius: '0.75rem', background: `${stat.color}20`, border: `1px solid ${stat.color}40`, color: stat.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', flexShrink: 0 }}>
+              <div style={{ width: '40px', height: '40px', borderRadius: '0.75rem', background: `${stat.color}20`, border: `1px solid ${stat.color}45`, color: stat.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', flexShrink: 0 }}>
                 {stat.icon}
               </div>
             </div>
@@ -102,18 +102,18 @@ export default function DashboardPage() {
                 Discovered programs matching your research domains and keywords
               </p>
             </div>
-            <span style={{ background: 'rgba(16,185,129,0.15)', border: '1px solid rgba(16,185,129,0.3)', color: '#6ee7b7', padding: '0.25rem 0.75rem', borderRadius: '1rem', fontSize: '0.75rem', fontWeight: '700', flexShrink: 0 }}>
+            <span style={{ background: 'rgba(16,185,129,0.15)', border: '1px solid rgba(16,185,129,0.35)', color: '#6ee7b7', padding: '0.25rem 0.75rem', borderRadius: '1rem', fontSize: '0.75rem', fontWeight: '700', flexShrink: 0 }}>
               3 Live Matches
             </span>
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
             {fundingGrants.map((grant, idx) => (
-              <div key={idx} style={{ background: 'rgba(10, 15, 30, 0.5)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '1rem', padding: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', transition: 'all 0.2s ease' }}>
+              <div key={idx} style={{ background: 'rgba(10, 15, 30, 0.6)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '1rem', padding: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', transition: 'all 0.2s ease' }}>
                 <div>
                   <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.4rem' }}>
                     {grant.tags.map((t, ti) => (
-                      <span key={ti} style={{ background: 'rgba(99,102,241,0.15)', color: '#a5b4fc', padding: '0.15rem 0.5rem', borderRadius: '0.5rem', fontSize: '0.7rem', fontWeight: '600' }}>
+                      <span key={ti} style={{ background: 'rgba(14,165,233,0.15)', color: '#7dd3fc', padding: '0.15rem 0.5rem', borderRadius: '0.5rem', fontSize: '0.7rem', fontWeight: '600' }}>
                         #{t}
                       </span>
                     ))}
@@ -142,7 +142,7 @@ export default function DashboardPage() {
         {/* Quick Actions Panel */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
           <div className="glass-card" style={{ padding: '1.5rem', cursor: 'pointer' }} onClick={() => navigate('/publications')}>
-            <div style={{ width: '40px', height: '40px', borderRadius: '0.75rem', background: 'rgba(99,102,241,0.2)', color: '#a5b4fc', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.3rem', marginBottom: '0.85rem' }}>
+            <div style={{ width: '40px', height: '40px', borderRadius: '0.75rem', background: 'rgba(14,165,233,0.2)', color: '#7dd3fc', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.3rem', marginBottom: '0.85rem' }}>
               <HiBookOpen />
             </div>
             <h3 style={{ fontSize: '1.1rem', fontWeight: '700', margin: '0 0 0.35rem 0' }}>Publication Search</h3>

@@ -69,8 +69,8 @@ export default function Navbar() {
         </div>
       </Link>
 
-      {/* Right User Bar */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
+      {/* Right User Bar - Pushed to Far Right Corner */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', marginLeft: 'auto' }}>
         {user ? (
           <>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', padding: '0.35rem 0.85rem', background: 'rgba(255,255,255,0.03)', borderRadius: '2rem', border: '1px solid rgba(255,255,255,0.08)' }}>

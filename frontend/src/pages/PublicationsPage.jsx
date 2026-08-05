@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { searchPublications } from '../api/research';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { HiSearch, HiExternalLink, HiBookOpen, HiSparkles, HiBookmark } from 'react-icons/hi';
+import { HiSearch, HiExternalLink, HiBookOpen, HiSparkles, HiDownload, HiDocumentReport } from 'react-icons/hi';
 
 export default function PublicationsPage() {
   const [query, setQuery] = useState('artificial intelligence');
@@ -26,6 +26,28 @@ export default function PublicationsPage() {
     }
   };
 
+  const handleExportCSV = () => {
+    if (!results || results.length === 0) return;
+    const headers = ['Title', 'Authors', 'Venue', 'Year', 'Citations', 'Source', 'DOI'];
+    const rows = results.map(r => [
+      `"${(r.title || '').replace(/"/g, '""')}"`,
+      `"${(r.authors || '').replace(/"/g, '""')}"`,
+      `"${(r.journal_or_venue || '').replace(/"/g, '""')}"`,
+      r.publication_year || '',
+      r.citation_count || 0,
+      r.external_source || '',
+      r.doi || ''
+    ]);
+    const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', `InnovaFund_Publications_${query.replace(/\s+/g, '_')}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const getSourceBadgeClass = (src) => {
     switch (src) {
       case 'OpenAlex': return 'badge-openalex';
@@ -38,7 +60,7 @@ export default function PublicationsPage() {
   return (
     <div style={{ padding: '2rem', maxWidth: '1400px', margin: '0 auto' }} className="animate-fade-in">
       <div style={{ marginBottom: '2rem' }}>
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: '#67e8f9', fontSize: '0.85rem', fontWeight: '600', marginBottom: '0.4rem' }}>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: '#38bdf8', fontSize: '0.85rem', fontWeight: '600', marginBottom: '0.4rem' }}>
           <HiSparkles /> Multi-Source Academic Data Engine
         </div>
         <h1 style={{ fontSize: '2.25rem', fontWeight: '800', margin: '0 0 0.5rem 0', background: 'linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
@@ -70,10 +92,10 @@ export default function PublicationsPage() {
             value={source}
             onChange={(e) => setSource(e.target.value)}
           >
-            <option value="all" style={{ background: '#090d16' }}>All Repositories</option>
-            <option value="openalex" style={{ background: '#090d16' }}>OpenAlex</option>
-            <option value="crossref" style={{ background: '#090d16' }}>CrossRef</option>
-            <option value="semantic_scholar" style={{ background: '#090d16' }}>Semantic Scholar</option>
+            <option value="all" style={{ background: '#030712' }}>All Repositories</option>
+            <option value="openalex" style={{ background: '#030712' }}>OpenAlex</option>
+            <option value="crossref" style={{ background: '#030712' }}>CrossRef</option>
+            <option value="semantic_scholar" style={{ background: '#030712' }}>Semantic Scholar</option>
           </select>
 
           <select
@@ -81,9 +103,9 @@ export default function PublicationsPage() {
             value={limit}
             onChange={(e) => setLimit(Number(e.target.value))}
           >
-            <option value={5} style={{ background: '#090d16' }}>5 Results</option>
-            <option value={10} style={{ background: '#090d16' }}>10 Results</option>
-            <option value={25} style={{ background: '#090d16' }}>25 Results</option>
+            <option value={5} style={{ background: '#030712' }}>5 Results</option>
+            <option value={10} style={{ background: '#030712' }}>10 Results</option>
+            <option value={25} style={{ background: '#030712' }}>25 Results</option>
           </select>
 
           <button type="submit" className="btn-gradient" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
@@ -97,8 +119,17 @@ export default function PublicationsPage() {
       ) : searched ? (
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#94a3b8', marginBottom: '1.25rem', fontSize: '0.95rem' }}>
-            <span>Found <strong style={{ color: '#f8fafc' }}>{results.length}</strong> scientific paper records for query "<strong style={{ color: '#a5b4fc' }}>{query}</strong>"</span>
-            <span style={{ fontSize: '0.8rem', color: '#64748b' }}>PostgreSQL & MongoDB Payload Cached</span>
+            <span>Found <strong style={{ color: '#f8fafc' }}>{results.length}</strong> scientific paper records for query "<strong style={{ color: '#38bdf8' }}>{query}</strong>"</span>
+            
+            {results.length > 0 && (
+              <button
+                onClick={handleExportCSV}
+                className="btn-outline"
+                style={{ padding: '0.45rem 1rem', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}
+              >
+                <HiDownload /> Export Results CSV
+              </button>
+            )}
           </div>
 
           {results.length > 0 ? (
@@ -136,7 +167,7 @@ export default function PublicationsPage() {
                     </span>
                     
                     {pub.doi ? (
-                      <a href={pub.doi.startsWith('http') ? pub.doi : `https://doi.org/${pub.doi}`} target="_blank" rel="noreferrer" style={{ color: '#a5b4fc', textDecoration: 'none', fontSize: '0.85rem', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '0.35rem', background: 'rgba(99,102,241,0.15)', padding: '0.35rem 0.75rem', borderRadius: '0.5rem', border: '1px solid rgba(99,102,241,0.3)' }}>
+                      <a href={pub.doi.startsWith('http') ? pub.doi : `https://doi.org/${pub.doi}`} target="_blank" rel="noreferrer" style={{ color: '#7dd3fc', textDecoration: 'none', fontSize: '0.85rem', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '0.35rem', background: 'rgba(2,132,199,0.15)', padding: '0.35rem 0.75rem', borderRadius: '0.5rem', border: '1px solid rgba(14,165,233,0.3)' }}>
                         DOI Link <HiExternalLink />
                       </a>
                     ) : (

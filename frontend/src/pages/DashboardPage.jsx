@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
-import { HiBookOpen, HiLightBulb, HiCurrencyDollar, HiChartBar, HiUsers, HiUserCircle, HiSparkles, HiArrowRight, HiShieldCheck } from 'react-icons/hi';
+import { HiBookOpen, HiLightBulb, HiCurrencyDollar, HiChartBar, HiUsers, HiUserCircle, HiSparkles, HiArrowRight, HiShieldCheck, HiTrendingUp } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
 
 export default function DashboardPage() {
@@ -87,6 +87,85 @@ export default function DashboardPage() {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Interactive Visual Analytics Row */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.75rem', marginBottom: '2rem' }}>
+        {/* SVG Analytics Chart 1: Citation Growth Trend */}
+        <div className="glass-card" style={{ padding: '1.75rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+            <div>
+              <h3 style={{ fontSize: '1.15rem', fontWeight: '700', margin: '0 0 0.25rem 0', color: '#f8fafc' }}>
+                Citation Growth Velocity (YoY)
+              </h3>
+              <p style={{ color: '#94a3b8', fontSize: '0.8rem', margin: 0 }}>OpenAlex & CrossRef Aggregated Citations</p>
+            </div>
+            <span style={{ color: '#10b981', fontWeight: '700', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+              <HiTrendingUp /> +38.4% YoY
+            </span>
+          </div>
+
+          <div style={{ height: '140px', width: '100%', position: 'relative' }}>
+            <svg width="100%" height="100%" viewBox="0 0 400 120" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#0ea5e9" stopOpacity="0.4" />
+                  <stop offset="100%" stopColor="#0ea5e9" stopOpacity="0.0" />
+                </linearGradient>
+              </defs>
+              <path d="M 0 100 Q 80 80, 160 50 T 320 20 L 400 10 L 400 120 L 0 120 Z" fill="url(#chartGrad)" />
+              <path d="M 0 100 Q 80 80, 160 50 T 320 20 L 400 10" stroke="#0ea5e9" strokeWidth="3.5" fill="none" />
+              <circle cx="160" cy="50" r="4" fill="#38bdf8" />
+              <circle cx="320" cy="20" r="4" fill="#38bdf8" />
+              <circle cx="400" cy="10" r="5" fill="#10b981" />
+            </svg>
+          </div>
+        </div>
+
+        {/* SVG Analytics Chart 2: Patent Landscape Distribution */}
+        <div className="glass-card" style={{ padding: '1.75rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+            <div>
+              <h3 style={{ fontSize: '1.15rem', fontWeight: '700', margin: '0 0 0.25rem 0', color: '#f8fafc' }}>
+                Patent Landscape Distribution
+              </h3>
+              <p style={{ color: '#94a3b8', fontSize: '0.8rem', margin: 0 }}>USPTO, Google Patents & The Lens IP Coverage</p>
+            </div>
+            <span style={{ color: '#a5b4fc', fontWeight: '700', fontSize: '0.85rem' }}>140M Records</span>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', marginTop: '0.75rem' }}>
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', color: '#cbd5e1', marginBottom: '0.25rem' }}>
+                <span>Artificial Intelligence & ML</span>
+                <span style={{ color: '#38bdf8', fontWeight: '700' }}>42%</span>
+              </div>
+              <div style={{ height: '8px', width: '100%', background: 'rgba(255,255,255,0.06)', borderRadius: '4px', overflow: 'hidden' }}>
+                <div style={{ width: '42%', height: '100%', background: 'linear-gradient(90deg, #0284c7, #38bdf8)', borderRadius: '4px' }}></div>
+              </div>
+            </div>
+
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', color: '#cbd5e1', marginBottom: '0.25rem' }}>
+                <span>Quantum Computing & IP</span>
+                <span style={{ color: '#c084fc', fontWeight: '700' }}>31%</span>
+              </div>
+              <div style={{ height: '8px', width: '100%', background: 'rgba(255,255,255,0.06)', borderRadius: '4px', overflow: 'hidden' }}>
+                <div style={{ width: '31%', height: '100%', background: 'linear-gradient(90deg, #8b5cf6, #c084fc)', borderRadius: '4px' }}></div>
+              </div>
+            </div>
+
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', color: '#cbd5e1', marginBottom: '0.25rem' }}>
+                <span>BioTech & Drug Discovery</span>
+                <span style={{ color: '#6ee7b7', fontWeight: '700' }}>27%</span>
+              </div>
+              <div style={{ height: '8px', width: '100%', background: 'rgba(255,255,255,0.06)', borderRadius: '4px', overflow: 'hidden' }}>
+                <div style={{ width: '27%', height: '100%', background: 'linear-gradient(90deg, #059669, #6ee7b7)', borderRadius: '4px' }}></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Main Grid: Funding Opportunity Discovery + Quick Actions */}

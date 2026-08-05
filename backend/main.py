@@ -145,3 +145,63 @@ def search_patents(query: str, limit: int = 10):
         raise HTTPException(status_code=502, detail=f"Failed to fetch patent data: {response.text}")
 
     return response.json()
+
+
+#added the research profile delte api
+
+
+@app.delete("/profile")
+def delete_profile(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    profile = db.query(ResearchProfile).filter(
+        ResearchProfile.user_id == current_user.id
+    ).first()
+
+    if not profile:
+        raise HTTPException(
+            status_code=404,
+            detail="Research profile not found."
+        )
+
+    db.delete(profile)
+    db.commit()
+
+    return {"message": "Research profile deleted successfully."}   
+
+    #to list all research profiles
+
+@app.get("/profiles", response_model=list[ResearchProfileResponse])
+def list_profiles(
+    db: Session = Depends(get_db),
+):
+    return db.query(ResearchProfile).all()
+
+
+#to search by research domain
+
+@app.get("/profiles/domain/{domain}", response_model=list[ResearchProfileResponse])
+def search_by_domain(
+    domain: str,
+    db: Session = Depends(get_db),
+):
+    profiles = db.query(ResearchProfile).filter(
+        ResearchProfile.research_domains.ilike(f"%{domain}%")
+    ).all()
+
+    return profiles
+
+
+# to search by keyword
+
+@app.get("/profiles/keyword/{keyword}", response_model=list[ResearchProfileResponse])
+def search_by_keyword(
+    keyword: str,
+    db: Session = Depends(get_db),
+):
+    profiles = db.query(ResearchProfile).filter(
+        ResearchProfile.keywords.ilike(f"%{keyword}%")
+    ).all()
+
+    return profiles

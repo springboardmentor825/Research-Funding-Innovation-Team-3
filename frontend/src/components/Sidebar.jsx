@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { HiChartSquareBar, HiUserCircle, HiBookOpen, HiLightBulb, HiShieldCheck, HiCog } from 'react-icons/hi';
+import { HiChartSquareBar, HiUserCircle, HiBookOpen, HiLightBulb, HiShieldCheck, HiCog, HiChip } from 'react-icons/hi';
 import InnovaLogo from './InnovaLogo';
 
 export default function Sidebar() {
@@ -12,6 +12,7 @@ export default function Sidebar() {
     { to: '/profile', icon: <HiUserCircle />, label: 'Research Profile' },
     { to: '/publications', icon: <HiBookOpen />, label: 'Publications' },
     { to: '/patents', icon: <HiLightBulb />, label: 'Patent Landscape' },
+    { to: '/architecture', icon: <HiChip />, label: 'System Architecture' },
     { to: '/settings', icon: <HiCog />, label: 'Settings' },
   ];
 
@@ -52,13 +53,13 @@ export default function Sidebar() {
                 fontSize: '0.95rem',
                 fontWeight: isActive ? '700' : '500',
                 color: isActive ? '#ffffff' : '#94a3b8',
-                background: isActive ? 'linear-gradient(135deg, rgba(99,102,241,0.25) 0%, rgba(139,92,246,0.2) 100%)' : 'transparent',
-                border: isActive ? '1px solid rgba(99,102,241,0.4)' : '1px solid transparent',
-                boxShadow: isActive ? '0 4px 15px rgba(99,102,241,0.2)' : 'none',
+                background: isActive ? 'linear-gradient(135deg, rgba(2,132,199,0.25) 0%, rgba(99,102,241,0.2) 100%)' : 'transparent',
+                border: isActive ? '1px solid rgba(14,165,233,0.45)' : '1px solid transparent',
+                boxShadow: isActive ? '0 4px 15px rgba(2,132,199,0.25)' : 'none',
                 transition: 'all 0.2s ease'
               })}
             >
-              <span style={{ fontSize: '1.2rem', color: '#a5b4fc' }}>{link.icon}</span>
+              <span style={{ fontSize: '1.2rem', color: '#38bdf8' }}>{link.icon}</span>
               <span>{link.label}</span>
             </NavLink>
           ))}
@@ -92,8 +93,8 @@ export default function Sidebar() {
 
       {/* Production System Widget */}
       <div style={{
-        background: 'linear-gradient(135deg, rgba(99,102,241,0.12) 0%, rgba(139,92,246,0.12) 100%)',
-        border: '1px solid rgba(99,102,241,0.25)',
+        background: 'linear-gradient(135deg, rgba(2,132,199,0.12) 0%, rgba(99,102,241,0.12) 100%)',
+        border: '1px solid rgba(14,165,233,0.25)',
         borderRadius: '1rem',
         padding: '1rem',
         textAlign: 'center'

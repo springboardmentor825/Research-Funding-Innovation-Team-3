@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import InnovaLogo from '../components/InnovaLogo';
-import { HiAcademicCap, HiLightBulb, HiBriefcase, HiShieldCheck, HiSparkles, HiArrowRight } from 'react-icons/hi';
+import { HiAcademicCap, HiLightBulb, HiBriefcase, HiShieldCheck, HiSparkles, HiArrowRight, HiCheckCircle } from 'react-icons/hi';
 import { FaGithub } from 'react-icons/fa';
 
 export default function RegisterPage() {
@@ -44,185 +44,244 @@ export default function RegisterPage() {
   };
 
   const roleOptions = [
-    { id: 'researcher', label: 'Researcher', desc: 'Academic & Industry Scientists', icon: <HiAcademicCap /> },
-    { id: 'startup_founder', label: 'Startup Founder', desc: 'Tech Entrepreneurs & DeepTech', icon: <HiLightBulb /> },
-    { id: 'innovation_manager', label: 'Innovation Manager', desc: 'University Tech Transfer & R&D', icon: <HiBriefcase /> },
-    { id: 'administrator', label: 'Administrator', desc: 'Platform IT & Compliance', icon: <HiShieldCheck /> },
+    { id: 'researcher', label: 'Researcher', desc: 'Scientists & Authors', icon: <HiAcademicCap /> },
+    { id: 'startup_founder', label: 'Startup Founder', desc: 'Tech Entrepreneurs', icon: <HiLightBulb /> },
+    { id: 'innovation_manager', label: 'Innovation Manager', desc: 'R&D Tech Transfer', icon: <HiBriefcase /> },
+    { id: 'administrator', label: 'Administrator', desc: 'Platform Admin', icon: <HiShieldCheck /> },
   ];
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-dark)', padding: '2.5rem 1.5rem', position: 'relative', overflow: 'hidden' }} className="animate-fade-in">
-      {/* Background Floating Tiles */}
-      <div className="glass-card floating-tile-1" style={{ position: 'absolute', top: '10%', right: '6%', width: '210px', padding: '1.25rem', opacity: 0.6, pointerEvents: 'none' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#c084fc', fontSize: '0.8rem', fontWeight: '700' }}>
-          <HiSparkles /> Innovation Hub
-        </div>
-        <div style={{ fontSize: '1.05rem', fontWeight: '800', color: '#f8fafc', marginTop: '0.35rem' }}>$15B+ Grants</div>
-        <div style={{ fontSize: '0.725rem', color: '#94a3b8' }}>Live Matching Pool</div>
-      </div>
-
-      {/* Main Registration Card */}
-      <div className="glass-card pulse-glow" style={{ width: '100%', maxWidth: '600px', padding: '3rem', position: 'relative', zIndex: 10 }}>
-        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <div style={{ display: 'inline-block', marginBottom: '1.25rem' }}>
-            <InnovaLogo size={64} className="logo-animated" />
+    <div style={{
+      minHeight: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justify: 'center',
+      background: 'var(--bg-dark)',
+      padding: '2rem',
+      boxSizing: 'border-box'
+    }} className="animate-fade-in">
+      
+      {/* Landscape Split Container */}
+      <div style={{
+        width: '100%',
+        maxWidth: '1180px',
+        display: 'grid',
+        gridTemplateColumns: '1fr 1.25fr',
+        gap: '2rem',
+        alignItems: 'center'
+      }}>
+        {/* Left Side: Landscape Showcase Panel */}
+        <div className="glass-card pulse-glow" style={{ padding: '3rem', background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(99, 102, 241, 0.15) 100%)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', marginBottom: '2rem' }}>
+            <InnovaLogo size={48} className="logo-animated" />
+            <div>
+              <span style={{ fontFamily: 'var(--font-heading)', fontSize: '1.6rem', fontWeight: '800', color: '#f8fafc' }}>
+                InnovaFund <span style={{ color: '#0ea5e9' }}>AI</span>
+              </span>
+              <span style={{ display: 'block', fontSize: '0.7rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                Funding & Innovation Intelligence
+              </span>
+            </div>
           </div>
-          <h2 style={{ fontSize: '2.1rem', fontWeight: '800', margin: '0 0 0.4rem 0', fontFamily: 'var(--font-heading)', color: '#f8fafc' }}>
-            Create Your Account
+
+          <h2 style={{ fontSize: '2.25rem', fontWeight: '800', lineHeight: 1.25, margin: '0 0 1rem 0', color: '#f8fafc', fontFamily: 'var(--font-heading)' }}>
+            Join the Enterprise AI Innovation Network
           </h2>
-          <p style={{ color: '#94a3b8', fontSize: '0.95rem', margin: 0 }}>
-            Join InnovaFund AI Intelligence Platform
+
+          <p style={{ color: '#94a3b8', fontSize: '0.95rem', lineHeight: 1.6, marginBottom: '2rem' }}>
+            Create an account to manage your research domains, query academic paper & patent databases, and secure strategic grant funding.
           </p>
-        </div>
 
-        {error && (
-          <div style={{ background: 'rgba(239, 68, 68, 0.15)', border: '1px solid rgba(239, 68, 68, 0.4)', color: '#fca5a5', padding: '0.85rem 1rem', borderRadius: '0.75rem', marginBottom: '1.75rem', fontSize: '0.9rem' }}>
-            {error}
+          {/* Metric Highlights Grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '2rem' }}>
+            <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', padding: '1rem', borderRadius: '0.85rem' }}>
+              <div style={{ color: '#6ee7b7', fontSize: '1.35rem', fontWeight: '800', fontFamily: 'var(--font-heading)' }}>$15B+</div>
+              <div style={{ color: '#cbd5e1', fontSize: '0.8rem', fontWeight: '600' }}>Live Grant Pool</div>
+              <div style={{ color: '#64748b', fontSize: '0.7rem' }}>National & International</div>
+            </div>
+
+            <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', padding: '1rem', borderRadius: '0.85rem' }}>
+              <div style={{ color: '#38bdf8', fontSize: '1.35rem', fontWeight: '800', fontFamily: 'var(--font-heading)' }}>6 APIs</div>
+              <div style={{ color: '#cbd5e1', fontSize: '0.8rem', fontWeight: '600' }}>Datasets Connected</div>
+              <div style={{ color: '#64748b', fontSize: '0.7rem' }}>OpenAlex, USPTO & Lens</div>
+            </div>
           </div>
-        )}
 
-        {/* Social OAuth Buttons */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.85rem', marginBottom: '1.25rem' }}>
-          <button
-            type="button"
-            onClick={handleGoogleRegister}
-            className="btn-outline"
-            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', padding: '0.7rem', background: 'rgba(255, 255, 255, 0.05)', fontWeight: '600', fontSize: '0.85rem' }}
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24">
-              <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z" />
-              <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.27v3.14C3.25 21.3 7.31 24 12 24z" />
-              <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.59H1.27C.46 8.21 0 10.05 0 12s.46 3.79 1.27 5.41l4.01-3.14z" />
-              <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.25 2.7 1.27 6.59l4.01 3.14c.95-2.83 3.6-4.98 6.72-4.98z" />
-            </svg>
-            Sign up with Google
-          </button>
-
-          <button
-            type="button"
-            onClick={handleGoogleRegister}
-            className="btn-outline"
-            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', padding: '0.7rem', background: 'rgba(255, 255, 255, 0.05)', fontWeight: '600', fontSize: '0.85rem' }}
-          >
-            <FaGithub style={{ fontSize: '1.1rem' }} />
-            Sign up with GitHub
-          </button>
+          {/* Feature List */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', fontSize: '0.85rem', color: '#cbd5e1' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <HiCheckCircle style={{ color: '#10b981', fontSize: '1.1rem' }} /> Instant Single-Click Google & GitHub SSO
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <HiCheckCircle style={{ color: '#10b981', fontSize: '1.1rem' }} /> Persona-Specific Dashboard & Analytics
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <HiCheckCircle style={{ color: '#10b981', fontSize: '1.1rem' }} /> CSV / JSON Citation Export Tools
+            </div>
+          </div>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', margin: '1.25rem 0', color: '#64748b', fontSize: '0.75rem' }}>
-          <div style={{ flex: 1, height: '1px', background: 'rgba(255, 255, 255, 0.1)' }}></div>
-          <span>OR REGISTER WITH EMAIL</span>
-          <div style={{ flex: 1, height: '1px', background: 'rgba(255, 255, 255, 0.1)' }}></div>
-        </div>
+        {/* Right Side: Registration Form Panel */}
+        <div className="glass-card" style={{ padding: '2.5rem' }}>
+          <div style={{ marginBottom: '1.5rem' }}>
+            <h3 style={{ fontSize: '1.75rem', fontWeight: '800', margin: '0 0 0.35rem 0', color: '#f8fafc' }}>
+              Create Account
+            </h3>
+            <p style={{ color: '#94a3b8', fontSize: '0.875rem', margin: 0 }}>
+              Select your persona and register your profile
+            </p>
+          </div>
 
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.35rem' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
+          {error && (
+            <div style={{ background: 'rgba(239, 68, 68, 0.15)', border: '1px solid rgba(239, 68, 68, 0.4)', color: '#fca5a5', padding: '0.85rem', borderRadius: '0.75rem', marginBottom: '1.5rem', fontSize: '0.875rem' }}>
+              {error}
+            </div>
+          )}
+
+          {/* Social OAuth Buttons */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem', marginBottom: '1.25rem' }}>
+            <button
+              type="button"
+              onClick={handleGoogleRegister}
+              className="btn-outline"
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', padding: '0.65rem', background: 'rgba(255, 255, 255, 0.04)', fontWeight: '600', fontSize: '0.825rem' }}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z" />
+                <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.27v3.14C3.25 21.3 7.31 24 12 24z" />
+                <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.59H1.27C.46 8.21 0 10.05 0 12s.46 3.79 1.27 5.41l4.01-3.14z" />
+                <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.25 2.7 1.27 6.59l4.01 3.14c.95-2.83 3.6-4.98 6.72-4.98z" />
+              </svg>
+              Google Sign Up
+            </button>
+
+            <button
+              type="button"
+              onClick={handleGoogleRegister}
+              className="btn-outline"
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', padding: '0.65rem', background: 'rgba(255, 255, 255, 0.04)', fontWeight: '600', fontSize: '0.825rem' }}
+            >
+              <FaGithub style={{ fontSize: '1.1rem' }} />
+              GitHub Sign Up
+            </button>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', margin: '1rem 0', color: '#64748b', fontSize: '0.725rem' }}>
+            <div style={{ flex: 1, height: '1px', background: 'rgba(255, 255, 255, 0.1)' }}></div>
+            <span>OR REGISTER WITH EMAIL</span>
+            <div style={{ flex: 1, height: '1px', background: 'rgba(255, 255, 255, 0.1)' }}></div>
+          </div>
+
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.825rem', fontWeight: '600', color: '#cbd5e1', marginBottom: '0.3rem' }}>Full Name</label>
+                <input
+                  type="text"
+                  className="glass-input"
+                  style={{ width: '100%', boxSizing: 'border-box', padding: '0.65rem 0.9rem', fontSize: '0.875rem' }}
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  required
+                  placeholder="Dr. Alex Rivera"
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.825rem', fontWeight: '600', color: '#cbd5e1', marginBottom: '0.3rem' }}>Organization</label>
+                <input
+                  type="text"
+                  className="glass-input"
+                  style={{ width: '100%', boxSizing: 'border-box', padding: '0.65rem 0.9rem', fontSize: '0.875rem' }}
+                  value={organization}
+                  onChange={(e) => setOrganization(e.target.value)}
+                  placeholder="MIT / TechCorp"
+                />
+              </div>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.825rem', fontWeight: '600', color: '#cbd5e1', marginBottom: '0.3rem' }}>Email Address</label>
+                <input
+                  type="email"
+                  className="glass-input"
+                  style={{ width: '100%', boxSizing: 'border-box', padding: '0.65rem 0.9rem', fontSize: '0.875rem' }}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  placeholder="alex@university.edu"
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '0.825rem', fontWeight: '600', color: '#cbd5e1', marginBottom: '0.3rem' }}>Password</label>
+                <input
+                  type="password"
+                  className="glass-input"
+                  style={{ width: '100%', boxSizing: 'border-box', padding: '0.65rem 0.9rem', fontSize: '0.875rem' }}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  placeholder="••••••••"
+                />
+              </div>
+            </div>
+
             <div>
-              <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', color: '#cbd5e1', marginBottom: '0.4rem' }}>Full Name</label>
-              <input
-                type="text"
-                className="glass-input"
-                style={{ width: '100%', boxSizing: 'border-box' }}
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                required
-                placeholder="Dr. Alex Rivera"
-              />
-            </div>
-            <div>
-              <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', color: '#cbd5e1', marginBottom: '0.4rem' }}>Organization / Institution</label>
-              <input
-                type="text"
-                className="glass-input"
-                style={{ width: '100%', boxSizing: 'border-box' }}
-                value={organization}
-                onChange={(e) => setOrganization(e.target.value)}
-                placeholder="MIT / Stanford / TechCorp"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', color: '#cbd5e1', marginBottom: '0.4rem' }}>Email Address</label>
-            <input
-              type="email"
-              className="glass-input"
-              style={{ width: '100%', boxSizing: 'border-box' }}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              placeholder="alex.rivera@university.edu"
-            />
-          </div>
-
-          <div>
-            <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', color: '#cbd5e1', marginBottom: '0.4rem' }}>Password</label>
-            <input
-              type="password"
-              className="glass-input"
-              style={{ width: '100%', boxSizing: 'border-box' }}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              placeholder="••••••••"
-            />
-          </div>
-
-          <div>
-            <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', color: '#cbd5e1', marginBottom: '0.6rem' }}>Select Platform Persona (RBAC)</label>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.85rem' }}>
-              {roleOptions.map((r) => {
-                const isSelected = role === r.id;
-                return (
-                  <div
-                    key={r.id}
-                    onClick={() => setRole(r.id)}
-                    style={{
-                      padding: '0.85rem',
-                      borderRadius: '0.85rem',
-                      cursor: 'pointer',
-                      border: isSelected ? '1px solid #0284c7' : '1px solid rgba(255,255,255,0.08)',
-                      background: isSelected ? 'rgba(2, 132, 199, 0.2)' : 'rgba(10, 15, 30, 0.4)',
-                      boxShadow: isSelected ? '0 4px 15px rgba(2, 132, 199, 0.25)' : 'none',
-                      transition: 'all 0.2s ease',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.6rem'
-                    }}
-                  >
-                    <div style={{ fontSize: '1.25rem', color: isSelected ? '#38bdf8' : '#64748b' }}>
-                      {r.icon}
-                    </div>
-                    <div>
-                      <div style={{ fontSize: '0.85rem', fontWeight: '700', color: isSelected ? '#ffffff' : '#cbd5e1' }}>
-                        {r.label}
+              <label style={{ display: 'block', fontSize: '0.825rem', fontWeight: '600', color: '#cbd5e1', marginBottom: '0.5rem' }}>Select Platform Persona (RBAC)</label>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+                {roleOptions.map((r) => {
+                  const isSelected = role === r.id;
+                  return (
+                    <div
+                      key={r.id}
+                      onClick={() => setRole(r.id)}
+                      style={{
+                        padding: '0.65rem 0.75rem',
+                        borderRadius: '0.75rem',
+                        cursor: 'pointer',
+                        border: isSelected ? '1px solid #0284c7' : '1px solid rgba(255,255,255,0.08)',
+                        background: isSelected ? 'rgba(2, 132, 199, 0.2)' : 'rgba(10, 15, 30, 0.4)',
+                        transition: 'all 0.2s ease',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem'
+                      }}
+                    >
+                      <div style={{ fontSize: '1.1rem', color: isSelected ? '#38bdf8' : '#64748b' }}>
+                        {r.icon}
                       </div>
-                      <div style={{ fontSize: '0.725rem', color: '#94a3b8' }}>
-                        {r.desc}
+                      <div>
+                        <div style={{ fontSize: '0.8rem', fontWeight: '700', color: isSelected ? '#ffffff' : '#cbd5e1' }}>
+                          {r.label}
+                        </div>
+                        <div style={{ fontSize: '0.675rem', color: '#94a3b8' }}>
+                          {r.desc}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
+
+            <button type="submit" className="btn-gradient" disabled={loading} style={{ width: '100%', marginTop: '0.35rem', padding: '0.8rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+              {loading ? (
+                <span className="shimmer-loading" style={{ padding: '0.2rem 1rem', borderRadius: '0.5rem', width: '100%', display: 'inline-block' }}>Creating Account...</span>
+              ) : (
+                <>
+                  Register Account <HiArrowRight />
+                </>
+              )}
+            </button>
+          </form>
+
+          <div style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.875rem', color: '#94a3b8' }}>
+            Already have an account?{' '}
+            <Link to="/login" style={{ color: '#38bdf8', textDecoration: 'none', fontWeight: '700' }}>
+              Sign In here
+            </Link>
           </div>
-
-          <button type="submit" className="btn-gradient" disabled={loading} style={{ width: '100%', marginTop: '0.5rem', padding: '0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
-            {loading ? (
-              <span className="shimmer-loading" style={{ padding: '0.2rem 1rem', borderRadius: '0.5rem', width: '100%', display: 'inline-block' }}>Creating Account...</span>
-            ) : (
-              <>
-                Register Account <HiArrowRight />
-              </>
-            )}
-          </button>
-        </form>
-
-        <div style={{ textAlign: 'center', marginTop: '2rem', fontSize: '0.9rem', color: '#94a3b8' }}>
-          Already have an account?{' '}
-          <Link to="/login" style={{ color: '#38bdf8', textDecoration: 'none', fontWeight: '700' }}>
-            Sign In here
-          </Link>
         </div>
       </div>
     </div>

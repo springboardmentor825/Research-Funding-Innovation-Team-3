@@ -1,15 +1,23 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
-import { HiLogout } from 'react-icons/hi';
+import { HiLogout, HiUserCircle, HiShieldCheck, HiLightBulb, HiAcademicCap, HiBriefcase } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
 import InnovaLogo from './InnovaLogo';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
   
-  const getInitials = (name) => {
-    if (!name) return 'U';
-    return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+  const getRoleIcon = (role) => {
+    switch (role) {
+      case 'administrator':
+        return <HiShieldCheck style={{ fontSize: '1.3rem', color: '#fda4af' }} />;
+      case 'startup_founder':
+        return <HiLightBulb style={{ fontSize: '1.3rem', color: '#fcd34d' }} />;
+      case 'innovation_manager':
+        return <HiBriefcase style={{ fontSize: '1.3rem', color: '#6ee7b7' }} />;
+      default:
+        return <HiAcademicCap style={{ fontSize: '1.3rem', color: '#7dd3fc' }} />;
+    }
   };
 
   const getRoleBadgeStyle = (role) => {
@@ -44,56 +52,35 @@ export default function Navbar() {
       flexShrink: 0
     }}>
       {/* Left Brand Logo */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-        <Link to="/dashboard" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
-          <InnovaLogo size={42} className="logo-animated" />
-          <div>
-            <span style={{ fontFamily: 'var(--font-heading)', fontSize: '1.3rem', fontWeight: '800', color: '#f8fafc', letterSpacing: '-0.5px' }}>
-              InnovaFund <span style={{ color: '#0ea5e9' }}>AI</span>
-            </span>
-            <span style={{ display: 'block', fontSize: '0.65rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: '-2px' }}>
-              Funding & Intelligence
-            </span>
-          </div>
-        </Link>
-
-        {/* Corporate Project Tag Pill */}
-        <div style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: '0.4rem',
-          background: 'rgba(2, 132, 199, 0.12)',
-          border: '1px solid rgba(2, 132, 199, 0.35)',
-          padding: '0.25rem 0.75rem',
-          borderRadius: '1rem',
-          fontSize: '0.725rem',
-          fontWeight: '700',
-          color: '#38bdf8',
-          letterSpacing: '0.02em'
-        }}>
-          <span>Infosys Internship Edition</span>
+      <Link to="/dashboard" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+        <InnovaLogo size={42} className="logo-animated" />
+        <div>
+          <span style={{ fontFamily: 'var(--font-heading)', fontSize: '1.3rem', fontWeight: '800', color: '#f8fafc', letterSpacing: '-0.5px' }}>
+            InnovaFund <span style={{ color: '#0ea5e9' }}>AI</span>
+          </span>
+          <span style={{ display: 'block', fontSize: '0.65rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: '-2px' }}>
+            Funding & Intelligence
+          </span>
         </div>
-      </div>
+      </Link>
 
       {/* Right User Bar - Pushed to Far Right Corner */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', marginLeft: 'auto' }}>
         {user ? (
           <>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', padding: '0.35rem 0.85rem', background: 'rgba(255,255,255,0.04)', borderRadius: '2rem', border: '1px solid rgba(255,255,255,0.1)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', padding: '0.4rem 1rem', background: 'rgba(255,255,255,0.04)', borderRadius: '2rem', border: '1px solid rgba(255,255,255,0.1)' }}>
               <div style={{
-                width: '34px',
-                height: '34px',
+                width: '36px',
+                height: '36px',
                 borderRadius: '50%',
-                background: 'linear-gradient(135deg, #0284c7, #6366f1)',
-                color: '#ffffff',
-                fontWeight: 'bold',
-                fontSize: '0.85rem',
+                background: 'linear-gradient(135deg, rgba(2, 132, 199, 0.3), rgba(99, 102, 241, 0.3))',
+                border: '1px solid rgba(14, 165, 233, 0.4)',
                 display: 'flex',
                 alignItems: 'center',
                 justify: 'center',
-                boxShadow: '0 2px 12px rgba(2, 132, 199, 0.45)'
+                boxShadow: '0 2px 10px rgba(2, 132, 199, 0.3)'
               }}>
-                {getInitials(user.full_name)}
+                {getRoleIcon(user.role)}
               </div>
               <div>
                 <div style={{ fontSize: '0.875rem', fontWeight: '600', color: '#f8fafc', lineHeight: 1.2 }}>

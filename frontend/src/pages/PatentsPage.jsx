@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { searchPatents } from '../api/research';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { HiSearch, HiLightBulb, HiShieldCheck, HiSparkles, HiCheckCircle } from 'react-icons/hi';
+import { HiSearch, HiLightBulb, HiShieldCheck, HiSparkles, HiCheckCircle, HiDownload } from 'react-icons/hi';
 
 export default function PatentsPage() {
   const [query, setQuery] = useState('quantum computing');
   const [source, setSource] = useState('all');
+  const [statusFilter, setStatusFilter] = useState('all');
   const [limit, setLimit] = useState(10);
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -25,6 +26,32 @@ export default function PatentsPage() {
       setSearched(true);
     }
   };
+
+  const handleExportCSV = () => {
+    if (!results || results.length === 0) return;
+    const headers = ['Patent Number', 'Title', 'Status', 'Assignee', 'Source'];
+    const rows = results.map(r => [
+      `"${r.patent_number || ''}"`,
+      `"${(r.title || '').replace(/"/g, '""')}"`,
+      `"${r.status || ''}"`,
+      `"${(r.assignee || '').replace(/"/g, '""')}"`,
+      `"${r.external_source || ''}"`
+    ]);
+    const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', `InnovaFund_Patents_${query.replace(/\s+/g, '_')}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const filteredResults = results.filter(p => {
+    if (statusFilter === 'granted') return p.status === 'Granted';
+    if (statusFilter === 'pending') return p.status !== 'Granted';
+    return true;
+  });
 
   const getSourceBadgeClass = (src) => {
     switch (src) {
@@ -70,10 +97,10 @@ export default function PatentsPage() {
             value={source}
             onChange={(e) => setSource(e.target.value)}
           >
-            <option value="all" style={{ background: '#090d16' }}>All Datasets</option>
-            <option value="uspto" style={{ background: '#090d16' }}>USPTO Public Data</option>
-            <option value="google_patents" style={{ background: '#090d16' }}>Google Patents</option>
-            <option value="the_lens" style={{ background: '#090d16' }}>The Lens</option>
+            <option value="all" style={{ background: '#030712' }}>All Datasets</option>
+            <option value="uspto" style={{ background: '#030712' }}>USPTO Public Data</option>
+            <option value="google_patents" style={{ background: '#030712' }}>Google Patents</option>
+            <option value="the_lens" style={{ background: '#030712' }}>The Lens</option>
           </select>
 
           <select
@@ -81,9 +108,9 @@ export default function PatentsPage() {
             value={limit}
             onChange={(e) => setLimit(Number(e.target.value))}
           >
-            <option value={5} style={{ background: '#090d16' }}>5 Results</option>
-            <option value={10} style={{ background: '#090d16' }}>10 Results</option>
-            <option value={25} style={{ background: '#090d16' }}>25 Results</option>
+            <option value={5} style={{ background: '#030712' }}>5 Results</option>
+            <option value={10} style={{ background: '#030712' }}>10 Results</option>
+            <option value={25} style={{ background: '#030712' }}>25 Results</option>
           </select>
 
           <button type="submit" className="btn-gradient" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
@@ -97,13 +124,40 @@ export default function PatentsPage() {
       ) : searched ? (
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#94a3b8', marginBottom: '1.25rem', fontSize: '0.95rem' }}>
-            <span>Found <strong style={{ color: '#f8fafc' }}>{results.length}</strong> patent records for query "<strong style={{ color: '#c084fc' }}>{query}</strong>"</span>
-            <span style={{ fontSize: '0.8rem', color: '#64748b' }}>PostgreSQL Relational Storage Active</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <span>Found <strong style={{ color: '#f8fafc' }}>{filteredResults.length}</strong> patent records for "<strong style={{ color: '#c084fc' }}>{query}</strong>"</span>
+              
+              {/* Status Filter Buttons */}
+              <div style={{ display: 'flex', gap: '0.35rem', background: 'rgba(255,255,255,0.03)', padding: '0.2rem', borderRadius: '0.6rem', border: '1px solid rgba(255,255,255,0.08)' }}>
+                <button
+                  onClick={() => setStatusFilter('all')}
+                  style={{ padding: '0.25rem 0.65rem', borderRadius: '0.4rem', border: 'none', background: statusFilter === 'all' ? '#0ea5e9' : 'transparent', color: statusFilter === 'all' ? '#fff' : '#94a3b8', fontSize: '0.75rem', fontWeight: '600', cursor: 'pointer' }}
+                >
+                  All Status
+                </button>
+                <button
+                  onClick={() => setStatusFilter('granted')}
+                  style={{ padding: '0.25rem 0.65rem', borderRadius: '0.4rem', border: 'none', background: statusFilter === 'granted' ? '#10b981' : 'transparent', color: statusFilter === 'granted' ? '#fff' : '#94a3b8', fontSize: '0.75rem', fontWeight: '600', cursor: 'pointer' }}
+                >
+                  Granted Only
+                </button>
+              </div>
+            </div>
+
+            {results.length > 0 && (
+              <button
+                onClick={handleExportCSV}
+                className="btn-outline"
+                style={{ padding: '0.45rem 1rem', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}
+              >
+                <HiDownload /> Export Patent CSV
+              </button>
+            )}
           </div>
 
-          {results.length > 0 ? (
+          {filteredResults.length > 0 ? (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(380px, 1fr))', gap: '1.75rem' }}>
-              {results.map((pat, idx) => (
+              {filteredResults.map((pat, idx) => (
                 <div key={idx} className="glass-card" style={{ padding: '1.75rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                   <div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.5rem', marginBottom: '0.85rem' }}>
@@ -128,7 +182,7 @@ export default function PatentsPage() {
                     </h3>
 
                     <p style={{ color: '#cbd5e1', fontSize: '0.875rem', margin: '0 0 0.5rem 0' }}>
-                      <strong style={{ color: '#94a3b8' }}>Patent Number:</strong> <code style={{ background: 'rgba(255,255,255,0.06)', padding: '0.2rem 0.5rem', borderRadius: '0.4rem', color: '#a5b4fc', fontSize: '0.85rem' }}>{pat.patent_number}</code>
+                      <strong style={{ color: '#94a3b8' }}>Patent Number:</strong> <code style={{ background: 'rgba(255,255,255,0.06)', padding: '0.2rem 0.5rem', borderRadius: '0.4rem', color: '#7dd3fc', fontSize: '0.85rem' }}>{pat.patent_number}</code>
                     </p>
 
                     <p style={{ color: '#94a3b8', fontSize: '0.85rem', margin: 0 }}>

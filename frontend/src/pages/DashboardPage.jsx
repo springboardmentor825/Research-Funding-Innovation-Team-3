@@ -49,9 +49,9 @@ export default function DashboardPage() {
   ];
 
   return (
-    <div style={{ padding: '2rem', maxWidth: '1400px', margin: '0 auto' }} className="animate-fade-in">
+    <div style={{ padding: '2rem', maxWidth: '1400px', margin: '0 auto', boxSizing: 'border-box', width: '100%' }} className="animate-fade-in">
       {/* Header Banner */}
-      <div className="glass-card" style={{ padding: '2rem 2.5rem', marginBottom: '2.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div className="glass-card" style={{ padding: '2rem 2.5rem', marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: '#a5b4fc', fontSize: '0.85rem', fontWeight: '600', marginBottom: '0.5rem' }}>
             <HiSparkles /> Innovation Intelligence Dashboard
@@ -64,25 +64,25 @@ export default function DashboardPage() {
           </p>
         </div>
 
-        <button onClick={() => navigate('/profile')} className="btn-gradient" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        <button onClick={() => navigate('/profile')} className="btn-gradient" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0 }}>
           Manage Profile <HiArrowRight />
         </button>
       </div>
 
       {/* Metrics Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.5rem', marginBottom: '2.5rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.25rem', marginBottom: '2rem' }}>
         {getRoleStats().map((stat, i) => (
-          <div key={i} className="glass-card" style={{ padding: '1.75rem' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-              <span style={{ fontSize: '0.9rem', color: '#94a3b8', fontWeight: '500' }}>{stat.label}</span>
-              <div style={{ width: '42px', height: '42px', borderRadius: '0.75rem', background: `${stat.color}20`, border: `1px solid ${stat.color}40`, color: stat.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.3rem' }}>
+          <div key={i} className="glass-card" style={{ padding: '1.5rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.85rem' }}>
+              <span style={{ fontSize: '0.85rem', color: '#94a3b8', fontWeight: '500' }}>{stat.label}</span>
+              <div style={{ width: '40px', height: '40px', borderRadius: '0.75rem', background: `${stat.color}20`, border: `1px solid ${stat.color}40`, color: stat.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', flexShrink: 0 }}>
                 {stat.icon}
               </div>
             </div>
-            <div style={{ fontSize: '2.25rem', fontWeight: '800', fontFamily: 'var(--font-heading)', color: '#f8fafc', marginBottom: '0.25rem' }}>
+            <div style={{ fontSize: '2rem', fontWeight: '800', fontFamily: 'var(--font-heading)', color: '#f8fafc', marginBottom: '0.2rem' }}>
               {stat.value}
             </div>
-            <div style={{ fontSize: '0.8rem', color: stat.color, fontWeight: '600' }}>
+            <div style={{ fontSize: '0.775rem', color: stat.color, fontWeight: '600' }}>
               {stat.sub}
             </div>
           </div>
@@ -90,7 +90,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Main Grid: Funding Opportunity Discovery + Quick Actions */}
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '2rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1.75rem' }}>
         {/* Funding Grants Preview Widget */}
         <div className="glass-card" style={{ padding: '2rem' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
@@ -102,7 +102,7 @@ export default function DashboardPage() {
                 Discovered programs matching your research domains and keywords
               </p>
             </div>
-            <span style={{ background: 'rgba(16,185,129,0.15)', border: '1px solid rgba(16,185,129,0.3)', color: '#6ee7b7', padding: '0.25rem 0.75rem', borderRadius: '1rem', fontSize: '0.75rem', fontWeight: '700' }}>
+            <span style={{ background: 'rgba(16,185,129,0.15)', border: '1px solid rgba(16,185,129,0.3)', color: '#6ee7b7', padding: '0.25rem 0.75rem', borderRadius: '1rem', fontSize: '0.75rem', fontWeight: '700', flexShrink: 0 }}>
               3 Live Matches
             </span>
           </div>
@@ -126,7 +126,7 @@ export default function DashboardPage() {
                   </div>
                 </div>
 
-                <div style={{ textAlign: 'right' }}>
+                <div style={{ textAlign: 'right', flexShrink: 0 }}>
                   <div style={{ fontSize: '1.25rem', fontWeight: '800', color: '#10b981', fontFamily: 'var(--font-heading)' }}>
                     {grant.amount}
                   </div>
@@ -140,33 +140,33 @@ export default function DashboardPage() {
         </div>
 
         {/* Quick Actions Panel */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-          <div className="glass-card" style={{ padding: '1.75rem', cursor: 'pointer' }} onClick={() => navigate('/publications')}>
-            <div style={{ width: '44px', height: '44px', borderRadius: '0.75rem', background: 'rgba(99,102,241,0.2)', color: '#a5b4fc', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem', marginBottom: '1rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+          <div className="glass-card" style={{ padding: '1.5rem', cursor: 'pointer' }} onClick={() => navigate('/publications')}>
+            <div style={{ width: '40px', height: '40px', borderRadius: '0.75rem', background: 'rgba(99,102,241,0.2)', color: '#a5b4fc', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.3rem', marginBottom: '0.85rem' }}>
               <HiBookOpen />
             </div>
-            <h3 style={{ fontSize: '1.15rem', fontWeight: '700', margin: '0 0 0.5rem 0' }}>Publication Search</h3>
-            <p style={{ color: '#94a3b8', fontSize: '0.85rem', margin: 0, lineHeight: 1.5 }}>
+            <h3 style={{ fontSize: '1.1rem', fontWeight: '700', margin: '0 0 0.35rem 0' }}>Publication Search</h3>
+            <p style={{ color: '#94a3b8', fontSize: '0.825rem', margin: 0, lineHeight: 1.5 }}>
               Query OpenAlex, CrossRef, and Semantic Scholar academic repositories.
             </p>
           </div>
 
-          <div className="glass-card" style={{ padding: '1.75rem', cursor: 'pointer' }} onClick={() => navigate('/patents')}>
-            <div style={{ width: '44px', height: '44px', borderRadius: '0.75rem', background: 'rgba(139,92,246,0.2)', color: '#c084fc', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem', marginBottom: '1rem' }}>
+          <div className="glass-card" style={{ padding: '1.5rem', cursor: 'pointer' }} onClick={() => navigate('/patents')}>
+            <div style={{ width: '40px', height: '40px', borderRadius: '0.75rem', background: 'rgba(139,92,246,0.2)', color: '#c084fc', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.3rem', marginBottom: '0.85rem' }}>
               <HiLightBulb />
             </div>
-            <h3 style={{ fontSize: '1.15rem', fontWeight: '700', margin: '0 0 0.5rem 0' }}>Patent Intelligence</h3>
-            <p style={{ color: '#94a3b8', fontSize: '0.85rem', margin: 0, lineHeight: 1.5 }}>
+            <h3 style={{ fontSize: '1.1rem', fontWeight: '700', margin: '0 0 0.35rem 0' }}>Patent Intelligence</h3>
+            <p style={{ color: '#94a3b8', fontSize: '0.825rem', margin: 0, lineHeight: 1.5 }}>
               Search USPTO, Google Patents, and The Lens IP landscape records.
             </p>
           </div>
 
-          <div className="glass-card" style={{ padding: '1.75rem', cursor: 'pointer' }} onClick={() => navigate('/profile')}>
-            <div style={{ width: '44px', height: '44px', borderRadius: '0.75rem', background: 'rgba(6,182,212,0.2)', color: '#67e8f9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem', marginBottom: '1rem' }}>
+          <div className="glass-card" style={{ padding: '1.5rem', cursor: 'pointer' }} onClick={() => navigate('/profile')}>
+            <div style={{ width: '40px', height: '40px', borderRadius: '0.75rem', background: 'rgba(6,182,212,0.2)', color: '#67e8f9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.3rem', marginBottom: '0.85rem' }}>
               <HiUserCircle />
             </div>
-            <h3 style={{ fontSize: '1.15rem', fontWeight: '700', margin: '0 0 0.5rem 0' }}>Update Profile</h3>
-            <p style={{ color: '#94a3b8', fontSize: '0.85rem', margin: 0, lineHeight: 1.5 }}>
+            <h3 style={{ fontSize: '1.1rem', fontWeight: '700', margin: '0 0 0.35rem 0' }}>Update Profile</h3>
+            <p style={{ color: '#94a3b8', fontSize: '0.825rem', margin: 0, lineHeight: 1.5 }}>
               Manage research domains, technology keywords, and publication links.
             </p>
           </div>

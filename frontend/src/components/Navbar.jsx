@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
-import { HiLogout, HiSparkles } from 'react-icons/hi';
+import { HiLogout } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
 
 export default function Navbar() {
@@ -26,6 +26,8 @@ export default function Navbar() {
 
   return (
     <header style={{
+      width: '100%',
+      boxSizing: 'border-box',
       height: '68px',
       background: 'rgba(10, 15, 30, 0.85)',
       backdropFilter: 'blur(16px)',
@@ -37,7 +39,8 @@ export default function Navbar() {
       padding: '0 2rem',
       position: 'sticky',
       top: 0,
-      zIndex: 50
+      zIndex: 50,
+      flexShrink: 0
     }}>
       {/* Left Brand Logo */}
       <Link to="/dashboard" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.85rem' }}>

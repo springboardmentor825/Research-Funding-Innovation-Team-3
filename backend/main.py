@@ -1,4 +1,10 @@
+import os
+import sys
 import logging
+
+# Ensure backend directory is in python sys.path
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text

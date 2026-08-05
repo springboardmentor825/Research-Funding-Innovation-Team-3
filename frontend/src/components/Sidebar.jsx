@@ -1,7 +1,8 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { HiChartSquareBar, HiUserCircle, HiBookOpen, HiLightBulb, HiShieldCheck, HiCog, HiSparkles } from 'react-icons/hi';
+import { HiChartSquareBar, HiUserCircle, HiBookOpen, HiLightBulb, HiShieldCheck, HiCog } from 'react-icons/hi';
+import InnovaLogo from './InnovaLogo';
 
 export default function Sidebar() {
   const { user } = useAuth();
@@ -97,7 +98,9 @@ export default function Sidebar() {
         padding: '1rem',
         textAlign: 'center'
       }}>
-        <div style={{ fontSize: '1.25rem', color: '#6366f1', marginBottom: '0.25rem' }}><HiSparkles /></div>
+        <div style={{ marginBottom: '0.5rem' }}>
+          <InnovaLogo size={32} className="logo-animated" />
+        </div>
         <div style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#f8fafc' }}>InnovaFund Engine</div>
         <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: '0.25rem' }}>AI Funding & Intelligence Portal</div>
       </div>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { searchPatents } from '../api/research';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { HiSearch, HiLightBulb, HiShieldCheck } from 'react-icons/hi';
+import { HiSearch, HiLightBulb, HiShieldCheck, HiSparkles, HiCheckCircle } from 'react-icons/hi';
 
 export default function PatentsPage() {
   const [query, setQuery] = useState('quantum computing');
@@ -26,43 +26,67 @@ export default function PatentsPage() {
     }
   };
 
+  const getSourceBadgeClass = (src) => {
+    switch (src) {
+      case 'USPTO': return 'badge-uspto';
+      case 'Google Patents': return 'badge-google';
+      case 'The Lens': return 'badge-lens';
+      default: return 'badge-uspto';
+    }
+  };
+
   return (
-    <div style={{ padding: '2rem' }}>
+    <div style={{ padding: '2rem', maxWidth: '1400px', margin: '0 auto' }} className="animate-fade-in">
       <div style={{ marginBottom: '2rem' }}>
-        <h1 style={{ fontSize: '2rem', fontWeight: 'bold', margin: '0 0 0.5rem 0' }}>Patent Intelligence & IP Landscape</h1>
-        <p style={{ color: '#94a3b8', margin: 0 }}>Search global patent records across USPTO, Google Patents, and The Lens.</p>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: '#c084fc', fontSize: '0.85rem', fontWeight: '600', marginBottom: '0.4rem' }}>
+          <HiSparkles /> Global Intellectual Property Engine
+        </div>
+        <h1 style={{ fontSize: '2.25rem', fontWeight: '800', margin: '0 0 0.5rem 0', background: 'linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+          Patent Landscape Analytics
+        </h1>
+        <p style={{ color: '#94a3b8', margin: 0, fontSize: '0.95rem' }}>
+          Explore global patent records across USPTO Public Data, Google Patents, and The Lens IP datasets.
+        </p>
       </div>
 
-      <div className="glass-card" style={{ padding: '1.5rem', marginBottom: '2rem' }}>
-        <form onSubmit={handleSearch} style={{ display: 'grid', gridTemplateColumns: '1fr 180px 100px 140px', gap: '1rem', alignItems: 'center' }}>
-          <input
-            type="text"
-            className="glass-input"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search patents by technology area, title, or assignee..."
-            required
-          />
+      {/* Search Bar Container */}
+      <div className="glass-card" style={{ padding: '1.5rem 2rem', marginBottom: '2rem' }}>
+        <form onSubmit={handleSearch} style={{ display: 'grid', gridTemplateColumns: '1fr 180px 110px 140px', gap: '1.25rem', alignItems: 'center' }}>
+          <div style={{ position: 'relative' }}>
+            <input
+              type="text"
+              className="glass-input"
+              style={{ width: '100%', boxSizing: 'border-box', paddingLeft: '2.75rem' }}
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search patents by technology area, title, or assignee..."
+              required
+            />
+            <HiSearch style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', fontSize: '1.1rem' }} />
+          </div>
+
           <select
             className="glass-input"
             value={source}
             onChange={(e) => setSource(e.target.value)}
           >
-            <option value="all" style={{ background: '#0f172a' }}>All Sources</option>
-            <option value="uspto" style={{ background: '#0f172a' }}>USPTO Public Data</option>
-            <option value="google_patents" style={{ background: '#0f172a' }}>Google Patents</option>
-            <option value="the_lens" style={{ background: '#0f172a' }}>The Lens</option>
+            <option value="all" style={{ background: '#090d16' }}>All Datasets</option>
+            <option value="uspto" style={{ background: '#090d16' }}>USPTO Public Data</option>
+            <option value="google_patents" style={{ background: '#090d16' }}>Google Patents</option>
+            <option value="the_lens" style={{ background: '#090d16' }}>The Lens</option>
           </select>
+
           <select
             className="glass-input"
             value={limit}
             onChange={(e) => setLimit(Number(e.target.value))}
           >
-            <option value={5} style={{ background: '#0f172a' }}>5 Items</option>
-            <option value={10} style={{ background: '#0f172a' }}>10 Items</option>
-            <option value={25} style={{ background: '#0f172a' }}>25 Items</option>
+            <option value={5} style={{ background: '#090d16' }}>5 Results</option>
+            <option value={10} style={{ background: '#090d16' }}>10 Results</option>
+            <option value={25} style={{ background: '#090d16' }}>25 Results</option>
           </select>
-          <button type="submit" className="btn-gradient" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', padding: '0.65rem' }}>
+
+          <button type="submit" className="btn-gradient" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
             <HiSearch /> Search
           </button>
         </form>
@@ -72,59 +96,64 @@ export default function PatentsPage() {
         <LoadingSpinner />
       ) : searched ? (
         <div>
-          <div style={{ color: '#94a3b8', marginBottom: '1rem', fontSize: '0.95rem' }}>
-            Found {results.length} patent records for query "<strong style={{ color: '#f8fafc' }}>{query}</strong>"
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#94a3b8', marginBottom: '1.25rem', fontSize: '0.95rem' }}>
+            <span>Found <strong style={{ color: '#f8fafc' }}>{results.length}</strong> patent records for query "<strong style={{ color: '#c084fc' }}>{query}</strong>"</span>
+            <span style={{ fontSize: '0.8rem', color: '#64748b' }}>PostgreSQL Relational Storage Active</span>
           </div>
+
           {results.length > 0 ? (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: '1.5rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(380px, 1fr))', gap: '1.75rem' }}>
               {results.map((pat, idx) => (
-                <div key={idx} className="glass-card" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                <div key={idx} className="glass-card" style={{ padding: '1.75rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                   <div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
-                      <span style={{ background: 'rgba(139,92,246,0.2)', border: '1px solid rgba(139,92,246,0.4)', color: '#c084fc', padding: '0.2rem 0.6rem', borderRadius: '1rem', fontSize: '0.75rem', fontWeight: 'bold' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.5rem', marginBottom: '0.85rem' }}>
+                      <span className={`badge-pill ${getSourceBadgeClass(pat.external_source)}`}>
                         {pat.external_source}
                       </span>
                       <span style={{
-                        padding: '0.2rem 0.6rem',
-                        borderRadius: '0.5rem',
+                        padding: '0.25rem 0.75rem',
+                        borderRadius: '1rem',
                         fontSize: '0.75rem',
-                        fontWeight: 'bold',
-                        background: pat.status === 'Granted' ? 'rgba(16,185,129,0.2)' : 'rgba(245,158,11,0.2)',
+                        fontWeight: '700',
+                        background: pat.status === 'Granted' ? 'rgba(16,185,129,0.15)' : 'rgba(245,158,11,0.15)',
+                        border: pat.status === 'Granted' ? '1px solid rgba(16,185,129,0.3)' : '1px solid rgba(245,158,11,0.3)',
                         color: pat.status === 'Granted' ? '#6ee7b7' : '#fcd34d'
                       }}>
                         {pat.status}
                       </span>
                     </div>
 
-                    <h3 style={{ fontSize: '1.1rem', fontWeight: 'bold', margin: '0 0 0.5rem 0', lineHeight: '1.4' }}>
+                    <h3 style={{ fontSize: '1.15rem', fontWeight: '700', margin: '0 0 0.6rem 0', lineHeight: 1.4, color: '#f8fafc' }}>
                       {pat.title}
                     </h3>
+
                     <p style={{ color: '#cbd5e1', fontSize: '0.875rem', margin: '0 0 0.5rem 0' }}>
-                      <strong>Patent Number:</strong> <code style={{ color: '#a5b4fc' }}>{pat.patent_number}</code>
+                      <strong style={{ color: '#94a3b8' }}>Patent Number:</strong> <code style={{ background: 'rgba(255,255,255,0.06)', padding: '0.2rem 0.5rem', borderRadius: '0.4rem', color: '#a5b4fc', fontSize: '0.85rem' }}>{pat.patent_number}</code>
                     </p>
+
                     <p style={{ color: '#94a3b8', fontSize: '0.85rem', margin: 0 }}>
-                      <strong>Assignee:</strong> {pat.assignee || 'Global Assignee'}
+                      <strong style={{ color: '#64748b' }}>Assignee:</strong> {pat.assignee || 'Global Technology Corp'}
                     </p>
                   </div>
 
-                  <div style={{ marginTop: '1.25rem', paddingTop: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.1)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.85rem', color: '#94a3b8' }}>
-                    <span>Source: {pat.external_source}</span>
-                    <span style={{ color: '#10b981', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                      <HiShieldCheck /> Valid Patent
+                  <div style={{ marginTop: '1.5rem', paddingTop: '0.85rem', borderTop: '1px solid rgba(255,255,255,0.08)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.85rem', color: '#94a3b8' }}>
+                    <span style={{ fontSize: '0.8rem', color: '#64748b' }}>IP Provider: {pat.external_source}</span>
+                    <span style={{ color: '#10b981', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                      <HiCheckCircle /> Valid Record
                     </span>
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="glass-card" style={{ padding: '3rem', textAlign: 'center', color: '#94a3b8' }}>
+            <div className="glass-card" style={{ padding: '4rem', textAlign: 'center', color: '#94a3b8' }}>
               No patent records matched your search parameters.
             </div>
           )}
         </div>
       ) : (
-        <div className="glass-card" style={{ padding: '3rem', textAlign: 'center', color: '#94a3b8' }}>
-          Enter search terms above to query USPTO, Google Patents, and The Lens IP datasets.
+        <div className="glass-card" style={{ padding: '4rem', textAlign: 'center', color: '#94a3b8' }}>
+          Enter keywords above and click Search to query USPTO, Google Patents, and The Lens IP datasets.
         </div>
       )}
     </div>

@@ -10,6 +10,7 @@ import DashboardPage from './pages/DashboardPage';
 import ProfilePage from './pages/ProfilePage';
 import PublicationsPage from './pages/PublicationsPage';
 import PatentsPage from './pages/PatentsPage';
+import ArchitecturePage from './pages/ArchitecturePage';
 import AdminPage from './pages/AdminPage';
 import SettingsPage from './pages/SettingsPage';
 import './App.css';
@@ -41,6 +42,7 @@ export default function App() {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/publications" element={<PublicationsPage />} />
           <Route path="/patents" element={<PatentsPage />} />
+          <Route path="/architecture" element={<ArchitecturePage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/settings" element={<SettingsPage />} />
         </Route>

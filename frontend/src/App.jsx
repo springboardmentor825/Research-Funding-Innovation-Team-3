@@ -16,11 +16,11 @@ import './App.css';
 
 const Layout = () => {
   return (
-    <div className="app-layout" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <div className="app-layout">
       <Navbar />
-      <div style={{ display: 'flex', flex: 1 }}>
+      <div className="layout-body">
         <Sidebar />
-        <main className="main-content" style={{ flex: 1, background: 'var(--bg-dark)', minHeight: 'calc(100vh - 64px)' }}>
+        <main className="main-content">
           <Outlet />
         </main>
       </div>

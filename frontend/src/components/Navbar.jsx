@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
-import { HiLogout, HiSparkles, HiShieldCheck, HiUser } from 'react-icons/hi';
+import { HiLogout, HiSparkles } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
 
 export default function Navbar() {
@@ -27,7 +27,7 @@ export default function Navbar() {
   return (
     <header style={{
       height: '68px',
-      background: 'rgba(10, 15, 30, 0.8)',
+      background: 'rgba(10, 15, 30, 0.85)',
       backdropFilter: 'blur(16px)',
       WebkitBackdropFilter: 'blur(16px)',
       borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
@@ -39,7 +39,7 @@ export default function Navbar() {
       top: 0,
       zIndex: 50
     }}>
-      {/* Left Logo */}
+      {/* Left Brand Logo */}
       <Link to="/dashboard" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
         <div style={{
           width: '38px',
@@ -48,20 +48,20 @@ export default function Navbar() {
           background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center',
+          justify: 'center',
           fontWeight: '900',
           color: '#ffffff',
           fontSize: '1.1rem',
           boxShadow: '0 0 20px rgba(99, 102, 241, 0.5)'
         }}>
-          RS
+          IF
         </div>
         <div>
           <span style={{ fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: '800', color: '#f8fafc', letterSpacing: '-0.5px' }}>
-            ResearchSphere <span style={{ color: '#6366f1' }}>AI</span>
+            InnovaFund <span style={{ color: '#6366f1' }}>AI</span>
           </span>
           <span style={{ display: 'block', fontSize: '0.65rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: '-2px' }}>
-            Innovation Intelligence
+            Funding & Intelligence
           </span>
         </div>
       </Link>
@@ -81,7 +81,7 @@ export default function Navbar() {
                 fontSize: '0.85rem',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center',
+                justify: 'center',
                 boxShadow: '0 2px 10px rgba(139, 92, 246, 0.4)'
               }}>
                 {getInitials(user.full_name)}
@@ -126,7 +126,7 @@ export default function Navbar() {
                 borderRadius: '0.6rem',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center',
+                justify: 'center',
                 cursor: 'pointer',
                 transition: 'all 0.2s ease'
               }}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { HiSparkles, HiAcademicCap, HiLightBulb, HiChartBar, HiShieldCheck, HiArrowRight, HiDatabase, HiGlobeAlt } from 'react-icons/hi';
+import { HiSparkles, HiAcademicCap, HiLightBulb, HiChartBar, HiShieldCheck, HiArrowRight, HiDatabase } from 'react-icons/hi';
 
 export default function LandingPage() {
   return (
@@ -12,7 +12,7 @@ export default function LandingPage() {
         alignItems: 'center',
         padding: '1.25rem 4rem',
         borderBottom: '1px solid rgba(255,255,255,0.08)',
-        background: 'rgba(6, 9, 19, 0.8)',
+        background: 'rgba(6, 9, 19, 0.85)',
         backdropFilter: 'blur(16px)',
         position: 'sticky',
         top: 0,
@@ -32,10 +32,10 @@ export default function LandingPage() {
             color: '#fff',
             boxShadow: '0 0 20px rgba(99,102,241,0.5)'
           }}>
-            RS
+            IF
           </div>
           <span style={{ fontFamily: 'var(--font-heading)', fontSize: '1.35rem', fontWeight: '800', letterSpacing: '-0.5px' }}>
-            ResearchSphere <span style={{ color: '#6366f1' }}>AI</span>
+            InnovaFund <span style={{ color: '#6366f1' }}>AI</span>
           </span>
         </div>
 
@@ -48,15 +48,15 @@ export default function LandingPage() {
       {/* Hero Banner Section */}
       <section style={{ textAlign: 'center', padding: '6rem 2rem 4rem 2rem', maxWidth: '1100px', margin: '0 auto' }} className="animate-fade-in">
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem', background: 'rgba(99, 102, 241, 0.15)', border: '1px solid rgba(99, 102, 241, 0.4)', padding: '0.4rem 1.25rem', borderRadius: '2rem', fontSize: '0.875rem', color: '#a5b4fc', marginBottom: '2rem', fontWeight: '600' }}>
-          <HiSparkles /> Enterprise AI Innovation Intelligence & Grant Funding Platform
+          <HiSparkles /> Enterprise AI Innovation Intelligence & Funding Platform
         </div>
 
-        <h1 style={{ fontSize: '3.75rem', fontWeight: '900', lineHeight: 1.1, marginBottom: '1.75rem', background: 'linear-gradient(135deg, #ffffff 0%, #e2e8f0 40%, #94a3b8 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: 'var(--font-heading)' }}>
+        <h1 style={{ fontSize: '3.75rem', fontWeight: '900', lineHeight: 1.15, marginBottom: '1.75rem', background: 'linear-gradient(135deg, #ffffff 0%, #e2e8f0 40%, #94a3b8 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: 'var(--font-heading)' }}>
           Accelerate Technology Commercialization & Strategic Research Funding
         </h1>
 
         <p style={{ fontSize: '1.25rem', color: '#94a3b8', marginBottom: '3rem', lineHeight: 1.6, maxWidth: '880px', margin: '0 auto 3rem auto' }}>
-          Unify academic research papers (OpenAlex, CrossRef, Semantic Scholar), global patent records (USPTO, Google Patents, The Lens), and grant opportunity matches into a single intelligence hub.
+          Connect academic research publications (OpenAlex, CrossRef, Semantic Scholar), global patent records (USPTO, Google Patents, The Lens), and grant opportunity matches into a single intelligence hub.
         </p>
 
         <div style={{ display: 'flex', gap: '1.25rem', justifyContent: 'center' }}>

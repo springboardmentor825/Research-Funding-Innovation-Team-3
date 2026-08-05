@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { HiChartSquareBar, HiUserCircle, HiBookOpen, HiLightBulb, HiShieldCheck, HiCog, HiSparkles, HiCash } from 'react-icons/hi';
+import { HiChartSquareBar, HiUserCircle, HiBookOpen, HiLightBulb, HiShieldCheck, HiCog, HiSparkles } from 'react-icons/hi';
 
 export default function Sidebar() {
   const { user } = useAuth();
@@ -17,7 +17,7 @@ export default function Sidebar() {
   return (
     <aside style={{
       width: '260px',
-      background: 'rgba(10, 15, 30, 0.7)',
+      background: 'rgba(10, 15, 30, 0.75)',
       backdropFilter: 'blur(16px)',
       WebkitBackdropFilter: 'blur(16px)',
       borderRight: '1px solid rgba(255, 255, 255, 0.08)',
@@ -30,7 +30,7 @@ export default function Sidebar() {
     }}>
       <div>
         <div style={{ padding: '0 0.75rem 1rem 0.75rem', fontSize: '0.75rem', fontWeight: '700', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-          Navigation Engine
+          Intelligence Engine
         </div>
 
         <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
@@ -87,7 +87,7 @@ export default function Sidebar() {
         </nav>
       </div>
 
-      {/* Sidebar Footer Widget */}
+      {/* Production System Widget */}
       <div style={{
         background: 'linear-gradient(135deg, rgba(99,102,241,0.12) 0%, rgba(139,92,246,0.12) 100%)',
         border: '1px solid rgba(99,102,241,0.25)',
@@ -96,8 +96,8 @@ export default function Sidebar() {
         textAlign: 'center'
       }}>
         <div style={{ fontSize: '1.25rem', color: '#6366f1', marginBottom: '0.25rem' }}><HiSparkles /></div>
-        <div style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#f8fafc' }}>Milestone 1 Active</div>
-        <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: '0.25rem' }}>AI Intelligence & Multi-Dataset Hub</div>
+        <div style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#f8fafc' }}>InnovaFund Engine</div>
+        <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: '0.25rem' }}>AI Funding & Intelligence Portal</div>
       </div>
     </aside>
   );

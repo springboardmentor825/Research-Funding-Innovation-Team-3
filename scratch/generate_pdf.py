@@ -5,7 +5,7 @@ class ShowcasePDF(FPDF):
     def header(self):
         self.set_font('Helvetica', 'B', 12)
         self.set_text_color(99, 102, 241) # Indigo accent
-        self.cell(0, 10, 'ResearchSphere AI - Milestone 1 Showcase & Presentation Guide', border=0, new_x="LMARGIN", new_y="NEXT", align='L')
+        self.cell(0, 10, 'InnovaFund AI - Showcase & Technical Presentation Guide', border=0, new_x="LMARGIN", new_y="NEXT", align='L')
         self.set_draw_color(200, 200, 200)
         self.line(10, 20, 200, 20)
         self.ln(5)
@@ -25,11 +25,11 @@ def create_pdf(output_path):
     # Document Title
     pdf.set_font('Helvetica', 'B', 18)
     pdf.set_text_color(30, 41, 59)
-    pdf.cell(0, 10, 'Milestone 1 Showcase & Presentation Guide', border=0, new_x="LMARGIN", new_y="NEXT", align='L')
+    pdf.cell(0, 10, 'InnovaFund AI Showcase & Presentation Guide', border=0, new_x="LMARGIN", new_y="NEXT", align='L')
     
     pdf.set_font('Helvetica', '', 10)
     pdf.set_text_color(100, 116, 139)
-    pdf.cell(0, 6, 'Project: ResearchSphere AI - AI-Powered Research Funding & Innovation Intelligence Platform', border=0, new_x="LMARGIN", new_y="NEXT", align='L')
+    pdf.cell(0, 6, 'Project: InnovaFund AI - AI-Powered Research Funding & Innovation Intelligence Platform', border=0, new_x="LMARGIN", new_y="NEXT", align='L')
     pdf.ln(5)
 
     def section_title(title):
@@ -109,5 +109,5 @@ def create_pdf(output_path):
 
 if __name__ == '__main__':
     os.makedirs('docs', exist_ok=True)
-    create_pdf('docs/ResearchSphere_AI_Milestone1_Showcase_Guide.pdf')
-    create_pdf('ResearchSphere_AI_Milestone1_Showcase_Guide.pdf')
+    create_pdf('docs/InnovaFund_AI_Showcase_Guide.pdf')
+    create_pdf('InnovaFund_AI_Showcase_Guide.pdf')

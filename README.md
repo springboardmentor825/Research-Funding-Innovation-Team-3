@@ -1,4 +1,4 @@
-# ResearchSphere AI: AI-Powered Research Funding & Innovation Intelligence Platform
+# InnovaFund AI: AI-Powered Research Funding & Innovation Intelligence Platform
 
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688.svg?logo=fastapi)](https://fastapi.tiangolo.com)
 [![React](https://img.shields.io/badge/React-18+-61DAFB.svg?logo=react)](https://reactjs.org)
@@ -7,18 +7,18 @@
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED.svg?logo=docker)](https://www.docker.com)
 
 ## Overview
-**ResearchSphere AI** is an enterprise-grade AI-Powered Research Funding & Innovation Intelligence Platform designed to connect academic research, patents, innovation trends, and funding opportunities. By aggregating metadata from open academic repositories (OpenAlex, CrossRef, Semantic Scholar) and patent databases (USPTO, Google Patents, The Lens), ResearchSphere AI empowers researchers, tech startups, university tech transfer offices, and enterprise R&D teams to accelerate technology commercialization and secure strategic funding.
+**InnovaFund AI** is an enterprise-grade AI-Powered Research Funding & Innovation Intelligence Platform designed to connect academic research, patents, innovation trends, and funding opportunities. By aggregating metadata from open academic repositories (OpenAlex, CrossRef, Semantic Scholar) and patent databases (USPTO, Google Patents, The Lens), InnovaFund AI empowers researchers, tech startups, university tech transfer offices, and enterprise R&D teams to accelerate technology commercialization and secure strategic funding.
 
 ---
 
-## Key Milestone 1 Features & Achievements
+## Core Platform Features
 - **System Architecture & Design Docs**: Complete design documentation, ER diagrams, UI wireframes, and workflow specifications.
 - **Enterprise Relational & Document Data Layer**: Hybrid persistence engine utilizing PostgreSQL 16 (11 tables) for structured entities and MongoDB 7 for raw external API payload caching.
 - **FastAPI Clean Architecture**: Layered backend using Pydantic v2 schemas, SQLAlchemy 2.0 ORM models, Repository pattern, and Service layer abstractions.
 - **JWT Authentication & RBAC**: OAuth2 Bearer token authentication with bcrypt password hashing and Role-Based Access Control (`researcher`, `startup_founder`, `innovation_manager`, `administrator`).
 - **Research Profile Management**: Full CRUD operations for research domains, technology keywords, publication links, and patent references.
 - **Dataset Integration Services**: Real-time connectors and caching services for OpenAlex, CrossRef, Semantic Scholar, USPTO, Google Patents, and The Lens.
-- **Modern Glassmorphic React Frontend**: React + Vite UI with Tailwind CSS, Lucide icons, responsive navigation, dark theme, and 9 interactive screens.
+- **Modern Glassmorphic React Frontend**: React + Vite UI with Tailwind CSS, Lucide icons, responsive navigation, dark theme, and interactive screens.
 - **Docker Containerization**: Multi-container setup orchestrating Backend, Frontend, PostgreSQL, and MongoDB.
 
 ---

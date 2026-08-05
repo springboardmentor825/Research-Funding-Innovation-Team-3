@@ -2,7 +2,7 @@ import os
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
-    PROJECT_NAME: str = "ResearchSphere AI"
+    PROJECT_NAME: str = "InnovaFund AI"
     VERSION: str = "1.0.0"
     API_PREFIX: str = "/api"
     
@@ -22,7 +22,7 @@ class Settings(BaseSettings):
     # External API Keys (Optional with fallback handling)
     SERPAPI_KEY: str = os.getenv("SERPAPI_KEY", "")
     LENS_API_KEY: str = os.getenv("LENS_API_KEY", "")
-    OPENALEX_MAILTO: str = os.getenv("OPENALEX_MAILTO", "admin@researchsphere.ai")
+    OPENALEX_MAILTO: str = os.getenv("OPENALEX_MAILTO", "admin@innovafund.ai")
 
     class Config:
         case_sensitive = True

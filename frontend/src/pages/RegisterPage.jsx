@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
-import { HiSparkles, HiAcademicCap, HiLightBulb, HiBriefcase, HiShieldCheck } from 'react-icons/hi';
+import { HiAcademicCap, HiLightBulb, HiBriefcase, HiShieldCheck } from 'react-icons/hi';
 
 export default function RegisterPage() {
   const [fullName, setFullName] = useState('');
@@ -52,20 +52,20 @@ export default function RegisterPage() {
             borderRadius: '1rem',
             background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
             alignItems: 'center',
-            justifyContent: 'center',
+            justify: 'center',
             fontWeight: '900',
             fontSize: '1.3rem',
             color: '#ffffff',
             marginBottom: '1rem',
             boxShadow: '0 0 25px rgba(99, 102, 241, 0.5)'
           }}>
-            RS
+            IF
           </div>
           <h2 style={{ fontSize: '2rem', fontWeight: '800', margin: '0 0 0.4rem 0', fontFamily: 'var(--font-heading)', color: '#f8fafc' }}>
             Create Your Account
           </h2>
           <p style={{ color: '#94a3b8', fontSize: '0.95rem', margin: 0 }}>
-            Join ResearchSphere AI Intelligence Platform
+            Join InnovaFund AI Intelligence Platform
           </p>
         </div>
 

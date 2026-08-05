@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
+import { HiSparkles, HiAcademicCap, HiLightBulb, HiBriefcase, HiShieldCheck } from 'react-icons/hi';
 
 export default function RegisterPage() {
   const [fullName, setFullName] = useState('');
@@ -33,39 +34,76 @@ export default function RegisterPage() {
     }
   };
 
+  const roleOptions = [
+    { id: 'researcher', label: 'Researcher', desc: 'Academic & Industry Scientists', icon: <HiAcademicCap /> },
+    { id: 'startup_founder', label: 'Startup Founder', desc: 'Tech Entrepreneurs & DeepTech', icon: <HiLightBulb /> },
+    { id: 'innovation_manager', label: 'Innovation Manager', desc: 'University Tech Transfer & R&D', icon: <HiBriefcase /> },
+    { id: 'administrator', label: 'Administrator', desc: 'Platform IT & Compliance', icon: <HiShieldCheck /> },
+  ];
+
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-dark)', padding: '2rem' }}>
-      <div className="glass-card" style={{ width: '100%', maxWidth: '520px', padding: '2.5rem' }}>
-        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <div style={{ display: 'inline-block', background: 'linear-gradient(135deg, #6366f1, #8b5cf6)', padding: '0.6rem 1rem', borderRadius: '0.75rem', fontWeight: 'bold', fontSize: '1.25rem', marginBottom: '1rem' }}>
-            RS AI
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-dark)', padding: '2.5rem 1.5rem' }} className="animate-fade-in">
+      <div className="glass-card" style={{ width: '100%', maxWidth: '580px', padding: '3rem' }}>
+        <div style={{ textAlign: 'center', marginBottom: '2.25rem' }}>
+          <div style={{
+            display: 'inline-flex',
+            width: '46px',
+            height: '46px',
+            borderRadius: '1rem',
+            background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontWeight: '900',
+            fontSize: '1.3rem',
+            color: '#ffffff',
+            marginBottom: '1rem',
+            boxShadow: '0 0 25px rgba(99, 102, 241, 0.5)'
+          }}>
+            RS
           </div>
-          <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', margin: '0 0 0.5rem 0' }}>Create Account</h2>
-          <p style={{ color: '#94a3b8', fontSize: '0.95rem', margin: 0 }}>Join ResearchSphere AI Intelligence Platform</p>
+          <h2 style={{ fontSize: '2rem', fontWeight: '800', margin: '0 0 0.4rem 0', fontFamily: 'var(--font-heading)', color: '#f8fafc' }}>
+            Create Your Account
+          </h2>
+          <p style={{ color: '#94a3b8', fontSize: '0.95rem', margin: 0 }}>
+            Join ResearchSphere AI Intelligence Platform
+          </p>
         </div>
 
         {error && (
-          <div style={{ background: 'rgba(239, 68, 68, 0.15)', border: '1px solid rgba(239, 68, 68, 0.4)', color: '#fca5a5', padding: '0.75rem', borderRadius: '0.5rem', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
+          <div style={{ background: 'rgba(239, 68, 68, 0.15)', border: '1px solid rgba(239, 68, 68, 0.4)', color: '#fca5a5', padding: '0.85rem 1rem', borderRadius: '0.75rem', marginBottom: '1.75rem', fontSize: '0.9rem' }}>
             {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-          <div>
-            <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#cbd5e1', marginBottom: '0.5rem' }}>Full Name</label>
-            <input
-              type="text"
-              className="glass-input"
-              style={{ width: '100%', boxSizing: 'border-box' }}
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              required
-              placeholder="Dr. Jane Doe"
-            />
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.35rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
+            <div>
+              <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', color: '#cbd5e1', marginBottom: '0.4rem' }}>Full Name</label>
+              <input
+                type="text"
+                className="glass-input"
+                style={{ width: '100%', boxSizing: 'border-box' }}
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                required
+                placeholder="Dr. Alex Rivera"
+              />
+            </div>
+            <div>
+              <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', color: '#cbd5e1', marginBottom: '0.4rem' }}>Organization / Institution</label>
+              <input
+                type="text"
+                className="glass-input"
+                style={{ width: '100%', boxSizing: 'border-box' }}
+                value={organization}
+                onChange={(e) => setOrganization(e.target.value)}
+                placeholder="MIT / Stanford / TechCorp"
+              />
+            </div>
           </div>
 
           <div>
-            <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#cbd5e1', marginBottom: '0.5rem' }}>Email Address</label>
+            <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', color: '#cbd5e1', marginBottom: '0.4rem' }}>Email Address</label>
             <input
               type="email"
               className="glass-input"
@@ -73,12 +111,12 @@ export default function RegisterPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              placeholder="jane.doe@university.edu"
+              placeholder="alex.rivera@university.edu"
             />
           </div>
 
           <div>
-            <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#cbd5e1', marginBottom: '0.5rem' }}>Password</label>
+            <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', color: '#cbd5e1', marginBottom: '0.4rem' }}>Password</label>
             <input
               type="password"
               className="glass-input"
@@ -91,56 +129,52 @@ export default function RegisterPage() {
           </div>
 
           <div>
-            <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#cbd5e1', marginBottom: '0.5rem' }}>Organization / Institution</label>
-            <input
-              type="text"
-              className="glass-input"
-              style={{ width: '100%', boxSizing: 'border-box' }}
-              value={organization}
-              onChange={(e) => setOrganization(e.target.value)}
-              placeholder="MIT / Stanford / TechCorp"
-            />
-          </div>
-
-          <div>
-            <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#cbd5e1', marginBottom: '0.5rem' }}>Select Platform Role</label>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
-              {[
-                { id: 'researcher', label: 'Researcher' },
-                { id: 'startup_founder', label: 'Startup Founder' },
-                { id: 'innovation_manager', label: 'Innovation Manager' },
-                { id: 'administrator', label: 'Administrator' },
-              ].map((r) => (
-                <button
-                  type="button"
-                  key={r.id}
-                  onClick={() => setRole(r.id)}
-                  style={{
-                    padding: '0.6rem',
-                    borderRadius: '0.5rem',
-                    fontSize: '0.85rem',
-                    fontWeight: '600',
-                    cursor: 'pointer',
-                    border: role === r.id ? '1px solid #6366f1' : '1px solid rgba(255,255,255,0.15)',
-                    background: role === r.id ? 'rgba(99, 102, 241, 0.25)' : 'rgba(15, 23, 42, 0.4)',
-                    color: role === r.id ? '#a5b4fc' : '#94a3b8',
-                    transition: 'all 0.2s ease'
-                  }}
-                >
-                  {r.label}
-                </button>
-              ))}
+            <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', color: '#cbd5e1', marginBottom: '0.6rem' }}>Select Platform Persona (RBAC)</label>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.85rem' }}>
+              {roleOptions.map((r) => {
+                const isSelected = role === r.id;
+                return (
+                  <div
+                    key={r.id}
+                    onClick={() => setRole(r.id)}
+                    style={{
+                      padding: '0.85rem',
+                      borderRadius: '0.85rem',
+                      cursor: 'pointer',
+                      border: isSelected ? '1px solid #6366f1' : '1px solid rgba(255,255,255,0.08)',
+                      background: isSelected ? 'rgba(99, 102, 241, 0.2)' : 'rgba(10, 15, 30, 0.4)',
+                      boxShadow: isSelected ? '0 4px 15px rgba(99, 102, 241, 0.25)' : 'none',
+                      transition: 'all 0.2s ease',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.6rem'
+                    }}
+                  >
+                    <div style={{ fontSize: '1.25rem', color: isSelected ? '#a5b4fc' : '#64748b' }}>
+                      {r.icon}
+                    </div>
+                    <div>
+                      <div style={{ fontSize: '0.85rem', fontWeight: '700', color: isSelected ? '#ffffff' : '#cbd5e1' }}>
+                        {r.label}
+                      </div>
+                      <div style={{ fontSize: '0.725rem', color: '#94a3b8' }}>
+                        {r.desc}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
-          <button type="submit" className="btn-gradient" disabled={loading} style={{ width: '100%', marginTop: '0.5rem', padding: '0.75rem' }}>
+          <button type="submit" className="btn-gradient" disabled={loading} style={{ width: '100%', marginTop: '0.5rem', padding: '0.85rem' }}>
             {loading ? 'Creating Account...' : 'Register Account'}
           </button>
         </form>
 
-        <div style={{ textAlign: 'center', marginTop: '1.75rem', fontSize: '0.9rem', color: '#94a3b8' }}>
+        <div style={{ textAlign: 'center', marginTop: '2rem', fontSize: '0.9rem', color: '#94a3b8' }}>
           Already have an account?{' '}
-          <Link to="/login" style={{ color: '#a5b4fc', textDecoration: 'none', fontWeight: '600' }}>
+          <Link to="/login" style={{ color: '#a5b4fc', textDecoration: 'none', fontWeight: '700' }}>
             Sign In here
           </Link>
         </div>

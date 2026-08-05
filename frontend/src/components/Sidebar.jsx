@@ -1,42 +1,103 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { HiHome, HiUser, HiDocumentText, HiLightBulb, HiShieldCheck, HiCog } from 'react-icons/hi';
-import './Sidebar.css';
+import { HiChartSquareBar, HiUserCircle, HiBookOpen, HiLightBulb, HiShieldCheck, HiCog, HiSparkles, HiCash } from 'react-icons/hi';
 
 export default function Sidebar() {
   const { user } = useAuth();
 
   const links = [
-    { to: '/dashboard', icon: <HiHome />, label: 'Dashboard' },
-    { to: '/profile', icon: <HiUser />, label: 'Profile' },
-    { to: '/publications', icon: <HiDocumentText />, label: 'Publications' },
-    { to: '/patents', icon: <HiLightBulb />, label: 'Patents' },
+    { to: '/dashboard', icon: <HiChartSquareBar />, label: 'Dashboard' },
+    { to: '/profile', icon: <HiUserCircle />, label: 'Research Profile' },
+    { to: '/publications', icon: <HiBookOpen />, label: 'Publications' },
+    { to: '/patents', icon: <HiLightBulb />, label: 'Patent Landscape' },
     { to: '/settings', icon: <HiCog />, label: 'Settings' },
   ];
 
   return (
-    <aside className="sidebar">
-      <div className="sidebar-menu">
-        {links.map((link) => (
-          <NavLink
-            key={link.to}
-            to={link.to}
-            className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}
-          >
-            <span className="link-icon">{link.icon}</span>
-            <span className="link-label">{link.label}</span>
-          </NavLink>
-        ))}
-        {user?.role === 'administrator' && (
-          <NavLink
-            to="/admin"
-            className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}
-          >
-            <span className="link-icon"><HiShieldCheck /></span>
-            <span className="link-label">Admin Console</span>
-          </NavLink>
-        )}
+    <aside style={{
+      width: '260px',
+      background: 'rgba(10, 15, 30, 0.7)',
+      backdropFilter: 'blur(16px)',
+      WebkitBackdropFilter: 'blur(16px)',
+      borderRight: '1px solid rgba(255, 255, 255, 0.08)',
+      padding: '1.75rem 1rem',
+      display: 'flex',
+      flexDirection: 'column',
+      justify: 'space-between',
+      minHeight: 'calc(100vh - 68px)',
+      boxSizing: 'border-box'
+    }}>
+      <div>
+        <div style={{ padding: '0 0.75rem 1rem 0.75rem', fontSize: '0.75rem', fontWeight: '700', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+          Navigation Engine
+        </div>
+
+        <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+          {links.map((link) => (
+            <NavLink
+              key={link.to}
+              to={link.to}
+              style={({ isActive }) => ({
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.85rem',
+                padding: '0.75rem 1rem',
+                borderRadius: '0.75rem',
+                textDecoration: 'none',
+                fontFamily: 'var(--font-heading)',
+                fontSize: '0.95rem',
+                fontWeight: isActive ? '700' : '500',
+                color: isActive ? '#ffffff' : '#94a3b8',
+                background: isActive ? 'linear-gradient(135deg, rgba(99,102,241,0.25) 0%, rgba(139,92,246,0.2) 100%)' : 'transparent',
+                border: isActive ? '1px solid rgba(99,102,241,0.4)' : '1px solid transparent',
+                boxShadow: isActive ? '0 4px 15px rgba(99,102,241,0.2)' : 'none',
+                transition: 'all 0.2s ease'
+              })}
+            >
+              <span style={{ fontSize: '1.2rem', color: '#a5b4fc' }}>{link.icon}</span>
+              <span>{link.label}</span>
+            </NavLink>
+          ))}
+
+          {user?.role === 'administrator' && (
+            <NavLink
+              to="/admin"
+              style={({ isActive }) => ({
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.85rem',
+                padding: '0.75rem 1rem',
+                borderRadius: '0.75rem',
+                textDecoration: 'none',
+                fontFamily: 'var(--font-heading)',
+                fontSize: '0.95rem',
+                fontWeight: isActive ? '700' : '500',
+                color: isActive ? '#ffffff' : '#fda4af',
+                background: isActive ? 'linear-gradient(135deg, rgba(244,63,94,0.25) 0%, rgba(239,68,68,0.2) 100%)' : 'rgba(244,63,94,0.05)',
+                border: isActive ? '1px solid rgba(244,63,94,0.4)' : '1px solid rgba(244,63,94,0.15)',
+                transition: 'all 0.2s ease',
+                marginTop: '0.5rem'
+              })}
+            >
+              <span style={{ fontSize: '1.2rem', color: '#fca5a5' }}><HiShieldCheck /></span>
+              <span>Admin Console</span>
+            </NavLink>
+          )}
+        </nav>
+      </div>
+
+      {/* Sidebar Footer Widget */}
+      <div style={{
+        background: 'linear-gradient(135deg, rgba(99,102,241,0.12) 0%, rgba(139,92,246,0.12) 100%)',
+        border: '1px solid rgba(99,102,241,0.25)',
+        borderRadius: '1rem',
+        padding: '1rem',
+        textAlign: 'center'
+      }}>
+        <div style={{ fontSize: '1.25rem', color: '#6366f1', marginBottom: '0.25rem' }}><HiSparkles /></div>
+        <div style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#f8fafc' }}>Milestone 1 Active</div>
+        <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: '0.25rem' }}>AI Intelligence & Multi-Dataset Hub</div>
       </div>
     </aside>
   );

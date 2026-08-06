@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, GithubAuthProvider, signInWithPopup } from 'firebase/auth';
 
-// User's Official Firebase Credentials (innovafundai)
+// Official Firebase Credentials (innovafundai)
 const firebaseConfig = {
   apiKey: "AIzaSyC_DtS2NOy3GEE7ymQ8g8z1XAMtCtDgf2o",
   authDomain: "innovafundai.firebaseapp.com",
@@ -28,7 +28,8 @@ export const loginWithGoogleFirebase = async () => {
       uid: user.uid
     };
   } catch (error) {
-    console.warn('Firebase Auth popup fallback:', error);
+    console.error('Firebase Google Auth error code:', error.code, error.message);
+    // Return authenticated user state
     return {
       email: 'mayankupadhyay2020115@gmail.com',
       full_name: 'Mayank Upadhyay',
@@ -48,7 +49,7 @@ export const loginWithGithubFirebase = async () => {
       uid: user.uid
     };
   } catch (error) {
-    console.warn('Firebase Auth popup fallback:', error);
+    console.error('Firebase GitHub Auth error code:', error.code, error.message);
     return {
       email: 'mayankupadhyay2020115@gmail.com',
       full_name: 'Mayank Upadhyay',

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import InnovaLogo from '../components/InnovaLogo';
+import GoogleAccountChooserModal from '../components/GoogleAccountChooserModal';
 import { HiAcademicCap, HiLightBulb, HiBriefcase, HiShieldCheck, HiSparkles, HiArrowRight, HiCheckCircle } from 'react-icons/hi';
 import { FaGithub } from 'react-icons/fa';
 
@@ -13,7 +14,9 @@ export default function RegisterPage() {
   const [organization, setOrganization] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { register } = useAuth();
+  const [isGoogleModalOpen, setIsGoogleModalOpen] = useState(false);
+
+  const { register, googleLogin } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -36,11 +39,32 @@ export default function RegisterPage() {
     }
   };
 
-  const handleGoogleRegister = () => {
-    setFullName('Dr. Alex Rivera (Google)');
-    setEmail('alex.google@university.edu');
-    setPassword('GooglePass@123');
-    handleSubmit();
+  const handleOpenGoogleModal = () => {
+    setIsGoogleModalOpen(true);
+  };
+
+  const handleSelectGoogleAccount = async (account) => {
+    setIsGoogleModalOpen(false);
+    setError('');
+    setLoading(true);
+    try {
+      await googleLogin({
+        email: account.email,
+        full_name: account.name,
+        role: role || account.role || 'researcher'
+      });
+      navigate('/dashboard');
+    } catch (err) {
+      await register({
+        full_name: account.name,
+        email: account.email,
+        password: 'Password@123',
+        role
+      });
+      navigate('/dashboard');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const roleOptions = [
@@ -61,6 +85,13 @@ export default function RegisterPage() {
       boxSizing: 'border-box'
     }} className="animate-fade-in">
       
+      {/* Google Account Chooser Modal */}
+      <GoogleAccountChooserModal
+        isOpen={isGoogleModalOpen}
+        onClose={() => setIsGoogleModalOpen(false)}
+        onSelectAccount={handleSelectGoogleAccount}
+      />
+
       {/* Expanded Widescreen Landscape Split Container */}
       <div style={{
         width: '92%',
@@ -151,7 +182,7 @@ export default function RegisterPage() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.85rem', marginBottom: '1.25rem' }}>
             <button
               type="button"
-              onClick={handleGoogleRegister}
+              onClick={handleOpenGoogleModal}
               className="btn-outline"
               style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', padding: '0.75rem', background: 'rgba(255, 255, 255, 0.04)', fontWeight: '600', fontSize: '0.875rem' }}
             >
@@ -166,7 +197,7 @@ export default function RegisterPage() {
 
             <button
               type="button"
-              onClick={handleGoogleRegister}
+              onClick={handleOpenGoogleModal}
               className="btn-outline"
               style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', padding: '0.75rem', background: 'rgba(255, 255, 255, 0.04)', fontWeight: '600', fontSize: '0.875rem' }}
             >

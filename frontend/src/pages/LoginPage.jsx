@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import InnovaLogo from '../components/InnovaLogo';
 import GoogleOfficialAuthButton from '../components/GoogleOfficialAuthButton';
 import GithubOfficialAuthButton from '../components/GithubOfficialAuthButton';
-import GoogleAccountChooserModal from '../components/GoogleAccountChooserModal';
 import { HiSparkles, HiShieldCheck, HiLightningBolt, HiCheckCircle } from 'react-icons/hi';
 
 export default function LoginPage() {
@@ -12,9 +11,8 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [isGoogleModalOpen, setIsGoogleModalOpen] = useState(false);
 
-  const { login, googleLogin } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -31,29 +29,6 @@ export default function LoginPage() {
     }
   };
 
-  const handleOpenGoogleModal = () => {
-    setIsGoogleModalOpen(true);
-  };
-
-  const handleSelectAccount = async (account) => {
-    setIsGoogleModalOpen(false);
-    setError('');
-    setLoading(true);
-    try {
-      await googleLogin({
-        email: account.email,
-        full_name: account.name,
-        role: account.role || 'administrator'
-      });
-      navigate('/dashboard');
-    } catch (err) {
-      await login('admin@researchsphere.ai', 'Admin@123456');
-      navigate('/dashboard');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <div style={{
       minHeight: '100vh',
@@ -65,13 +40,6 @@ export default function LoginPage() {
       boxSizing: 'border-box'
     }} className="animate-fade-in">
       
-      {/* Google Account Selector Modal */}
-      <GoogleAccountChooserModal
-        isOpen={isGoogleModalOpen}
-        onClose={() => setIsGoogleModalOpen(false)}
-        onSelectAccount={handleSelectAccount}
-      />
-
       {/* Expanded Widescreen Landscape Split Container */}
       <div style={{
         width: '92%',
@@ -158,10 +126,10 @@ export default function LoginPage() {
             </div>
           )}
 
-          {/* Social OAuth Buttons Stack */}
+          {/* Social OAuth Buttons Stack launching Real Browser Popups */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', marginBottom: '1.5rem' }}>
-            <GoogleOfficialAuthButton text="Sign in with Google" onClick={handleOpenGoogleModal} />
-            <GithubOfficialAuthButton text="Sign in with GitHub" onClick={handleOpenGoogleModal} />
+            <GoogleOfficialAuthButton text="Sign in with Google" />
+            <GithubOfficialAuthButton text="Sign in with GitHub" />
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', margin: '1.5rem 0', color: '#64748b', fontSize: '0.75rem' }}>

@@ -98,9 +98,6 @@ export default function Navbar() {
                   <div style={{ fontSize: '0.875rem', fontWeight: '600', color: '#f8fafc', lineHeight: 1.2 }}>
                     {user.full_name}
                   </div>
-                  <div style={{ fontSize: '0.72rem', color: '#94a3b8' }}>
-                    {user.email}
-                  </div>
                 </div>
                 {(() => {
                   const badge = getRoleBadgeStyle(user.role);

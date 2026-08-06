@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { getCurrentUser, loginUser, registerUser } from '../api/auth';
+import { getCurrentUser, loginUser, registerUser, googleLoginUser } from '../api/auth';
 import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext();
@@ -34,6 +34,14 @@ export const AuthProvider = ({ children }) => {
     return userData;
   };
 
+  const googleLogin = async (payload) => {
+    const data = await googleLoginUser(payload);
+    localStorage.setItem('token', data.access_token);
+    const userData = await getCurrentUser();
+    setUser(userData);
+    return userData;
+  };
+
   const register = async (data) => {
     const res = await registerUser(data);
     localStorage.setItem('token', res.access_token);
@@ -49,7 +57,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, googleLogin, register, logout }}>
       {children}
     </AuthContext.Provider>
   );

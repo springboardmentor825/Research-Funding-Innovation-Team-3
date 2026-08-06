@@ -1,34 +1,10 @@
 import React from 'react';
-import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
 
-export default function GoogleOfficialAuthButton({ text = "Sign in with Google" }) {
-  const { googleLogin } = useAuth();
-  const navigate = useNavigate();
-
-  const handleGoogleClick = async () => {
-    try {
-      // Trigger native Google accounts prompt if available
-      if (window.google?.accounts?.id) {
-        window.google.accounts.id.prompt();
-      }
-
-      // Authenticate session seamlessly and navigate to dashboard
-      await googleLogin({
-        email: 'mayankupadhyay2020115@gmail.com',
-        full_name: 'Mayank Upadhyay',
-        role: 'administrator'
-      });
-      navigate('/dashboard');
-    } catch (err) {
-      navigate('/dashboard');
-    }
-  };
-
+export default function GoogleOfficialAuthButton({ text = "Sign in with Google", onClick }) {
   return (
     <button
       type="button"
-      onClick={handleGoogleClick}
+      onClick={onClick}
       className="btn-outline"
       style={{
         width: '100%',

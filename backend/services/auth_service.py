@@ -72,7 +72,7 @@ class AuthService:
         )
 
     def google_login(self, google_in) -> TokenResponse:
-        import jwt
+        from jose import jwt
         email = google_in.email
         full_name = google_in.full_name or "Google User"
 
@@ -80,7 +80,7 @@ class AuthService:
         if google_in.credential:
             try:
                 # Unverified decode for Google JWT ID token payload
-                decoded = jwt.decode(google_in.credential, options={"verify_signature": False})
+                decoded = jwt.get_unverified_claims(google_in.credential)
                 if decoded.get("email"):
                     email = decoded.get("email")
                 if decoded.get("name"):

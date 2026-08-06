@@ -1,29 +1,11 @@
 import React from 'react';
-import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
 import { FaGithub } from 'react-icons/fa';
 
-export default function GithubOfficialAuthButton({ text = "Sign in with GitHub" }) {
-  const { googleLogin } = useAuth();
-  const navigate = useNavigate();
-
-  const handleGithubClick = async () => {
-    try {
-      await googleLogin({
-        email: 'mayankupadhyay2020115@gmail.com',
-        full_name: 'Mayank Upadhyay',
-        role: 'administrator'
-      });
-      navigate('/dashboard');
-    } catch (err) {
-      navigate('/dashboard');
-    }
-  };
-
+export default function GithubOfficialAuthButton({ text = "Sign in with GitHub", onClick }) {
   return (
     <button
       type="button"
-      onClick={handleGithubClick}
+      onClick={onClick}
       className="btn-outline"
       style={{
         width: '100%',

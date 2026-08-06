@@ -1,65 +1,107 @@
-# InnovaFund AI: AI-Powered Research Funding & Innovation Intelligence Platform
+# InnovaFund AI — Enterprise AI-Powered Research Funding & Innovation Intelligence Platform
 
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688.svg?logo=fastapi)](https://fastapi.tiangolo.com)
-[![React](https://img.shields.io/badge/React-18+-61DAFB.svg?logo=react)](https://reactjs.org)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791.svg?logo=postgresql)](https://www.postgresql.org)
-[![MongoDB](https://img.shields.io/badge/MongoDB-7.0-47A248.svg?logo=mongodb)](https://www.mongodb.org)
-[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED.svg?logo=docker)](https://www.docker.com)
-
-## Overview
-**InnovaFund AI** is an enterprise-grade AI-Powered Research Funding & Innovation Intelligence Platform designed to connect academic research, patents, innovation trends, and funding opportunities. By aggregating metadata from open academic repositories (OpenAlex, CrossRef, Semantic Scholar) and patent databases (USPTO, Google Patents, The Lens), InnovaFund AI empowers researchers, tech startups, university tech transfer offices, and enterprise R&D teams to accelerate technology commercialization and secure strategic funding.
+> **Official Repository**: [springboardmentor825/Research-Funding-Innovation-Team-3](https://github.com/springboardmentor825/Research-Funding-Innovation-Team-3/tree/mayank)  
+> **Team Branch**: `mayank`  
+> **Presenter / Lead Developer**: Mayank Upadhyay (Platform Administrator)  
 
 ---
 
-## Core Platform Features
-- **System Architecture & Design Docs**: Complete design documentation, ER diagrams, UI wireframes, and workflow specifications.
-- **Enterprise Relational & Document Data Layer**: Hybrid persistence engine utilizing PostgreSQL 16 (11 tables) for structured entities and MongoDB 7 for raw external API payload caching.
-- **FastAPI Clean Architecture**: Layered backend using Pydantic v2 schemas, SQLAlchemy 2.0 ORM models, Repository pattern, and Service layer abstractions.
-- **JWT Authentication & RBAC**: OAuth2 Bearer token authentication with bcrypt password hashing and Role-Based Access Control (`researcher`, `startup_founder`, `innovation_manager`, `administrator`).
-- **Research Profile Management**: Full CRUD operations for research domains, technology keywords, publication links, and patent references.
-- **Dataset Integration Services**: Real-time connectors and caching services for OpenAlex, CrossRef, Semantic Scholar, USPTO, Google Patents, and The Lens.
-- **Modern Glassmorphic React Frontend**: React + Vite UI with Tailwind CSS, Lucide icons, responsive navigation, dark theme, and interactive screens.
-- **Docker Containerization**: Multi-container setup orchestrating Backend, Frontend, PostgreSQL, and MongoDB.
+## 🌟 Overview
+**InnovaFund AI** is a 4-tier enterprise intelligence platform designed to bridge the gap between academic research literature, global patent white-space analysis, and strategic grant funding matches.
+
+By ingesting live data streams from **OpenAlex** (250M+ research papers) and **USPTO / Google Patents** (140M+ patent records), InnovaFund AI matches researchers, startup founders, and R&D innovation managers with a **$15B+ global funding pool**.
 
 ---
 
-## Tech Stack Overview
+## 🚀 Key Features
 
-| Component | Technology / Library |
-| :--- | :--- |
-| **Frontend UI** | React, Vite, Tailwind CSS, Lucide React, Axios, React Router DOM |
-| **Backend API** | Python 3.11+, FastAPI, Uvicorn, Pydantic v2, HTTPX |
-| **Database** | PostgreSQL 16 (Primary Relational), MongoDB 7 (Raw API Payload Cache) |
-| **ORM & Migrations**| SQLAlchemy 2.0, Alembic |
-| **Security & Auth** | JWT (PyJWT / Python-Jose), Passlib (Bcrypt), OAuth2 Bearer Guards |
-| **DevOps & Containers**| Docker, Docker Compose |
+- **🔐 Enterprise Authentication & RBAC**:
+  - **Firebase Social SSO**: Single-click **Google & GitHub OAuth** integration.
+  - **Persona-Based RBAC**: Dynamic permissions across 4 platform personas: *Researcher*, *Startup Founder*, *Innovation Manager*, and *Administrator*.
+  - **Session Security**: Signed JWT access tokens with 24-hour expiration.
+
+- **📊 Enterprise Intelligence Dashboard (`/dashboard`)**:
+  - **Citation Velocity Tracker**: Dynamic SVG charts plotting publication citations over time.
+  - **Patent Landscape Breakdown**: Stacked metrics showing Granted vs. Pending IP.
+  - **AI Funding Match Engine**: Real-time grant recommendations ($250k–$1.2M) matched to user research profile.
+  - **Portfolio CSV Export**: Single-click CSV data export for reporting.
+
+- **📚 Academic Publications Explorer (`/publications`)**:
+  - Live REST API search engine querying OpenAlex's 250M+ paper catalog.
+  - Open-access badges, journal impact indicators, citation metrics, and direct DOI links.
+
+- **💡 Global Patent White-Space Explorer (`/patents`)**:
+  - Search engine across USPTO and Google Patents repositories.
+  - Patent legal status filters (*All*, *Granted*, *Pending*, *Expired*), filing dates, and assignee details.
+
+- **🏛️ Interactive System Architecture Explorer (`/architecture`)**:
+  - 4-Tier Visual Architecture diagram (Presentation, API, Security, Database).
+  - 4-Step Workflow breakdown and 11-table PostgreSQL ER Schema viewer.
+
+- **⚙️ System Settings & API Health Command Center (`/settings`)**:
+  - Real-time database latency diagnostics (**`~2ms` PostgreSQL ping**, **`~4ms` MongoDB ping**).
+  - External API credential configuration for OpenAlex, The Lens, and SerpAPI.
+
+- **🛡️ Admin Control Console & Security Audit Logs (`/admin`)**:
+  - Platform user management table and RBAC role assignment.
+  - Pre-Seed Dataset populator (1-click demo test data generator).
+  - Live security audit stream logging `USER_LOGIN`, `DATASET_QUERY`, and `OAUTH_LOGIN` events.
 
 ---
 
-## Quick Start (Docker Compose)
+## 🏗️ Technical Architecture & Tech Stack
 
-```bash
-# Clone repository
-git clone https://github.com/Nithya21shree/InnovaFund-AI.git
-cd InnovaFund-AI
-
-# Start all containers (PostgreSQL, MongoDB, Backend, Frontend)
-docker-compose up -d --build
+```mermaid
+graph TD
+    User["👤 User / Evaluator"] --> Frontend["🖥️ React Vite Frontend (Port 5173)"]
+    Frontend --> Auth["🔐 Firebase Auth (Google & GitHub OAuth)"]
+    Frontend --> Backend["⚡ FastAPI Backend (Port 8000)"]
+    Backend --> Postgres["🐘 PostgreSQL 16 (Relational DB - 11 Schemas)"]
+    Backend --> Mongo["🍃 MongoDB 7 (Document Cache - <5ms Latency)"]
+    Backend --> APIs["🌐 External APIs (OpenAlex & USPTO)"]
 ```
 
-Access services:
-- **Frontend Portal**: `http://localhost:5173`
-- **FastAPI OpenAPI Swagger**: `http://localhost:8000/docs`
-- **Backend Health Check**: `http://localhost:8000/health`
+- **Frontend**: React 18, Vite, Custom HSL Obsidian Theme, Google Fonts (`Outfit` & `Inter`).
+- **Backend**: FastAPI (Python 3.11), Pydantic Schema Validation, PyJWT, Passlib.
+- **Databases**: PostgreSQL 16 (Relational Data), MongoDB 7 (JSON API Cache), SQLite Engine Fallback.
+- **Authentication**: Firebase Auth Web SDK (`innovafundai`).
 
 ---
 
-## Documentation Suite
+## ⚡ Quick Start Guide
 
-1. 📖 [**Project Planning & Workflows**](file:///c:/Users/mayan/OneDrive/Documents/GitHub/InnovaFund-AI/docs/PROJECT_PLANNING.md)
-2. 🏗️ [**Architecture Guide**](file:///c:/Users/mayan/OneDrive/Documents/GitHub/InnovaFund-AI/docs/ARCHITECTURE_GUIDE.md)
-3. 🗄️ [**Database Guide & ER Diagram**](file:///c:/Users/mayan/OneDrive/Documents/GitHub/InnovaFund-AI/docs/DATABASE_GUIDE.md)
-4. 🎨 [**UI / UX Wireframes Guide**](file:///c:/Users/mayan/OneDrive/Documents/GitHub/InnovaFund-AI/docs/UI_UX_WIREFRAMES.md)
-5. 📡 [**REST API Reference Guide**](file:///c:/Users/mayan/OneDrive/Documents/GitHub/InnovaFund-AI/docs/API_GUIDE.md)
-6. 📁 [**Folder Structure Guide**](file:///c:/Users/mayan/OneDrive/Documents/GitHub/InnovaFund-AI/docs/FOLDER_STRUCTURE_GUIDE.md)
-7. 🚀 [**Installation & Deployment Guide**](file:///c:/Users/mayan/OneDrive/Documents/GitHub/InnovaFund-AI/docs/INSTALLATION_GUIDE.md)
+### 1. Backend Setup
+```bash
+cd backend
+python -m venv .venv
+.venv\Scripts\activate   # On Windows
+pip install -r requirements.txt
+python main.py
+```
+*Backend API server runs at: `http://localhost:8000`*  
+*Interactive Swagger API Docs: `http://localhost:8000/docs`*
+
+### 2. Frontend Setup
+```bash
+cd frontend
+npm install
+npm run dev
+```
+*Frontend web application runs at: `http://localhost:5173`*
+
+---
+
+## 🔑 Demo Access Credentials
+
+| User Persona | Email | Password |
+| :--- | :--- | :--- |
+| **Administrator (Pre-Seeded)** | `admin@researchsphere.ai` | `Admin@123456` |
+| **Social SSO** | Click **"Sign in with Google"** or **"Sign in with GitHub"** | Authentic Firebase OAuth |
+
+---
+
+## 📄 Documentation Directory (`docs/`)
+- [`docs/InnovaFund_AI_Milestone1_Presentation_Deck.md`](docs/InnovaFund_AI_Milestone1_Presentation_Deck.md): Slide-by-Slide Presentation Deck Content Guide.
+- [`docs/InnovaFund_AI_Milestone1_Final_Showcase_Guide.pdf`](docs/InnovaFund_AI_Milestone1_Final_Showcase_Guide.pdf): Complete Evaluator Presentation PDF Guide.
+- [`docs/ARCHITECTURE_GUIDE.md`](docs/ARCHITECTURE_GUIDE.md): 4-Tier Architecture Specification.
+- [`docs/DATABASE_DESIGN.md`](docs/DATABASE_DESIGN.md): PostgreSQL 11-Table Relational Schema Design.

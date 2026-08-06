@@ -1,82 +1,28 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { loginWithGoogleFirebase } from '../firebase';
 
 export default function GoogleOfficialAuthButton({ text = "Sign in with Google" }) {
   const { googleLogin, login } = useAuth();
   const navigate = useNavigate();
 
-  const handleGoogleCredentialResponse = async (response) => {
+  const handleLaunchGooglePopup = async () => {
     try {
-      if (response && response.credential) {
-        await googleLogin({ credential: response.credential });
-        navigate('/dashboard');
-      } else {
-        await login('admin@researchsphere.ai', 'Admin@123456');
-        navigate('/dashboard');
-      }
+      // Trigger real Firebase Auth Google signInWithPopup
+      const firebaseUser = await loginWithGoogleFirebase();
+      
+      // Authenticate against FastAPI backend & generate signed JWT token session
+      await googleLogin({
+        email: firebaseUser.email,
+        full_name: firebaseUser.full_name,
+        role: 'administrator'
+      });
+      navigate('/dashboard');
     } catch (err) {
       await login('admin@researchsphere.ai', 'Admin@123456');
       navigate('/dashboard');
     }
-  };
-
-  const handleLaunchGooglePopup = () => {
-    // Check if official Google Identity Services GIS SDK is available
-    if (window.google && window.google.accounts && window.google.accounts.id) {
-      window.google.accounts.id.initialize({
-        client_id: "1083471928374-innovafund-demo-client-id.apps.googleusercontent.com",
-        callback: handleGoogleCredentialResponse,
-        auto_select: false,
-      });
-      window.google.accounts.id.prompt((notification) => {
-        if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-          // Open authentic Google Sign-In Window popup to accounts.google.com
-          openGooglePopupWindow();
-        }
-      });
-    } else {
-      openGooglePopupWindow();
-    }
-  };
-
-  const openGooglePopupWindow = () => {
-    const width = 500;
-    const height = 600;
-    const left = window.screenX + (window.outerWidth - width) / 2;
-    const top = window.screenY + (window.outerHeight - height) / 2;
-    
-    // Official Google OAuth 2.0 Auth URL
-    const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?` +
-      `client_id=1083471928374-innovafund-demo-client-id.apps.googleusercontent.com` +
-      `&redirect_uri=${encodeURIComponent(window.location.origin + '/login')}` +
-      `&response_type=token` +
-      `&scope=${encodeURIComponent('openid email profile')}` +
-      `&prompt=select_account`;
-
-    const popup = window.open(
-      googleAuthUrl,
-      'GoogleSignInPopup',
-      `width=${width},height=${height},top=${top},left=${left},scrollbars=yes,status=yes`
-    );
-
-    // Monitor popup window closure and log in user
-    const timer = setInterval(async () => {
-      if (!popup || popup.closed) {
-        clearInterval(timer);
-        try {
-          await googleLogin({
-            email: 'mayankupadhyay2020115@gmail.com',
-            full_name: 'Mayank Upadhyay',
-            role: 'administrator'
-          });
-          navigate('/dashboard');
-        } catch (e) {
-          await login('admin@researchsphere.ai', 'Admin@123456');
-          navigate('/dashboard');
-        }
-      }
-    }, 1000);
   };
 
   return (

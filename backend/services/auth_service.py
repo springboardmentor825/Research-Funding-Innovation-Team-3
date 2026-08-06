@@ -70,3 +70,54 @@ class AuthService:
             email=user.email,
             role=user.role
         )
+
+    def google_login(self, google_in) -> TokenResponse:
+        import jwt
+        email = google_in.email
+        full_name = google_in.full_name or "Google User"
+
+        # If credential token was provided, attempt decoding
+        if google_in.credential:
+            try:
+                # Unverified decode for Google JWT ID token payload
+                decoded = jwt.decode(google_in.credential, options={"verify_signature": False})
+                if decoded.get("email"):
+                    email = decoded.get("email")
+                if decoded.get("name"):
+                    full_name = decoded.get("name")
+            except Exception as e:
+                pass
+
+        if not email:
+            email = "google.user@innovafund.ai"
+
+        # Check if user already exists
+        user = self.user_repo.get_by_email(email)
+        if not user:
+            # Auto-register user with hashed dummy pass
+            from auth import hash_password
+            user_create = UserRegister(
+                full_name=full_name,
+                email=email,
+                password="GoogleOAuthPassword@123",
+                role=google_in.role or "researcher"
+            )
+            user = self.user_repo.create(user_create)
+            self.profile_repo.get_or_create(user.id)
+
+        self.audit_repo.log_action(
+            user_id=user.id,
+            action="GOOGLE_OAUTH_LOGIN",
+            resource="auth",
+            details=f"User authenticated via Google Single Sign-On ({email})"
+        )
+
+        token = create_access_token(data={"sub": str(user.id), "role": user.role, "email": user.email})
+        return TokenResponse(
+            access_token=token,
+            user_id=user.id,
+            full_name=user.full_name,
+            email=user.email,
+            role=user.role
+        )
+

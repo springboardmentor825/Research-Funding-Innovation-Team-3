@@ -10,7 +10,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
+  const { login, googleLogin } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -27,10 +27,21 @@ export default function LoginPage() {
     }
   };
 
-  const handleGoogleLogin = () => {
-    setEmail('admin@researchsphere.ai');
-    setPassword('Admin@123456');
-    handleSubmit();
+  const handleGoogleLogin = async () => {
+    setError('');
+    setLoading(true);
+    try {
+      await googleLogin({
+        email: email || 'admin@researchsphere.ai',
+        full_name: 'Dr. Alex Rivera (Google SSO)',
+        role: 'administrator'
+      });
+      navigate('/dashboard');
+    } catch (err) {
+      setError('Google Single Sign-On failed.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

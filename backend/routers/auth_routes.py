@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from database import get_db
-from schemas import UserRegister, UserLogin, TokenResponse, UserResponse
+from schemas import UserRegister, UserLogin, GoogleAuthRequest, TokenResponse, UserResponse
 from services.auth_service import AuthService
 from dependencies import get_current_user
 from models import User
@@ -17,6 +17,11 @@ def register(user_in: UserRegister, db: Session = Depends(get_db)):
 def login(login_in: UserLogin, db: Session = Depends(get_db)):
     service = AuthService(db)
     return service.login(login_in)
+
+@router.post("/google", response_model=TokenResponse)
+def google_auth(google_in: GoogleAuthRequest, db: Session = Depends(get_db)):
+    service = AuthService(db)
+    return service.google_login(google_in)
 
 @router.get("/me", response_model=UserResponse)
 def get_current_user_info(current_user: User = Depends(get_current_user)):

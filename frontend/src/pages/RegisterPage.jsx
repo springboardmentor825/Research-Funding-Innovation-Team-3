@@ -3,8 +3,8 @@ import { useAuth } from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import InnovaLogo from '../components/InnovaLogo';
 import GoogleOfficialAuthButton from '../components/GoogleOfficialAuthButton';
+import GithubOfficialAuthButton from '../components/GithubOfficialAuthButton';
 import { HiAcademicCap, HiLightBulb, HiBriefcase, HiShieldCheck, HiSparkles, HiArrowRight, HiCheckCircle } from 'react-icons/hi';
-import { FaGithub } from 'react-icons/fa';
 
 export default function RegisterPage() {
   const [fullName, setFullName] = useState('');
@@ -15,7 +15,7 @@ export default function RegisterPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const { register, googleLogin, login } = useAuth();
+  const { register } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -33,24 +33,6 @@ export default function RegisterPage() {
       navigate('/dashboard');
     } catch (err) {
       setError(err?.response?.data?.detail || 'Registration failed. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleGithubRegister = async () => {
-    setError('');
-    setLoading(true);
-    try {
-      await googleLogin({
-        email: 'mayankupadhyay2020115@gmail.com',
-        full_name: 'Mayank Upadhyay (GitHub SSO)',
-        role
-      });
-      navigate('/dashboard');
-    } catch (err) {
-      await login('admin@researchsphere.ai', 'Admin@123456');
-      navigate('/dashboard');
     } finally {
       setLoading(false);
     }
@@ -163,16 +145,7 @@ export default function RegisterPage() {
           {/* Social OAuth Buttons */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.85rem', marginBottom: '1.25rem' }}>
             <GoogleOfficialAuthButton text="Google Sign Up" />
-
-            <button
-              type="button"
-              onClick={handleGithubRegister}
-              className="btn-outline"
-              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', padding: '0.75rem', background: 'rgba(255, 255, 255, 0.04)', fontWeight: '600', fontSize: '0.875rem' }}
-            >
-              <FaGithub style={{ fontSize: '1.1rem' }} />
-              GitHub Sign Up
-            </button>
+            <GithubOfficialAuthButton text="GitHub Sign Up" />
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', margin: '1.25rem 0', color: '#64748b', fontSize: '0.75rem' }}>

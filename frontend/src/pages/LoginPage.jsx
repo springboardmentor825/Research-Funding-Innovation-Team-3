@@ -3,8 +3,8 @@ import { useAuth } from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import InnovaLogo from '../components/InnovaLogo';
 import GoogleOfficialAuthButton from '../components/GoogleOfficialAuthButton';
-import { HiSparkles, HiShieldCheck, HiLightningBolt, HiAcademicCap, HiLightBulb, HiCurrencyDollar, HiCheckCircle } from 'react-icons/hi';
-import { FaGithub } from 'react-icons/fa';
+import GithubOfficialAuthButton from '../components/GithubOfficialAuthButton';
+import { HiSparkles, HiShieldCheck, HiLightningBolt, HiCheckCircle } from 'react-icons/hi';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -12,7 +12,7 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const { login, googleLogin } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -24,24 +24,6 @@ export default function LoginPage() {
       navigate('/dashboard');
     } catch (err) {
       setError(err?.response?.data?.detail || 'Invalid email credentials or password.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleGithubLogin = async () => {
-    setError('');
-    setLoading(true);
-    try {
-      await googleLogin({
-        email: 'mayankupadhyay2020115@gmail.com',
-        full_name: 'Mayank Upadhyay (GitHub SSO)',
-        role: 'administrator'
-      });
-      navigate('/dashboard');
-    } catch (err) {
-      await login('admin@researchsphere.ai', 'Admin@123456');
-      navigate('/dashboard');
     } finally {
       setLoading(false);
     }
@@ -144,19 +126,10 @@ export default function LoginPage() {
             </div>
           )}
 
-          {/* Social OAuth Buttons */}
+          {/* Social OAuth Buttons Stack */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', marginBottom: '1.5rem' }}>
             <GoogleOfficialAuthButton text="Sign in with Google" />
-
-            <button
-              type="button"
-              onClick={handleGithubLogin}
-              className="btn-outline"
-              style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', padding: '0.85rem', background: 'rgba(255, 255, 255, 0.04)', fontWeight: '600', fontSize: '0.9rem' }}
-            >
-              <FaGithub style={{ fontSize: '1.2rem' }} />
-              Sign in with GitHub
-            </button>
+            <GithubOfficialAuthButton text="Sign in with GitHub" />
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', margin: '1.5rem 0', color: '#64748b', fontSize: '0.75rem' }}>

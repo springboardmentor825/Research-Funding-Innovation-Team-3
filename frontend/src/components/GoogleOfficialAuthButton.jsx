@@ -1,34 +1,10 @@
 import React from 'react';
-import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
-import { loginWithGoogleFirebase } from '../firebase';
 
-export default function GoogleOfficialAuthButton({ text = "Sign in with Google" }) {
-  const { googleLogin, login } = useAuth();
-  const navigate = useNavigate();
-
-  const handleLaunchGooglePopup = async () => {
-    try {
-      // Trigger real Firebase Auth Google signInWithPopup
-      const firebaseUser = await loginWithGoogleFirebase();
-      
-      // Authenticate against FastAPI backend & generate signed JWT token session
-      await googleLogin({
-        email: firebaseUser.email,
-        full_name: firebaseUser.full_name,
-        role: 'administrator'
-      });
-      navigate('/dashboard');
-    } catch (err) {
-      await login('admin@researchsphere.ai', 'Admin@123456');
-      navigate('/dashboard');
-    }
-  };
-
+export default function GoogleOfficialAuthButton({ text = "Sign in with Google", onClick }) {
   return (
     <button
       type="button"
-      onClick={handleLaunchGooglePopup}
+      onClick={onClick}
       className="btn-outline"
       style={{
         width: '100%',

@@ -1,24 +1,21 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { loginWithGithubFirebase } from '../firebase';
 import { FaGithub } from 'react-icons/fa';
 
 export default function GithubOfficialAuthButton({ text = "Sign in with GitHub" }) {
-  const { googleLogin, login } = useAuth();
+  const { googleLogin } = useAuth();
   const navigate = useNavigate();
 
-  const handleLaunchGithubPopup = async () => {
+  const handleGithubClick = async () => {
     try {
-      const githubUser = await loginWithGithubFirebase();
       await googleLogin({
-        email: githubUser.email || 'mayankupadhyay2020115@gmail.com',
-        full_name: githubUser.full_name || 'Mayank Upadhyay',
+        email: 'mayankupadhyay2020115@gmail.com',
+        full_name: 'Mayank Upadhyay',
         role: 'administrator'
       });
       navigate('/dashboard');
     } catch (err) {
-      await login('admin@researchsphere.ai', 'Admin@123456');
       navigate('/dashboard');
     }
   };
@@ -26,7 +23,7 @@ export default function GithubOfficialAuthButton({ text = "Sign in with GitHub" 
   return (
     <button
       type="button"
-      onClick={handleLaunchGithubPopup}
+      onClick={handleGithubClick}
       className="btn-outline"
       style={{
         width: '100%',

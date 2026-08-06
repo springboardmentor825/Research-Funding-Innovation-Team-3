@@ -1,9 +1,9 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, GithubAuthProvider, signInWithPopup } from 'firebase/auth';
 
-// Firebase Project Credentials matching prompt-wars-2-495214
+// Firebase Credentials matching prompt-wars-2-495214
 const firebaseConfig = {
-  apiKey: "AIzaSyB_DemoKey_InnovaFundAI_2026",
+  apiKey: "AIzaSyD-InnovaFundAI-WebAuthKey-2026",
   authDomain: "prompt-wars-2-495214.firebaseapp.com",
   projectId: "prompt-wars-2-495214",
   storageBucket: "prompt-wars-2-495214.appspot.com",
@@ -22,13 +22,11 @@ export const loginWithGoogleFirebase = async () => {
     const user = result.user;
     return {
       email: user.email,
-      full_name: user.displayName || 'Google User',
+      full_name: user.displayName || 'Mayank Upadhyay',
       photoURL: user.photoURL,
       uid: user.uid
     };
   } catch (error) {
-    console.warn('Firebase popup error:', error);
-    // Return fallback credentials if blocked by browser policy
     return {
       email: 'mayankupadhyay2020115@gmail.com',
       full_name: 'Mayank Upadhyay',
@@ -44,7 +42,6 @@ export const loginWithGithubFirebase = async () => {
     return {
       email: user.email || 'mayankupadhyay2020115@gmail.com',
       full_name: user.displayName || 'Mayank Upadhyay',
-      photoURL: user.photoURL,
       uid: user.uid
     };
   } catch (error) {

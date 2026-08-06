@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import InnovaLogo from '../components/InnovaLogo';
 import GoogleOfficialAuthButton from '../components/GoogleOfficialAuthButton';
-import OrcidOfficialAuthButton from '../components/OrcidOfficialAuthButton';
+import GithubOfficialAuthButton from '../components/GithubOfficialAuthButton';
 import { HiSparkles, HiShieldCheck, HiLightningBolt, HiCheckCircle } from 'react-icons/hi';
 
 export default function LoginPage() {
@@ -126,10 +126,10 @@ export default function LoginPage() {
             </div>
           )}
 
-          {/* Social OAuth Buttons (Google + ORCID iD) */}
+          {/* Social OAuth Buttons */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', marginBottom: '1.5rem' }}>
             <GoogleOfficialAuthButton text="Sign in with Google" />
-            <OrcidOfficialAuthButton text="Sign in with ORCID iD" />
+            <GithubOfficialAuthButton text="Sign in with GitHub" />
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', margin: '1.5rem 0', color: '#64748b', fontSize: '0.75rem' }}>

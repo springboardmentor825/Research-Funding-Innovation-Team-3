@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import InnovaLogo from '../components/InnovaLogo';
 import GoogleOfficialAuthButton from '../components/GoogleOfficialAuthButton';
-import OrcidOfficialAuthButton from '../components/OrcidOfficialAuthButton';
+import GithubOfficialAuthButton from '../components/GithubOfficialAuthButton';
 import { HiAcademicCap, HiLightBulb, HiBriefcase, HiShieldCheck, HiSparkles, HiArrowRight, HiCheckCircle } from 'react-icons/hi';
 
 export default function RegisterPage() {
@@ -114,7 +114,7 @@ export default function RegisterPage() {
           {/* Feature List */}
           <div style={{ display: 'flex', gap: '1.5rem', fontSize: '0.85rem', color: '#cbd5e1', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '1.25rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              <HiCheckCircle style={{ color: '#10b981', fontSize: '1.1rem' }} /> Google & ORCID iD SSO
+              <HiCheckCircle style={{ color: '#10b981', fontSize: '1.1rem' }} /> Google & GitHub SSO
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
               <HiCheckCircle style={{ color: '#10b981', fontSize: '1.1rem' }} /> Personas & RBAC Guards
@@ -145,7 +145,7 @@ export default function RegisterPage() {
           {/* Social OAuth Buttons */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.85rem', marginBottom: '1.25rem' }}>
             <GoogleOfficialAuthButton text="Google Sign Up" />
-            <OrcidOfficialAuthButton text="ORCID iD Sign Up" />
+            <GithubOfficialAuthButton text="GitHub Sign Up" />
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', margin: '1.25rem 0', color: '#64748b', fontSize: '0.75rem' }}>

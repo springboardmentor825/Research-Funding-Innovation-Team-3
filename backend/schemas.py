@@ -16,7 +16,7 @@ class UserLogin(BaseModel):
 
 class GoogleAuthRequest(BaseModel):
     credential: Optional[str] = None
-    email: Optional[EmailStr] = None
+    email: Optional[str] = None
     full_name: Optional[str] = None
     role: Optional[str] = "researcher"
 

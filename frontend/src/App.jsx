@@ -4,6 +4,7 @@ import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
+import ResearchProfile from "./pages/ResearchProfile";
 
 function ProtectedRoute({ children }) {
   const { isAuthenticated } = useAuth();
@@ -23,6 +24,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ResearchProfile />
               </ProtectedRoute>
             }
           />

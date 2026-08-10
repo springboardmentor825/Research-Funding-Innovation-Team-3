@@ -4,26 +4,85 @@ import {
   BarChart3, LayoutDashboard, UserCircle, FlaskConical, Coins,
   FileBadge, Settings, HelpCircle, LogOut, Search, Bell, FileText, TrendingUp,
 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { getMyProfile } from "../services/profileService";
 
-// ⚠️ DUMMY DATA — replace with real API calls once funding/trends/patents modules are built
-const DUMMY_STATS = {
-  innovationScore: 78,
-  fundingMatches: 12,
-  patentRecords: 340,
-  profileCompletion: 65,
+const [profileCompletion, setProfileCompletion] = useState(0);
+
+useEffect(() => {
+  getMyProfile()
+    .then((data) => {
+      const fields = [
+        data.research_domains, data.keywords, data.bio,
+        data.publications, data.patents, data.technology_areas,
+      ];
+      const filled = fields.filter((f) => f && f.trim() !== "").length;
+      setProfileCompletion(Math.round((filled / fields.length) * 100));
+    })
+    .catch(() => setProfileCompletion(0));
+}, []);
+const roleLabels = {
+  researcher: "Researcher",
+  startup_founder: "Startup Founder",
+  innovation_manager: "Innovation Manager",
+  administrator: "Administrator",
 };
 
-const DUMMY_FUNDING_MATCHES = [
-  { name: "National Battery Research Grant", type: "Government grant", closesIn: "18 days", match: 94 },
-  { name: "Clean Energy Innovation Fund", type: "Innovation fund", closesIn: "32 days", match: 81 },
-  { name: "AI for Science Fellowship", type: "Research council", closesIn: "45 days", match: 73 },
-];
+const roleContent = {
+  researcher: {
+    heading: "Researcher Dashboard",
+    stats: [
+      { label: "Innovation Score", value: "78/100", icon: <TrendingUp size={16} className="text-green-500" /> },
+      { label: "Funding Matches", value: "12", icon: <Coins size={16} className="text-blue-500" /> },
+      { label: "Publications", value: "24", icon: <FileText size={16} className="text-indigo-500" /> },
+{ label: "Profile Completion", value: "65%", icon: <UserCircle size={16} className="text-gray-400" /> },    ],
+    funding: [
+      { name: "National Battery Research Grant", type: "Government grant", closesIn: "18 days", match: 94 },
+      { name: "Clean Energy Innovation Fund", type: "Innovation fund", closesIn: "32 days", match: 81 },
+      { name: "AI for Science Fellowship", type: "Research council", closesIn: "45 days", match: 73 },
+    ],
+  },
+  startup_founder: {
+    heading: "Startup Dashboard",
+    stats: [
+      { label: "Funding Opportunities", value: "8", icon: <Coins size={16} className="text-blue-500" /> },
+      { label: "Tech Opportunities", value: "15", icon: <TrendingUp size={16} className="text-green-500" /> },
+      { label: "Patent Intelligence", value: "340", icon: <FileText size={16} className="text-indigo-500" /> },
+      { label: "Commercialization Score", value: "82%", icon: <UserCircle size={16} className="text-gray-400" /> },
+    ],
+    funding: [
+      { name: "Startup Accelerator Fund", type: "Venture program", closesIn: "10 days", match: 88 },
+      { name: "Seed Innovation Grant", type: "Government grant", closesIn: "25 days", match: 76 },
+    ],
+  },
+  innovation_manager: {
+    heading: "Innovation Manager Dashboard",
+    stats: [
+      { label: "Portfolio Projects", value: "34", icon: <TrendingUp size={16} className="text-green-500" /> },
+      { label: "Funding Analytics", value: "$2.4M", icon: <Coins size={16} className="text-blue-500" /> },
+      { label: "Patents Tracked", value: "340", icon: <FileText size={16} className="text-indigo-500" /> },
+      { label: "Team Members", value: "12", icon: <UserCircle size={16} className="text-gray-400" /> },
+    ],
+    funding: [
+      { name: "Portfolio-wide Innovation Fund", type: "Internal", closesIn: "N/A", match: 100 },
+    ],
+  },
+  administrator: {
+    heading: "Admin Dashboard",
+    stats: [
+      { label: "Total Users", value: "156", icon: <UserCircle size={16} className="text-gray-400" /> },
+      { label: "Platform Activity", value: "98.4%", icon: <TrendingUp size={16} className="text-green-500" /> },
+      { label: "Funding Records", value: "1,204", icon: <Coins size={16} className="text-blue-500" /> },
+      { label: "System Reports", value: "42", icon: <FileText size={16} className="text-indigo-500" /> },
+    ],
+    funding: [],
+  },
+};
 
-const DUMMY_TREND = [30, 45, 55, 80, 100]; // relative bar heights, last 5 quarters
-// ⚠️ END DUMMY DATA
+const DUMMY_TREND = [30, 45, 55, 80, 100];
 
 function Dashboard() {
-  const { logout } = useAuth();
+  const { logout, role } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -31,13 +90,15 @@ function Dashboard() {
     navigate("/login");
   };
 
+  const current = roleContent[role] || roleContent.researcher;
+
   return (
     <div className="min-h-screen bg-gray-50 flex">
       {/* Sidebar */}
       <div className="w-60 bg-white border-r border-gray-100 flex flex-col justify-between">
         <div>
           <div className="flex items-center gap-2 px-5 py-5">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
               <BarChart3 size={18} className="text-white" />
             </div>
             <div>
@@ -47,8 +108,7 @@ function Dashboard() {
           </div>
           <div className="px-3 space-y-1">
             <NavItem icon={<LayoutDashboard size={16} />} label="Dashboard" active />
-            <NavItem icon={<UserCircle size={16} />} label="Research Profile" />
-            <NavItem icon={<FlaskConical size={16} />} label="Research" />
+<NavItem icon={<UserCircle size={16} />} label="Research Profile" onClick={() => navigate("/profile")} />            <NavItem icon={<FlaskConical size={16} />} label="Research" />
             <NavItem icon={<Coins size={16} />} label="Funding" />
             <NavItem icon={<FileBadge size={16} />} label="Patent Intelligence" />
           </div>
@@ -81,51 +141,59 @@ function Dashboard() {
           </div>
           <div className="flex items-center gap-4">
             <Bell size={18} className="text-gray-400" />
-            <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-medium">
+            <div className="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center text-white text-sm font-medium">
               K
             </div>
           </div>
         </div>
 
         <div className="p-8">
-          <p className="text-sm font-medium text-blue-600 mb-1">Dashboard Overview</p>
-          <h1 className="text-3xl font-bold mb-2">Welcome back</h1>
+          <p className="text-sm font-medium text-purple-600 mb-1">{roleLabels[role] || "Dashboard"}</p>
+          <h1 className="text-3xl font-bold mb-2">{current.heading}</h1>
           <p className="text-gray-500 mb-8">You're logged in to InnovaFund AI.</p>
 
-          {/* Stat cards — dummy data */}
+          {/* Stat cards */}
           <div className="grid grid-cols-4 gap-4 mb-8">
-            <StatCard label="Innovation Score" value={`${DUMMY_STATS.innovationScore}/100`} icon={<TrendingUp size={16} className="text-green-500" />} />
-            <StatCard label="Funding Matches" value={DUMMY_STATS.fundingMatches} icon={<Coins size={16} className="text-blue-500" />} />
-            <StatCard label="Patent Records" value={DUMMY_STATS.patentRecords.toLocaleString()} icon={<FileText size={16} className="text-indigo-500" />} />
-            <StatCard label="Profile Completion" value={`${DUMMY_STATS.profileCompletion}%`} icon={<UserCircle size={16} className="text-gray-400" />} />
-          </div>
+  {current.stats.map((s, i) => (
+    <StatCard
+      key={i}
+      label={s.label}
+      value={s.label === "Profile Completion" ? `${profileCompletion}%` : s.value}
+      icon={s.icon}
+    />
+  ))}
+</div>
 
           <div className="grid grid-cols-2 gap-6">
-            {/* Funding matches — dummy data */}
+            {/* Funding matches */}
             <div className="bg-white border border-gray-100 rounded-xl p-5">
               <p className="font-semibold mb-4">Top Funding Matches</p>
-              <div className="space-y-3">
-                {DUMMY_FUNDING_MATCHES.map((item, i) => (
-                  <div key={i} className="flex items-center justify-between border border-gray-100 rounded-lg px-4 py-3">
-                    <div>
-                      <p className="text-sm font-medium">{item.name}</p>
-                      <p className="text-xs text-gray-400">{item.type} · Closes in {item.closesIn}</p>
+              {current.funding.length === 0 ? (
+                <p className="text-sm text-gray-400">No funding data yet.</p>
+              ) : (
+                <div className="space-y-3">
+                  {current.funding.map((item, i) => (
+                    <div key={i} className="flex items-center justify-between border border-gray-100 rounded-lg px-4 py-3">
+                      <div>
+                        <p className="text-sm font-medium">{item.name}</p>
+                        <p className="text-xs text-gray-400">{item.type} · Closes in {item.closesIn}</p>
+                      </div>
+                      <span className="text-xs font-medium bg-purple-50 text-purple-700 px-2.5 py-1 rounded-full">
+                        {item.match}% match
+                      </span>
                     </div>
-                    <span className="text-xs font-medium bg-blue-50 text-blue-700 px-2.5 py-1 rounded-full">
-                      {item.match}% match
-                    </span>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </div>
 
-            {/* Trend chart — dummy data */}
+            {/* Trend chart */}
             <div className="bg-white border border-gray-100 rounded-xl p-5">
               <p className="font-semibold mb-4">Research Trend</p>
               <div className="flex items-end gap-2 h-32">
                 {DUMMY_TREND.map((height, i) => (
-                  <div key={i} className="flex-1 bg-blue-100 rounded" style={{ height: `${height}%` }}>
-                    <div className="w-full h-full bg-blue-500 rounded opacity-80" />
+                  <div key={i} className="flex-1 bg-purple-100 rounded" style={{ height: `${height}%` }}>
+                    <div className="w-full h-full bg-purple-500 rounded opacity-80" />
                   </div>
                 ))}
               </div>
@@ -138,11 +206,12 @@ function Dashboard() {
   );
 }
 
-function NavItem({ icon, label, active }) {
+function NavItem({ icon, label, active, onClick }) {
   return (
     <div
+      onClick={onClick}
       className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm cursor-pointer ${
-        active ? "bg-blue-50 text-blue-700 font-medium" : "text-gray-600 hover:bg-gray-50"
+        active ? "bg-purple-50 text-purple-700 font-medium" : "text-gray-600 hover:bg-gray-50"
       }`}
     >
       {icon} {label}

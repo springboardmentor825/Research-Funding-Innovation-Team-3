@@ -7,6 +7,7 @@ class UserCreate(BaseModel):
     password: str
     role: UserRole = UserRole.researcher
     organization: str | None = None
+    research_domain: str | None = None
 
 class UserLogin(BaseModel):
     email: EmailStr
@@ -18,6 +19,7 @@ class UserOut(BaseModel):
     email: str
     role: UserRole
     organization: str | None = None
+    research_domain: str | None = None
 
     class Config:
         from_attributes = True

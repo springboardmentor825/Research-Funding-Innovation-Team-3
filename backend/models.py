@@ -155,3 +155,60 @@ class Notification(Base):
     created_at = Column(TIMESTAMP, server_default=func.now())
 
     user = relationship("User", back_populates="notifications")
+
+
+# ==========================================
+# Milestone 2: Funding Discovery & Matching Models
+# ==========================================
+
+class FundingSource(Base):
+    __tablename__ = "funding_sources"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(200), nullable=False, unique=True, index=True)
+    source_type = Column(String(100), nullable=False) # Government Grants, Research Councils, Innovation Funds, Accelerators, Venture Programs, Int'l Agencies
+    country = Column(String(100), default="Global")
+    website = Column(String(255), nullable=True)
+    is_active = Column(Boolean, default=True)
+    created_at = Column(TIMESTAMP, server_default=func.now())
+
+    opportunities = relationship("FundingOpportunity", back_populates="source", cascade="all, delete-orphan")
+
+
+class FundingOpportunity(Base):
+    __tablename__ = "funding_opportunities"
+
+    id = Column(Integer, primary_key=True, index=True)
+    source_id = Column(Integer, ForeignKey("funding_sources.id", ondelete="SET NULL"), nullable=True)
+    title = Column(String(255), nullable=False, index=True)
+    agency = Column(String(200), nullable=False)
+    description = Column(Text, nullable=True)
+    grant_amount = Column(Integer, nullable=False, default=0) # Total funding amount in USD
+    currency = Column(String(10), default="USD")
+    deadline = Column(Date, nullable=False)
+    status = Column(String(50), default="Open", index=True) # Open, Closed, Upcoming, Expired
+    
+    # Eligibility & Matching Metadata Fields (Collaborated with Member 3 & Member 1)
+    research_domain = Column(String(150), nullable=False, index=True) # AI, BioTech, Climate, Quantum, CleanEnergy, etc.
+    career_stage = Column(String(100), nullable=False, default="Any") # Early-Career, Mid-Career, Senior/Lead, Startup/SME, Any
+    eligible_geography = Column(String(150), nullable=False, default="Global") # Global, US, EU, India, UK, Asia-Pacific
+    funding_type = Column(String(100), nullable=False, default="Grant") # Grant, Fellowship, Accelerator, R&D Subsidy, Commercialization
+    min_qualification = Column(String(100), nullable=True)
+    external_link = Column(String(255), nullable=True)
+    created_at = Column(TIMESTAMP, server_default=func.now())
+
+    source = relationship("FundingSource", back_populates="opportunities")
+    criteria = relationship("EligibilityCriteria", back_populates="opportunity", cascade="all, delete-orphan")
+
+
+class EligibilityCriteria(Base):
+    __tablename__ = "eligibility_criteria"
+
+    id = Column(Integer, primary_key=True, index=True)
+    opportunity_id = Column(Integer, ForeignKey("funding_opportunities.id", ondelete="CASCADE"), nullable=False)
+    criteria_key = Column(String(100), nullable=False) # e.g. domain, career_stage, geography, funding_type, min_h_index
+    criteria_value = Column(String(255), nullable=False)
+    is_mandatory = Column(Boolean, default=True)
+    weight = Column(Integer, default=25) # Weight out of 100
+
+    opportunity = relationship("FundingOpportunity", back_populates="criteria")

@@ -115,3 +115,72 @@ class NotificationResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+# ==========================================
+# Milestone 2: Member 2 Grant Matching Schemas
+# ==========================================
+
+class FundingOpportunityResponse(BaseModel):
+    id: int
+    title: str
+    agency: str
+    description: Optional[str] = None
+    grant_amount: int
+    currency: str = "USD"
+    deadline: date
+    status: str
+    research_domain: str
+    career_stage: str
+    eligible_geography: str
+    funding_type: str
+    external_link: Optional[str] = None
+
+    class Config:
+        from_attributes = True
+
+
+class GrantMatchRequest(BaseModel):
+    researcher_id: Optional[int] = None
+    research_domains: List[str] = Field(default_factory=list, description="List of research domains e.g. ['Artificial Intelligence', 'Biotechnology']")
+    career_stage: Optional[str] = Field("Early-Career", description="Early-Career, Mid-Career, Senior/Lead, Startup/SME, Any")
+    geography: Optional[str] = Field("Global", description="Global, US, EU, India, UK, Asia-Pacific")
+    funding_types: List[str] = Field(default_factory=lambda: ["Grant", "Fellowship", "Accelerator"], description="Types of funding preferred")
+    min_amount: Optional[int] = Field(0, description="Minimum funding amount USD")
+    max_amount: Optional[int] = Field(None, description="Maximum funding amount USD")
+    include_expired: bool = Field(False, description="Whether to include expired grants for testing")
+
+
+class CriteriaMatchDetail(BaseModel):
+    criterion: str
+    status: str # MATCHED, PARTIAL, MISMATCHED, EXPIRED
+    score: float # 0 to 100
+    weight: float
+    message: str
+
+
+class EligibilityMatchResult(BaseModel):
+    opportunity: FundingOpportunityResponse
+    eligibility_status: str # ELIGIBLE, PARTIAL_MATCH, INELIGIBLE, EXPIRED
+    is_eligible: bool # True if mandatory criteria pass
+    overall_eligibility_score: float # Weighted eligibility score 0 to 100
+    criteria_breakdown: List[CriteriaMatchDetail]
+    rejection_reasons: List[str] = []
+
+
+class GrantMatchResponse(BaseModel):
+    total_evaluated: int
+    total_eligible: int
+    total_partial: int
+    total_ineligible: int
+    matched_grants: List[EligibilityMatchResult]
+
+
+class MatchingRulesConfig(BaseModel):
+    domain_weight: float = Field(35.0, description="Weight percentage for research domain match")
+    career_stage_weight: float = Field(25.0, description="Weight percentage for career stage match")
+    geography_weight: float = Field(25.0, description="Weight percentage for geographical eligibility match")
+    funding_type_weight: float = Field(15.0, description="Weight percentage for funding type match")
+    min_pass_threshold: float = Field(50.0, description="Minimum overall score threshold for eligibility")
+    strict_geography_check: bool = Field(True, description="Strictly exclude grants if geography is restricted and mismatched")
+    strict_deadline_check: bool = Field(True, description="Strictly mark grants past deadline as EXPIRED/INELIGIBLE")

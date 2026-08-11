@@ -1,5 +1,6 @@
 from pydantic import BaseModel, EmailStr
 from typing import Optional
+from datetime import datetime
 
 class UserCreate(BaseModel):
     full_name: str
@@ -43,3 +44,27 @@ class ResearchProfileResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+#added on day 2 of milestone 2
+
+class RecommendationOut(BaseModel):
+    opportunity_id: int
+    title: str
+    agency: Optional[str]
+    amount: Optional[float]
+    deadline: Optional[datetime]
+    url: Optional[str]
+    score: float
+    domain_fit_score: float
+    deadline_score: float
+    amount_score: float
+    success_rate_score: float
+    eligible: bool
+    reasoning: str
+
+    class Config:
+        from_attributes = True
+
+class GenerateRecommendationsRequest(BaseModel):
+    researcher_id: int
+    top_n: Optional[int] = 10

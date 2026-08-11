@@ -3,7 +3,7 @@ from datetime import date, datetime
 from typing import List, Dict, Any, Optional
 from sqlalchemy.orm import Session
 
-from models import FundingOpportunity, FundingSource, ResearchProfile, User, ResearchInterest
+from models import Base, FundingOpportunity, FundingSource, ResearchProfile, User, ResearchInterest
 from schemas import (
     GrantMatchRequest,
     GrantMatchResponse,
@@ -14,6 +14,7 @@ from schemas import (
 )
 
 logger = logging.getLogger(__name__)
+
 
 class GrantMatchingRulesEngine:
     """
@@ -263,9 +264,11 @@ def seed_funding_opportunities_if_empty(db: Session):
     specified in Milestone 2 (Member 3 Data Hand-off Bridge).
     """
     try:
+        Base.metadata.create_all(bind=db.get_bind())
         count = db.query(FundingOpportunity).count()
         if count > 0:
             return
+
 
         logger.info("Seeding Milestone 2 Funding Opportunities from 6 Sources...")
 

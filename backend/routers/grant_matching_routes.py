@@ -182,4 +182,9 @@ def list_funding_opportunities(
     """
     seed_funding_opportunities_if_empty(db)
     opportunities = db.query(FundingOpportunity).all()
-    return [FundingOpportunityResponse.from_orm(o) for o in opportunities]
+    return [
+        FundingOpportunityResponse.model_validate(o) if hasattr(FundingOpportunityResponse, 'model_validate')
+        else FundingOpportunityResponse.from_orm(o)
+        for o in opportunities
+    ]
+

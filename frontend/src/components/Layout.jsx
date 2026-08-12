@@ -1,0 +1,2 @@
+import {Link,Outlet} from 'react-router-dom'; import {useAuth} from '../context/AuthContext';
+export default function Layout(){const {user,logout}=useAuth(); return <div className="app"><header><Link to="/dashboard" className="brand">Research Intelligence</Link><nav>{user&&<><Link to="/profile">Profile</Link><Link to="/publications">Publications</Link><Link to="/patents">Patents</Link>{user.role==='Administrator'&&<Link to="/admin">Admin</Link>}<button onClick={logout}>Logout</button></>}</nav></header><main><Outlet/></main></div>}

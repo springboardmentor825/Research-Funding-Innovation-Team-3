@@ -1,12 +1,13 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from datetime import datetime
+import math
 
 WEIGHTS = {
-    "domain_fit": 0.45,
-    "deadline": 0.15,
-    "amount": 0.15,
-    "success_rate": 0.25,
+    "domain_fit": 0.60,
+    "deadline": 0.10,
+    "amount": 0.10,
+    "success_rate": 0.20,
 }
 
 def domain_fit_score(profile_text: str, opportunity_text: str) -> float:
@@ -36,7 +37,16 @@ def deadline_score(deadline: datetime, now: datetime = None) -> float:
 def amount_score(amount: float, min_amount: float, max_amount: float) -> float:
     if max_amount == min_amount:
         return 0.5
-    return round((amount - min_amount) / (max_amount - min_amount), 4)
+
+    log_amount = math.log(amount + 1)   # +1 avoids log(0), which is undefined
+    log_min = math.log(min_amount + 1)
+    log_max = math.log(max_amount + 1)
+
+    if log_max == log_min:
+        return 0.5
+
+    score = (log_amount - log_min) / (log_max - log_min)
+    return round(max(0.0, min(1.0, score)), 4)
 
 def build_reasoning(d_score, dl_score, amt_score, sr_score) -> str:
     parts = []

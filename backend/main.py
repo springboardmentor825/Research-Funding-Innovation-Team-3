@@ -11,7 +11,9 @@ from database import engine, get_db
 from models import Base, User
 from schemas import UserCreate, UserLogin, UserResponse, Token
 from auth import hash_password, verify_password, create_access_token
-
+from models import FundingOpportunity, Recommendation
+from schemas import RecommendationOut, GenerateRecommendationsRequest
+from recommendation_engine import compute_score, build_profile_text
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Research Funding & Innovation Intelligence Platform")
@@ -205,3 +207,69 @@ def search_by_keyword(
     ).all()
 
     return profiles
+
+
+@app.post("/recommendations/generate", response_model=list[RecommendationOut])
+def generate_recommendations(req: GenerateRecommendationsRequest, db: Session = Depends(get_db)):
+    profile = db.query(ResearchProfile).filter(ResearchProfile.user_id == req.researcher_id).first()
+    if not profile:
+        raise HTTPException(status_code=404, detail="Research profile not found for this researcher")
+
+    opportunities = db.query(FundingOpportunity).all()
+    if not opportunities:
+        raise HTTPException(status_code=404, detail="No funding opportunities available")
+
+    profile_text = build_profile_text(profile)
+    amounts = [o.amount for o in opportunities if o.amount]
+    min_amt, max_amt = (min(amounts), max(amounts)) if amounts else (0, 1)
+
+    db.query(Recommendation).filter(Recommendation.researcher_id == req.researcher_id).delete()
+
+    results = []
+    for opp in opportunities:
+        scores = compute_score(profile_text, opp, min_amt, max_amt)
+        rec = Recommendation(
+            researcher_id=req.researcher_id,
+            opportunity_id=opp.id,
+            eligible=1,
+            **scores,
+        )
+        db.add(rec)
+        results.append((opp, rec))
+
+    db.commit()
+
+    ranked = sorted(results, key=lambda pair: pair[1].score, reverse=True)[: req.top_n]
+    return [
+        RecommendationOut(
+            opportunity_id=opp.id, title=opp.title, agency=opp.agency, amount=opp.amount,
+            deadline=opp.deadline, url=opp.url, score=rec.score,
+            domain_fit_score=rec.domain_fit_score, deadline_score=rec.deadline_score,
+            amount_score=rec.amount_score, success_rate_score=rec.success_rate_score,
+            eligible=bool(rec.eligible), reasoning=rec.reasoning,
+        )
+        for opp, rec in ranked
+    ]
+
+
+@app.get("/recommendations/{researcher_id}", response_model=list[RecommendationOut])
+def get_recommendations(researcher_id: int, db: Session = Depends(get_db)):
+    recs = (
+        db.query(Recommendation)
+        .filter(Recommendation.researcher_id == researcher_id)
+        .order_by(Recommendation.score.desc())
+        .all()
+    )
+    if not recs:
+        raise HTTPException(status_code=404, detail="No recommendations found. Call /generate first.")
+
+    return [
+        RecommendationOut(
+            opportunity_id=r.opportunity.id, title=r.opportunity.title, agency=r.opportunity.agency,
+            amount=r.opportunity.amount, deadline=r.opportunity.deadline, url=r.opportunity.url,
+            score=r.score, domain_fit_score=r.domain_fit_score, deadline_score=r.deadline_score,
+            amount_score=r.amount_score, success_rate_score=r.success_rate_score,
+            eligible=bool(r.eligible), reasoning=r.reasoning,
+        )
+        for r in recs
+    ]

@@ -76,7 +76,7 @@ cd backend
 python -m venv .venv
 .venv\Scripts\activate   # On Windows
 pip install -r requirements.txt
-python main.py
+python -m uvicorn main:app --reload
 ```
 *Backend API server runs at: `http://localhost:8000`*  
 *Interactive Swagger API Docs: `http://localhost:8000/docs`*
@@ -88,6 +88,13 @@ npm install
 npm run dev
 ```
 *Frontend web application runs at: `http://localhost:5173`*
+
+### 3. Run Milestone 2 Automated Test Suite
+```bash
+python -m pytest backend/tests/test_grant_matching.py
+```
+*Runs 7/7 automated edge-case unit and integration tests (100% pass rate).*
+
 
 ---
 

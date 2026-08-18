@@ -16,6 +16,20 @@ def get_db():
     finally:
         db.close()
 
+from sqlalchemy import inspect, text
+
 def init_db():
     from app.models import all_models  # noqa: F401
     Base.metadata.create_all(bind=engine)
+    try:
+        inspector = inspect(engine)
+        if "funding_opportunities" in inspector.get_table_names():
+            columns = [c["name"] for c in inspector.get_columns("funding_opportunities")]
+            if "source_type" not in columns:
+                with engine.begin() as conn:
+                    conn.execute(text("DROP TABLE IF EXISTS profile_funding CASCADE;"))
+                    conn.execute(text("DROP TABLE IF EXISTS funding_opportunities CASCADE;"))
+                Base.metadata.create_all(bind=engine)
+    except Exception as e:
+        print(f"Database schema auto-check note: {e}")
+

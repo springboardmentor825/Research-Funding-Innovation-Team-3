@@ -39,6 +39,7 @@ class ResearchProfile(Base):
     history: Mapped[list["ResearchHistory"]] = relationship(cascade="all, delete-orphan", back_populates="profile")
     publications: Mapped[list["Publication"]] = relationship(secondary="profile_publications", back_populates="profiles")
     patents: Mapped[list["Patent"]] = relationship(secondary="profile_patents", back_populates="profiles")
+    funding_opportunities: Mapped[list["FundingOpportunity"]] = relationship(secondary="profile_funding", back_populates="profiles")
 
 class ResearchDomain(Base):
     __tablename__ = "research_domains"

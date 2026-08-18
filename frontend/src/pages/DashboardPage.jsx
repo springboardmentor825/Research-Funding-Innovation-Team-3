@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { HiBookOpen, HiLightBulb, HiCurrencyDollar, HiChartBar, HiUsers, HiUserCircle, HiSparkles, HiArrowRight, HiShieldCheck, HiTrendingUp } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
+import GrantMatchingModal from '../components/GrantMatchingModal';
 
 export default function DashboardPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const [isMatchModalOpen, setIsMatchModalOpen] = useState(false);
+
   
   const currentUser = user || (() => {
     const saved = localStorage.getItem('user');
@@ -192,10 +195,16 @@ export default function DashboardPage() {
                 Discovered programs matching your research domains and keywords
               </p>
             </div>
-            <span style={{ background: 'rgba(16,185,129,0.15)', border: '1px solid rgba(16,185,129,0.35)', color: '#6ee7b7', padding: '0.25rem 0.75rem', borderRadius: '1rem', fontSize: '0.75rem', fontWeight: '700', flexShrink: 0 }}>
-              3 Live Matches
-            </span>
+            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+              <button onClick={() => setIsMatchModalOpen(true)} className="btn-outline" style={{ padding: '0.4rem 0.85rem', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '0.4rem', border: '1px solid rgba(14, 165, 233, 0.4)', color: '#38bdf8' }}>
+                <HiSparkles /> Test Rules Engine
+              </button>
+              <span style={{ background: 'rgba(16,185,129,0.15)', border: '1px solid rgba(16,185,129,0.35)', color: '#6ee7b7', padding: '0.25rem 0.75rem', borderRadius: '1rem', fontSize: '0.75rem', fontWeight: '700', flexShrink: 0 }}>
+                3 Live Matches
+              </span>
+            </div>
           </div>
+
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
             {fundingGrants.map((grant, idx) => (
@@ -262,6 +271,10 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
+
+      {/* Interactive Member 2 Grant Matching Engine Modal */}
+      <GrantMatchingModal isOpen={isMatchModalOpen} onClose={() => setIsMatchModalOpen(false)} />
     </div>
   );
 }
+

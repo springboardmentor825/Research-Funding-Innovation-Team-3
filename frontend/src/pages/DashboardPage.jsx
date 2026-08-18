@@ -7,11 +7,18 @@ export default function DashboardPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
   
-  const currentUser = user || {
-    full_name: 'Mayank Upadhyay',
-    role: 'administrator',
-    email: 'admin@researchsphere.ai'
-  };
+  const currentUser = user || (() => {
+    const saved = localStorage.getItem('user');
+    if (saved) {
+      try { return JSON.parse(saved); } catch(e) {}
+    }
+    return {
+      full_name: 'Platform Innovator',
+      role: 'researcher',
+      email: 'user@innovafund.ai'
+    };
+  })();
+
 
   const getRoleStats = () => {
     switch (currentUser.role) {

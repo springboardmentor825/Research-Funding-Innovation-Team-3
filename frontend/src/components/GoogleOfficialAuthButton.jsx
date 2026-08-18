@@ -11,21 +11,24 @@ export default function GoogleOfficialAuthButton({ text = "Sign in with Google" 
     try {
       // Calls real Firebase Auth signInWithPopup(auth, googleProvider)
       const googleUser = await loginWithGoogleFirebase();
+      const userEmail = googleUser.email || 'user@innovafund.ai';
+      const userName = googleUser.full_name || (userEmail ? userEmail.split('@')[0] : 'Google User');
       await googleLogin({
-        email: googleUser.email || 'mayankupadhyay2020115@gmail.com',
-        full_name: googleUser.full_name || 'Mayank Upadhyay',
-        role: 'administrator'
+        email: userEmail,
+        full_name: userName,
+        role: 'researcher'
       });
       navigate('/dashboard');
     } catch (err) {
       await googleLogin({
-        email: 'mayankupadhyay2020115@gmail.com',
-        full_name: 'Mayank Upadhyay',
-        role: 'administrator'
+        email: 'user@innovafund.ai',
+        full_name: 'Google User',
+        role: 'researcher'
       });
       navigate('/dashboard');
     }
   };
+
 
   return (
     <button

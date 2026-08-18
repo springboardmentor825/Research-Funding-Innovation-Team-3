@@ -11,21 +11,24 @@ export default function GithubOfficialAuthButton({ text = "Sign in with GitHub" 
   const handleGithubClick = async () => {
     try {
       const githubUser = await loginWithGithubFirebase();
+      const userEmail = githubUser.email || 'user@innovafund.ai';
+      const userName = githubUser.full_name || (userEmail ? userEmail.split('@')[0] : 'GitHub User');
       await googleLogin({
-        email: githubUser.email || 'mayankupadhyay2020115@gmail.com',
-        full_name: githubUser.full_name || 'Mayank Upadhyay',
-        role: 'administrator'
+        email: userEmail,
+        full_name: userName,
+        role: 'researcher'
       });
       navigate('/dashboard');
     } catch (err) {
       await googleLogin({
-        email: 'mayankupadhyay2020115@gmail.com',
-        full_name: 'Mayank Upadhyay',
-        role: 'administrator'
+        email: 'user@innovafund.ai',
+        full_name: 'GitHub User',
+        role: 'researcher'
       });
       navigate('/dashboard');
     }
   };
+
 
   return (
     <button

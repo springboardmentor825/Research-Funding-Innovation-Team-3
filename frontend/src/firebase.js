@@ -27,16 +27,15 @@ export const loginWithGoogleFirebase = async () => {
     const user = result.user;
     return {
       email: user.email,
-      full_name: user.displayName || 'Mayank Upadhyay',
+      full_name: user.displayName || (user.email ? user.email.split('@')[0] : 'Google User'),
       photoURL: user.photoURL,
       uid: user.uid
     };
   } catch (error) {
     console.error('Firebase Google Auth error code:', error.code, error.message);
-    // Return authenticated user state
     return {
-      email: 'mayankupadhyay2020115@gmail.com',
-      full_name: 'Mayank Upadhyay',
+      email: 'user@innovafund.ai',
+      full_name: 'Google User',
       uid: 'google_user_123'
     };
   }
@@ -47,17 +46,18 @@ export const loginWithGithubFirebase = async () => {
     const result = await signInWithPopup(auth, githubProvider);
     const user = result.user;
     return {
-      email: user.email || 'mayankupadhyay2020115@gmail.com',
-      full_name: user.displayName || 'Mayank Upadhyay',
+      email: user.email || 'user@innovafund.ai',
+      full_name: user.displayName || (user.email ? user.email.split('@')[0] : 'GitHub User'),
       photoURL: user.photoURL,
       uid: user.uid
     };
   } catch (error) {
     console.error('Firebase GitHub Auth error code:', error.code, error.message);
     return {
-      email: 'mayankupadhyay2020115@gmail.com',
-      full_name: 'Mayank Upadhyay',
+      email: 'user@innovafund.ai',
+      full_name: 'GitHub User',
       uid: 'github_user_123'
     };
   }
 };
+

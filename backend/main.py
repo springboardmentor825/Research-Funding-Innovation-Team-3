@@ -69,12 +69,13 @@ def startup_db_seed():
         admin = db.query(User).filter(User.email == "admin@researchsphere.ai").first()
         if not admin:
             admin = User(
-                full_name="System Administrator",
+                full_name="Platform Administrator",
                 email="admin@researchsphere.ai",
                 password_hash=hash_password("Admin@123456"),
                 role="administrator",
                 is_active=True
             )
+
             db.add(admin)
         db.commit()
     except Exception as e:

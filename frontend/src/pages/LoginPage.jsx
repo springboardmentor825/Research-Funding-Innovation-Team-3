@@ -17,10 +17,14 @@ export default function LoginPage() {
 
   const handleSubmit = async (e) => {
     if (e) e.preventDefault();
+    if (!email || !password) {
+      setError('Please enter your email address and password to sign in.');
+      return;
+    }
     setError('');
     setLoading(true);
     try {
-      await login(email || 'admin@researchsphere.ai', password || 'Admin@123456');
+      await login(email, password);
       navigate('/dashboard');
     } catch (err) {
       setError(err?.response?.data?.detail || 'Invalid email credentials or password.');
@@ -28,6 +32,7 @@ export default function LoginPage() {
       setLoading(false);
     }
   };
+
 
   return (
     <div style={{

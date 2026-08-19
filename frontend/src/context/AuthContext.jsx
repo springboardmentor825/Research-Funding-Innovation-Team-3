@@ -45,11 +45,10 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     const data = await loginUser({ email, password });
     localStorage.setItem('token', data.access_token || 'mock_jwt_token_demo_2026');
-    const userData = await getCurrentUser();
-    const activeUser = userData || {
+    const activeUser = {
       id: data.user_id || 1,
       full_name: data.full_name || (email ? email.split('@')[0] : 'Research User'),
-      email: email || 'user@innovafund.ai',
+      email: data.email || email || 'user@innovafund.ai',
       role: data.role || 'researcher',
       is_active: true
     };
@@ -61,11 +60,10 @@ export const AuthProvider = ({ children }) => {
   const googleLogin = async (payload) => {
     const data = await googleLoginUser(payload);
     localStorage.setItem('token', data.access_token || 'mock_jwt_token_demo_2026');
-    const userData = await getCurrentUser();
-    const activeUser = userData || {
+    const activeUser = {
       id: data.user_id || 1,
       full_name: payload.full_name || data.full_name || (payload.email ? payload.email.split('@')[0] : 'Google User'),
-      email: payload.email || 'user@innovafund.ai',
+      email: payload.email || data.email || 'user@innovafund.ai',
       role: payload.role || data.role || 'researcher',
       is_active: true
     };
@@ -77,11 +75,10 @@ export const AuthProvider = ({ children }) => {
   const register = async (data) => {
     const res = await registerUser(data);
     localStorage.setItem('token', res.access_token || 'mock_jwt_token_demo_2026');
-    const userData = await getCurrentUser();
-    const activeUser = userData || {
+    const activeUser = {
       id: res.user_id || 1,
       full_name: data.full_name || res.full_name || (data.email ? data.email.split('@')[0] : 'Research User'),
-      email: data.email || 'user@innovafund.ai',
+      email: data.email || res.email || 'user@innovafund.ai',
       role: data.role || 'researcher',
       is_active: true
     };
@@ -89,6 +86,7 @@ export const AuthProvider = ({ children }) => {
     setUser(activeUser);
     return activeUser;
   };
+
 
   const logout = () => {
     localStorage.removeItem('token');

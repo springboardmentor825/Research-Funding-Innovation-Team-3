@@ -15,6 +15,8 @@ import ArchitecturePage from './pages/ArchitecturePage';
 import AdminPage from './pages/AdminPage';
 import SettingsPage from './pages/SettingsPage';
 import './App.css';
+import RecommendationsPage from './pages/RecommendationsPage';
+
 
 const Layout = () => {
   return (
@@ -47,6 +49,7 @@ export default function App() {
           <Route path="/architecture" element={<ArchitecturePage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/recommendations" element={<RecommendationsPage />} />
         </Route>
       </Route>
       

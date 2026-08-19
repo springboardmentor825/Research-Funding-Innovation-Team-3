@@ -16,14 +16,18 @@ client.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      if (window.location.pathname !== '/login' && window.location.pathname !== '/register' && window.location.pathname !== '/') {
-        window.location.href = '/login';
+      const isAuthMe = error.config && error.config.url && error.config.url.includes('/auth/me');
+      if (!isAuthMe) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        if (window.location.pathname !== '/login' && window.location.pathname !== '/register' && window.location.pathname !== '/') {
+          window.location.href = '/login';
+        }
       }
     }
     return Promise.reject(error);
   }
 );
+
 
 export default client;

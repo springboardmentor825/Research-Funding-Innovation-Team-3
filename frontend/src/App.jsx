@@ -17,7 +17,6 @@ import SettingsPage from './pages/SettingsPage';
 import './App.css';
 import RecommendationsPage from './pages/RecommendationsPage';
 
-
 const Layout = () => {
   return (
     <div className="app-layout">
@@ -39,7 +38,7 @@ export default function App() {
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
-      
+
       <Route element={<ProtectedRoute />}>
         <Route element={<Layout />}>
           <Route path="/dashboard" element={<DashboardPage />} />
@@ -52,7 +51,7 @@ export default function App() {
           <Route path="/recommendations" element={<RecommendationsPage />} />
         </Route>
       </Route>
-      
+
       {/* Fallback */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

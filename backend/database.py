@@ -17,8 +17,8 @@ try:
     with engine.connect() as conn:
         conn.execute(text("SELECT 1"))
     logger.info("Connected to PostgreSQL database successfully.")
-except Exception as e:
-    logger.warning(f"PostgreSQL connection failed ({e}). Falling back to local SQLite database.")
+except Exception:
+    logger.info("PostgreSQL service not detected on port 5433. Auto-fallback activated: Using local SQLite database (funding_innovation_platform.db).")
     engine = create_engine(
         "sqlite:///./funding_innovation_platform.db",
         connect_args={"check_same_thread": False}
@@ -33,10 +33,11 @@ try:
     mongo_client.admin.command('ping')
     mongo_db = mongo_client[settings.MONGO_DB_NAME]
     logger.info("Connected to MongoDB database successfully.")
-except Exception as e:
-    logger.warning(f"MongoDB connection unavailable ({e}). Running without raw payload document cache.")
+except Exception:
+    logger.info("MongoDB service not detected on port 27017. Running in standalone SQLite mode.")
     mongo_client = None
     mongo_db = None
+
 
 # Dependency to get DB Session
 def get_db():

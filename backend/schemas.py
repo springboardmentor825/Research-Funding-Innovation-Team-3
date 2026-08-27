@@ -183,4 +183,49 @@ class MatchingRulesConfig(BaseModel):
     funding_type_weight: float = Field(15.0, description="Weight percentage for funding type match")
     min_pass_threshold: float = Field(50.0, description="Minimum overall score threshold for eligibility")
     strict_geography_check: bool = Field(True, description="Strictly exclude grants if geography is restricted and mismatched")
-    strict_deadline_check: bool = Field(True, description="Strictly mark grants past deadline as EXPIRED/INELIGIBLE")
+    strict_deadline_check: bool = Field(True, description="Strictly mark grants past deadline as EXPIRED/INELIGIBLE")
+
+
+# ==========================================
+# Milestone 3: Technology Intelligence Schemas (Member 2 Deliverable)
+# ==========================================
+
+class EmergingTechTrendResponse(BaseModel):
+    id: int
+    name: str
+    category: str
+    patent_count: int
+    publication_count: int
+    growth_rate_pct: float
+    is_emerging: bool
+    description: Optional[str] = None
+
+    class Config:
+        from_attributes = True
+
+
+class TechnologyMaturityResponse(BaseModel):
+    domain_id: int
+    domain_name: str
+    category: str
+    lifecycle_stage: str # Emerging, Growth, Mature, Declining
+    trl_level: int # Technology Readiness Level 1-9
+    maturity_score: float # 0.0 to 100.0 (Supplies 15% weight to Member 4's scoring model)
+    adoption_velocity: str # Low, Moderate, High, Rapid
+    commercial_readiness: str
+
+    class Config:
+        from_attributes = True
+
+
+class CompetitorActivityResponse(BaseModel):
+    id: int
+    domain_name: str
+    assignee_name: str
+    patent_holdings: int
+    market_share_pct: float
+    activity_status: str
+
+    class Config:
+        from_attributes = True
+

@@ -1,7 +1,8 @@
-from sqlalchemy import Column, Integer, String, Text, Boolean, TIMESTAMP, ForeignKey, Date
+from sqlalchemy import Column, Integer, Float, String, Text, Boolean, TIMESTAMP, ForeignKey, Date
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from database import Base
+
 
 class Organization(Base):
     __tablename__ = "organizations"
@@ -211,4 +212,55 @@ class EligibilityCriteria(Base):
     is_mandatory = Column(Boolean, default=True)
     weight = Column(Integer, default=25) # Weight out of 100
 
-    opportunity = relationship("FundingOpportunity", back_populates="criteria")
+    opportunity = relationship("FundingOpportunity", back_populates="criteria")
+
+
+# ==========================================
+# Milestone 3: Technology Intelligence Engine Models (Member 2 Deliverable)
+# ==========================================
+
+class TechnologyDomain(Base):
+    __tablename__ = "technology_domains"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(150), nullable=False, unique=True, index=True) # e.g. Generative AI, Quantum Computing, Solid-State Batteries
+    category = Column(String(100), nullable=False, default="DeepTech")
+    patent_count = Column(Integer, default=0)
+    publication_count = Column(Integer, default=0)
+    growth_rate_pct = Column(Float, default=0.0) # e.g. +42.5% YoY
+    is_emerging = Column(Boolean, default=True, index=True)
+    description = Column(Text, nullable=True)
+    created_at = Column(TIMESTAMP, server_default=func.now())
+
+    maturity = relationship("TechnologyMaturity", back_populates="domain", uselist=False, cascade="all, delete-orphan")
+    competitors = relationship("CompetitorActivity", back_populates="domain", cascade="all, delete-orphan")
+
+
+class TechnologyMaturity(Base):
+    __tablename__ = "technology_maturities"
+
+    id = Column(Integer, primary_key=True, index=True)
+    domain_id = Column(Integer, ForeignKey("technology_domains.id", ondelete="CASCADE"), nullable=False, unique=True)
+    lifecycle_stage = Column(String(50), nullable=False, default="Emerging") # Emerging, Growth, Mature, Declining
+    trl_level = Column(Integer, default=3) # Technology Readiness Level 1 to 9
+    maturity_score = Column(Float, default=65.0) # 0.0 to 100.0 (Supplies 15% weight to Member 4 Innovation Score)
+    adoption_velocity = Column(String(50), default="High") # Low, Moderate, High, Rapid
+    commercial_readiness = Column(String(100), default="R&D Phase")
+    updated_at = Column(TIMESTAMP, server_default=func.now(), onupdate=func.now())
+
+    domain = relationship("TechnologyDomain", back_populates="maturity")
+
+
+class CompetitorActivity(Base):
+    __tablename__ = "competitor_activities"
+
+    id = Column(Integer, primary_key=True, index=True)
+    domain_id = Column(Integer, ForeignKey("technology_domains.id", ondelete="CASCADE"), nullable=False)
+    assignee_name = Column(String(200), nullable=False, index=True) # e.g. IBM, Google DeepMind, Tesla, Startup
+    patent_holdings = Column(Integer, default=1)
+    market_share_pct = Column(Float, default=0.0)
+    activity_status = Column(String(50), default="Active") # Active, Dominant, Emerging, Inactive
+    created_at = Column(TIMESTAMP, server_default=func.now())
+
+    domain = relationship("TechnologyDomain", back_populates="competitors")
+

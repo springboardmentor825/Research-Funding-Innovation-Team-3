@@ -13,7 +13,7 @@ from config import settings
 from database import engine, SessionLocal, get_mongo_db
 from models import Base, Role, User, Organization
 from auth import hash_password
-from routers import auth_routes, profile_routes, dataset_routes, admin_routes, grant_matching_routes
+from routers import auth_routes, profile_routes, dataset_routes, admin_routes, grant_matching_routes, technology_routes
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -23,7 +23,7 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
-    description="AI-Powered Research Funding & Innovation Intelligence Platform API (Milestone 2)",
+    description="AI-Powered Research Funding & Innovation Intelligence Platform API (Milestone 3)",
     version=settings.VERSION,
 )
 
@@ -47,6 +47,8 @@ app.include_router(profile_routes.router, prefix=settings.API_PREFIX)
 app.include_router(dataset_routes.router, prefix=settings.API_PREFIX)
 app.include_router(admin_routes.router, prefix=settings.API_PREFIX)
 app.include_router(grant_matching_routes.router, prefix=settings.API_PREFIX)
+app.include_router(technology_routes.router, prefix=settings.API_PREFIX)
+
 
 
 @app.on_event("startup")

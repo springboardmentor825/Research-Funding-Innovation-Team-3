@@ -27,6 +27,26 @@ except Exception:
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
+def auto_migrate_schema(target_engine):
+    """Auto-healing schema migration for developer SQLite & PostgreSQL environments"""
+    try:
+        with target_engine.connect() as conn:
+            try:
+                conn.execute(text("SELECT source_id FROM funding_opportunities LIMIT 1"))
+            except Exception:
+                try:
+                    conn.execute(text("ALTER TABLE funding_opportunities ADD COLUMN source_id INTEGER REFERENCES funding_sources(id) ON DELETE SET NULL"))
+                    if hasattr(conn, 'commit'):
+                        conn.commit()
+                    logger.info("Auto-healing schema migration: Successfully added 'source_id' column to funding_opportunities.")
+                except Exception as ex:
+                    logger.debug(f"Migration note: {ex}")
+    except Exception:
+        pass
+
+auto_migrate_schema(engine)
+
+
 # MongoDB PyMongo Client
 try:
     mongo_client = MongoClient(settings.MONGO_URL, serverSelectionTimeoutMS=1000)

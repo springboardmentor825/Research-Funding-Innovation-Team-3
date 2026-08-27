@@ -264,10 +264,17 @@ def seed_funding_opportunities_if_empty(db: Session):
     specified in Milestone 2 (Member 3 Data Hand-off Bridge).
     """
     try:
-        Base.metadata.create_all(bind=db.get_bind())
+        bind_engine = db.get_bind()
+        Base.metadata.create_all(bind=bind_engine)
+        
+        # Run auto-healing schema check for missing columns on old dev database files
+        from database import auto_migrate_schema
+        auto_migrate_schema(bind_engine)
+
         count = db.query(FundingOpportunity).count()
         if count > 0:
             return
+
 
 
         logger.info("Seeding Milestone 2 Funding Opportunities from 6 Sources...")
@@ -384,10 +391,16 @@ def seed_funding_opportunities_if_empty(db: Session):
         ]
 
         for g in sample_grants:
-            db_opp = FundingOpportunity(**g)
-            db.add(db_opp)
+            try:
+                db_opp = FundingOpportunity(**g)
+                db.add(db_opp)
+            except Exception:
+                g_copy = {k: v for k, v in g.items() if k != "source_id"}
+                db_opp = FundingOpportunity(**g_copy)
+                db.add(db_opp)
 
         db.commit()
+
         logger.info(f"Successfully seeded {len(sample_grants)} Milestone 2 funding opportunities.")
     except Exception as e:
         logger.error(f"Error seeding funding opportunities: {e}")

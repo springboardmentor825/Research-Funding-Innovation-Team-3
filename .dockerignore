@@ -4,3 +4,10 @@ dist
 **/dist
 .git
 *.db
+__pycache__
+**/__pycache__
+**/__pycache__/*
+*.pyc
+**/*.pyc
+.pytest_cache
+**/.pytest_cache

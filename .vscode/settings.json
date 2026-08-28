@@ -10,13 +10,15 @@
   "files.autoSaveDelay": 1000,
 
   // Python Configuration
-  "python.defaultInterpreterPath": "python",
+  "python.defaultInterpreterPath": "C:\\Users\\MAYANK_LOQ\\AppData\\Local\\Programs\\Python\\Python314\\python.exe",
+  "python.locator": "native",
   "python.analysis.typeCheckingMode": "basic",
   "python.analysis.autoImportCompletions": true,
   "python.testing.pytestEnabled": true,
   "python.testing.pytestArgs": [
     "backend/tests"
   ],
+
 
   // Tailwind CSS & React Config
   "tailwindCSS.includeLanguages": {

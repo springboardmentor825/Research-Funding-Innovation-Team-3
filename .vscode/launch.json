@@ -5,7 +5,7 @@
       "name": "🚀 FastAPI Backend (Uvicorn)",
       "type": "debugpy",
       "request": "launch",
-      "python": "python",
+      "python": "C:\\Users\\MAYANK_LOQ\\AppData\\Local\\Programs\\Python\\Python314\\python.exe",
       "module": "uvicorn",
       "args": [
         "main:app",
@@ -21,7 +21,7 @@
       "name": "🧪 Run PyTest Test Suite",
       "type": "debugpy",
       "request": "launch",
-      "python": "python",
+      "python": "C:\\Users\\MAYANK_LOQ\\AppData\\Local\\Programs\\Python\\Python314\\python.exe",
       "module": "pytest",
       "args": [
         "tests/test_grant_matching.py",
@@ -32,4 +32,5 @@
     }
   ]
 }
+
 

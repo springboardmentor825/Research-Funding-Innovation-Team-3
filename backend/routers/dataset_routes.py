@@ -12,8 +12,8 @@ router = APIRouter(prefix="/datasets", tags=["Publication & Patent Dataset Integ
 @router.get("/publications/search", response_model=List[PublicationResponse])
 def search_publications(
     query: str = Query("artificial intelligence", min_length=2),
-    source: str = Query("all", pattern="^(all|openalex|crossref|semantic_scholar)$"),
-    limit: int = Query(10, ge=1, le=50),
+    source: str = Query("all", pattern="^(all|openalex|crossref|semantic_scholar|arxiv)$"),
+    limit: int = Query(15, ge=1, le=50),
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
@@ -24,16 +24,18 @@ def search_publications(
         return service.search_crossref(query, limit)
     elif source == "semantic_scholar":
         return service.search_semantic_scholar(query, limit)
+    elif source == "arxiv":
+        return service.search_arxiv(query, limit)
     else:
-        # Aggregated search
-        res = service.search_openalex(query, limit=5) + service.search_crossref(query, limit=5)
-        return res
+        # Aggregated search across all academic repositories
+        results = service.search_arxiv(query, limit=10) + service.search_openalex(query, limit=10) + service.search_crossref(query, limit=5)
+        return results[:limit]
 
 @router.get("/patents/search", response_model=List[PatentResponse])
 def search_patents(
     query: str = Query("quantum computing", min_length=2),
     source: str = Query("all", pattern="^(all|uspto|google_patents|the_lens)$"),
-    limit: int = Query(10, ge=1, le=50),
+    limit: int = Query(15, ge=1, le=50),
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
@@ -45,4 +47,6 @@ def search_patents(
     elif source == "the_lens":
         return service.search_the_lens(query, limit)
     else:
-        return service.search_google_patents(query, limit=5) + service.search_uspto(query, limit=5)
+        results = service.search_google_patents(query, limit=10) + service.search_uspto(query, limit=10)
+        return results[:limit]
+

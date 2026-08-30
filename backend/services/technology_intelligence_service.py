@@ -49,10 +49,12 @@ class TechnologyIntelligenceService:
                 lifecycle_stage=m.lifecycle_stage,
                 trl_level=m.trl_level,
                 maturity_score=m.maturity_score,
+                weighted_contribution=round(m.maturity_score * 0.15, 2),
                 adoption_velocity=m.adoption_velocity,
                 commercial_readiness=m.commercial_readiness
             ))
         return results
+
 
     def get_competitors(self, domain_name: Optional[str] = None) -> List[CompetitorActivityResponse]:
         query = self.db.query(CompetitorActivity).join(TechnologyDomain)

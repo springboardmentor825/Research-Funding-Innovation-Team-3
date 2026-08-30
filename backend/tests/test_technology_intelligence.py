@@ -60,7 +60,9 @@ def test_technology_intelligence_maturity_score():
     assert maturities[0].lifecycle_stage == "Emerging"
     assert maturities[0].trl_level == 4
     assert maturities[0].maturity_score == 64.0
+    assert maturities[0].weighted_contribution == 9.6 # 64.0 * 0.15 = 9.6 pts
     db.close()
+
 
 
 def test_technology_competitor_tracking():

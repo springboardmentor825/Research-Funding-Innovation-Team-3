@@ -211,11 +211,13 @@ class TechnologyMaturityResponse(BaseModel):
     lifecycle_stage: str # Emerging, Growth, Mature, Declining
     trl_level: int # Technology Readiness Level 1-9
     maturity_score: float # 0.0 to 100.0 (Supplies 15% weight to Member 4's scoring model)
+    weighted_contribution: float = 0.0 # 15% Innovation Score multiplier (0.0 to 15.0 pts)
     adoption_velocity: str # Low, Moderate, High, Rapid
     commercial_readiness: str
 
     class Config:
         from_attributes = True
+
 
 
 class CompetitorActivityResponse(BaseModel):

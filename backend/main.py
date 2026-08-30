@@ -2,8 +2,10 @@ import os
 import sys
 import logging
 
-# Ensure backend directory is in python sys.path
+# Ensure backend directory and app modules are in python sys.path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "app"))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "app", "core"))
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware

@@ -20,7 +20,53 @@ Build the Milestone 1 foundation of an AI-powered Research Funding & Innovation 
 - API documentation through FastAPI Swagger/OpenAPI
 - Automated backend tests
 
+<<<<<<< HEAD
 Milestone 2 features such as funding recommendation, grant matching, research trend analysis and research intelligence dashboards are intentionally excluded.
+=======
+## 📌 Executive Feature Overview
+
+### 🔹 1. Authentication & RBAC (Milestone 1)
+- **Firebase Social SSO**: Real Google & GitHub OAuth integration with forced account selection.
+- **Role-Based Access Control**: Supports `Researcher`, `Startup Founder`, `Innovation Manager`, and `Platform Administrator` roles.
+- **JWT Authorization**: Bearer token authentication protecting REST API routes.
+
+### 🔹 2. Grant Matching Engine (Milestone 2 — Member 2 Deliverable)
+- **5-Criteria Rules Engine**: Evaluates Research Domain (35%), Career Stage (25%), Geographical Eligibility (25%), Funding Mechanism (15%), and Strict Deadline validation.
+- **Dynamic Rules Tuning**: Real-time adjustment of criteria weights via API (`PUT /api/grants/matching-rules`).
+- **Auto-Healing DB Migration**: Auto-migrates database schemas on startup without manual SQL commands.
+
+### 3. Technology Intelligence Engine (Milestone 3 — Member 2 Deliverable)
+- **Emerging Technology Identification**: Identifies high-growth tech domains (*Generative AI, Quantum Computing, Solid-State Batteries*) from patent filing velocity and publication signals.
+- **Technology Maturity Analysis**: Classifies technology lifecycle stages (`Emerging`, `Growth`, `Mature`, `Declining`) and Technology Readiness Levels (**TRL 1–9**).
+- **Innovation Score Integration**: Supplies **Technology Maturity Score (0-100)** as **15% of the weighted score** to Member 4's Innovation Model.
+- **Competitor Activity Tracking**: Monitors top patent assignees and market share percentages.
+
+### 🔹 4. Multi-Source Search & Aggregation
+- **Publications Dataset**: Live arXiv API integration + OpenAlex + CrossRef + Semantic Scholar returning 15-30+ items per search.
+- **Patents Dataset**: Aggregated search across USPTO, Google Patents, and The Lens.
+
+### 🔹 5. AI Innovation Scoring, Patent Landscape & Commercialization Engine (Member 6 Deliverable)
+- **AI Innovation Scoring Model**: Multi-parameter score (0–100) evaluating Novelty (25%), Market Viability (25%), Technical Feasibility (20%), Patentability (15%), and Technology Maturity (15%).
+- **Patent Landscape & Prior Art Intelligence**: Deep patent landscape analysis, prior art similarity scoring, assignee breakdown, and conflict detection.
+- **Commercialization & Technology Transfer Engine**: Automated technology transfer path recommendations (Licensing vs Spin-off), TRL 1–9 development roadmap, and target market strategy.
+- **End-to-End Verification Suite**: Integrated verification scripts (`backend/verify_all_member6.py`) and PyTest suite for full API validation.
+
+---
+
+## 🛠️ Technology Stack
+
+| Tier | Component | Technology Used |
+| :--- | :--- | :--- |
+| **Frontend** | UI & Dashboard | React 18, Vite, Tailwind CSS, Lucide / Heroicons |
+| **Backend API** | Microservices | Python 3.11 / 3.14, FastAPI, Pydantic V2, Uvicorn |
+| **Databases** | Relational & Document | PostgreSQL 16 (SQLite fallback), MongoDB 7 |
+| **Integrations** | Academic & Patent APIs | arXiv Open API, OpenAlex, CrossRef, Semantic Scholar, USPTO |
+| **DevOps** | Containerization | Docker, Docker Compose, PyTest, GitHub Actions |
+
+---
+
+## 📁 Repository Structure
+>>>>>>> c83443e (feat: complete Member 6 Innovation Intelligence, Patent Landscape, Commercialization Engine, and updated README)
 
 ## Architecture
 ```text
@@ -98,9 +144,14 @@ Frontend: http://localhost:5173
 
 ## Docker setup
 ```bash
+<<<<<<< HEAD
 set JWT_SECRET=replace-with-a-random-32-plus-character-secret
 # PowerShell: $env:JWT_SECRET="replace-with-a-random-32-plus-character-secret"
 docker compose up --build
+=======
+python -m pytest backend/tests/test_grant_matching.py backend/tests/test_technology_intelligence.py backend/tests/test_innovation_scoring_and_patents.py
+python backend/verify_all_member6.py
+>>>>>>> c83443e (feat: complete Member 6 Innovation Intelligence, Patent Landscape, Commercialization Engine, and updated README)
 ```
 
 The compose stack starts PostgreSQL, MongoDB, FastAPI and the React/Nginx build.

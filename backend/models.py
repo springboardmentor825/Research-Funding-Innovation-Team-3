@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, Boolean, TIMESTAMP, ForeignKey, Date
+from sqlalchemy import Column, Integer, String, Text, Boolean, TIMESTAMP, ForeignKey, Date, Float, DateTime
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from database import Base
@@ -199,7 +199,14 @@ class FundingOpportunity(Base):
 
     source = relationship("FundingSource", back_populates="opportunities")
     criteria = relationship("EligibilityCriteria", back_populates="opportunity", cascade="all, delete-orphan")
+    
 
+    # --- ADDED BY MEMBER 1 for the Recommendation Engine ---
+    domains = Column(Text)
+    keywords = Column(Text)
+    amount = Column(Float)
+    past_success_rate = Column(Float, default=0.2)
+    url = Column(String(500))
 
 class EligibilityCriteria(Base):
     __tablename__ = "eligibility_criteria"
@@ -211,4 +218,41 @@ class EligibilityCriteria(Base):
     is_mandatory = Column(Boolean, default=True)
     weight = Column(Integer, default=25) # Weight out of 100
 
-    opportunity = relationship("FundingOpportunity", back_populates="criteria")
+    opportunity = relationship("FundingOpportunity", back_populates="criteria")
+
+
+# --- ADDED BY MEMBER 1  (Milestone 2) RECOMMENDATION MODEL ---#
+
+
+class Recommendation(Base):
+    __tablename__ = "recommendations"
+
+    id = Column(Integer, primary_key=True, index=True)
+    researcher_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    opportunity_id = Column(Integer, ForeignKey("funding_opportunities.id", ondelete="CASCADE"), nullable=False)
+    score = Column(Float, nullable=False)
+    domain_fit_score = Column(Float)
+    deadline_score = Column(Float)
+    amount_score = Column(Float)
+    success_rate_score = Column(Float)
+    eligible = Column(Integer, default=1)
+    reasoning = Column(Text)
+    generated_at = Column(TIMESTAMP, server_default=func.now())
+
+    researcher = relationship("User")
+    opportunity = relationship("FundingOpportunity")
+
+
+#added by member 1 for milestone 3
+
+class PatentRecord(Base):
+    __tablename__ = "patent_records"
+
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String, nullable=False)
+    assignee = Column(String, nullable=True)
+    filing_date = Column(Date, nullable=True)
+    classification = Column(String, nullable=True)
+    technology_domain = Column(String, nullable=True)
+    citation_count = Column(Integer, default=0)
+    abstract = Column(String, nullable=True)  # used later for clustering text

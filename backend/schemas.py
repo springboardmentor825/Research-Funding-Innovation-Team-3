@@ -183,4 +183,32 @@ class MatchingRulesConfig(BaseModel):
     funding_type_weight: float = Field(15.0, description="Weight percentage for funding type match")
     min_pass_threshold: float = Field(50.0, description="Minimum overall score threshold for eligibility")
     strict_geography_check: bool = Field(True, description="Strictly exclude grants if geography is restricted and mismatched")
-    strict_deadline_check: bool = Field(True, description="Strictly mark grants past deadline as EXPIRED/INELIGIBLE")
+    strict_deadline_check: bool = Field(True, description="Strictly mark grants past deadline as EXPIRED/INELIGIBLE")
+
+
+
+
+# --- ADDED BY MEMBER 1 (Milestone 2) ---
+
+
+class RecommendationOut(BaseModel):
+    opportunity_id: int
+    title: str
+    agency: Optional[str]
+    amount: Optional[float]
+    deadline: Optional[datetime]
+    url: Optional[str]
+    score: float
+    domain_fit_score: float
+    deadline_score: float
+    amount_score: float
+    success_rate_score: float
+    eligible: bool
+    reasoning: str
+
+    class Config:
+        from_attributes = True
+
+class GenerateRecommendationsRequest(BaseModel):
+    researcher_id: int
+    top_n: Optional[int] = 10

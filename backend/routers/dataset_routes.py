@@ -14,7 +14,6 @@ def search_publications(
     query: str = Query("artificial intelligence", min_length=2),
     source: str = Query("all", pattern="^(all|openalex|crossref|semantic_scholar|arxiv)$"),
     limit: int = Query(15, ge=1, le=50),
-    current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     service = DatasetService(db)
@@ -36,9 +35,9 @@ def search_patents(
     query: str = Query("quantum computing", min_length=2),
     source: str = Query("all", pattern="^(all|uspto|google_patents|the_lens)$"),
     limit: int = Query(15, ge=1, le=50),
-    current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
+
     service = DatasetService(db)
     if source == "uspto":
         return service.search_uspto(query, limit)

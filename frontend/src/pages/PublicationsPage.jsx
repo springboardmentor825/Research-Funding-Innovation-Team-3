@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { searchPublications } from '../api/research';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { HiSearch, HiExternalLink, HiBookOpen, HiSparkles, HiDownload, HiDocumentReport } from 'react-icons/hi';
@@ -10,6 +10,10 @@ export default function PublicationsPage() {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
+
+  useEffect(() => {
+    handleSearch();
+  }, []);
 
   const handleSearch = async (e) => {
     if (e) e.preventDefault();
@@ -25,6 +29,7 @@ export default function PublicationsPage() {
       setSearched(true);
     }
   };
+
 
   const handleExportCSV = () => {
     if (!results || results.length === 0) return;

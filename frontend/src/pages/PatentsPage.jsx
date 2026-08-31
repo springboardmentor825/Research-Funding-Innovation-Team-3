@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { searchPatents } from '../api/research';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { HiSearch, HiLightBulb, HiShieldCheck, HiSparkles, HiCheckCircle, HiDownload } from 'react-icons/hi';
@@ -11,6 +11,10 @@ export default function PatentsPage() {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
+
+  useEffect(() => {
+    handleSearch();
+  }, []);
 
   const handleSearch = async (e) => {
     if (e) e.preventDefault();
@@ -26,6 +30,7 @@ export default function PatentsPage() {
       setSearched(true);
     }
   };
+
 
   const handleExportCSV = () => {
     if (!results || results.length === 0) return;

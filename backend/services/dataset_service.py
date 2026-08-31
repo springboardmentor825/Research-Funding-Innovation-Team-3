@@ -40,27 +40,38 @@ class DatasetService:
                 res = client.get(url)
                 if res.status_code == 200:
                     data = res.json()
-                    self._cache_raw_payload("raw_openalex_payloads", query, data)
-                    for item in data.get("results", []):
-                        doi = item.get("doi")
-                        title = item.get("display_name") or "Untitled Publication"
-                        authors_list = [a.get("author", {}).get("display_name") for a in item.get("authorships", []) if a.get("author")]
-                        authors = ", ".join(authors_list[:3]) if authors_list else "Unknown Authors"
-                        venue = item.get("primary_location", {}).get("source", {}).get("display_name") or "Academic Repository"
-                        year = item.get("publication_year") or 2024
-                        citations = item.get("cited_by_count", 0)
+                    if isinstance(data, dict):
+                        self._cache_raw_payload("raw_openalex_payloads", query, data)
+                        for item in (data.get("results") or []):
+                            if not isinstance(item, dict):
+                                continue
+                            doi = item.get("doi")
+                            title = item.get("display_name") or "Untitled Publication"
+                            authors_list = []
+                            for a in (item.get("authorships") or []):
+                                if isinstance(a, dict):
+                                    aut = a.get("author")
+                                    if isinstance(aut, dict) and aut.get("display_name"):
+                                        authors_list.append(aut.get("display_name"))
+                            authors = ", ".join(authors_list[:3]) if authors_list else "Unknown Authors"
+                            
+                            prim_loc = item.get("primary_location") or {}
+                            src = prim_loc.get("source") if isinstance(prim_loc, dict) else {}
+                            venue = (src.get("display_name") if isinstance(src, dict) else None) or "Academic Repository"
+                            year = item.get("publication_year") or 2024
+                            citations = item.get("cited_by_count", 0)
 
-                        pub_in = PublicationCreate(
-                            title=title,
-                            authors=authors,
-                            doi=doi,
-                            journal_or_venue=venue,
-                            publication_year=year,
-                            citation_count=citations,
-                            external_source="OpenAlex"
-                        )
-                        saved = self.pub_repo.create_or_update(pub_in)
-                        results.append(PublicationResponse.model_validate(saved))
+                            pub_in = PublicationCreate(
+                                title=title,
+                                authors=authors,
+                                doi=doi,
+                                journal_or_venue=venue,
+                                publication_year=year,
+                                citation_count=citations,
+                                external_source="OpenAlex"
+                            )
+                            saved = self.pub_repo.create_or_update(pub_in)
+                            results.append(PublicationResponse.model_validate(saved))
         except Exception as e:
             logger.warning(f"OpenAlex fetch error: {e}")
 
@@ -142,6 +153,8 @@ class DatasetService:
 
         if not results:
             results = self._get_fallback_publications("Semantic Scholar", query)
+        return results
+
     def search_arxiv(self, query: str, limit: int = 15) -> List[PublicationResponse]:
         """Live arXiv Open API integration (fast, open, no rate-limits)"""
         import xml.etree.ElementTree as ET

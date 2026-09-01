@@ -11,6 +11,7 @@ import DashboardPage from './pages/DashboardPage';
 import ProfilePage from './pages/ProfilePage';
 import PublicationsPage from './pages/PublicationsPage';
 import PatentsPage from './pages/PatentsPage';
+import RecommendationsPage from './pages/RecommendationsPage';
 import ArchitecturePage from './pages/ArchitecturePage';
 import AdminPage from './pages/AdminPage';
 import SettingsPage from './pages/SettingsPage';
@@ -42,6 +43,7 @@ export default function App() {
         <Route element={<Layout />}>
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/recommendations" element={<RecommendationsPage />} />
           <Route path="/publications" element={<PublicationsPage />} />
           <Route path="/patents" element={<PatentsPage />} />
           <Route path="/architecture" element={<ArchitecturePage />} />

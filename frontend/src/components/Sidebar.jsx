@@ -10,6 +10,7 @@ export default function Sidebar() {
   const links = [
     { to: '/dashboard', icon: <HiChartSquareBar />, label: 'Dashboard' },
     { to: '/profile', icon: <HiUserCircle />, label: 'Research Profile' },
+    { to: '/recommendations', icon: <HiSparkles />, label: 'Grant Recommendations' },
     { to: '/publications', icon: <HiBookOpen />, label: 'Publications' },
     { to: '/patents', icon: <HiLightBulb />, label: 'Patent Landscape' },
     { to: '/architecture', icon: <HiChip />, label: 'System Architecture' },

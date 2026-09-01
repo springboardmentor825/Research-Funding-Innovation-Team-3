@@ -193,7 +193,7 @@ class DatasetService:
             results = self._get_fallback_publications("arXiv", query)
         return results
 
-    def _get_fallback_publications(self, source: str, query: str) -> List[PublicationResponse]:
+    def _get_fallback_publications(self, source: str, query: str, limit: int = 25) -> List[PublicationResponse]:
         q_cap = query.title()
         venues = ["Nature Machine Intelligence", "IEEE Transactions on Pattern Analysis", "ACM Computing Surveys", "Science Robotics", "Cell Reports & BioTech", "Journal of Quantum Innovation", "Global Energy & Decarbonization", "NeurIPS Proceedings"]
         authors_pool = [
@@ -206,15 +206,15 @@ class DatasetService:
         ]
 
         mock_items = []
-        for i in range(1, 12):
+        for i in range(1, limit + 1):
             venue = venues[i % len(venues)]
             author = authors_pool[i % len(authors_pool)]
             mock_items.append(PublicationCreate(
-                title=f"Advances in {q_cap}: {['Architectural Analysis', 'Scalable Algorithms', 'Commercial Deployment', 'Benchmarking & Safety', 'Empirical Study', 'Systemic Review'][i % 6]}",
+                title=f"Advances in {q_cap}: {['Architectural Analysis', 'Scalable Algorithms', 'Commercial Deployment', 'Benchmarking & Safety', 'Empirical Study', 'Systemic Review'][i % 6]} #{i}",
                 authors=author,
                 doi=f"10.1016/j.innovafund.{source.lower()}.{100 + i}",
                 journal_or_venue=f"{venue} ({source})",
-                publication_year=2025 - (i % 3),
+                publication_year=2025 - (i % 4),
                 citation_count=12 + (i * 14),
                 external_source=source
             ))

@@ -7,7 +7,7 @@ export default function PatentsPage() {
   const [query, setQuery] = useState('quantum computing');
   const [source, setSource] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(25);
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
@@ -113,9 +113,10 @@ export default function PatentsPage() {
             value={limit}
             onChange={(e) => setLimit(Number(e.target.value))}
           >
-            <option value={5} style={{ background: '#030712' }}>5 Results</option>
             <option value={10} style={{ background: '#030712' }}>10 Results</option>
             <option value={25} style={{ background: '#030712' }}>25 Results</option>
+            <option value={50} style={{ background: '#030712' }}>50 Results</option>
+            <option value={100} style={{ background: '#030712' }}>100 Results</option>
           </select>
 
           <button type="submit" className="btn-gradient" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>

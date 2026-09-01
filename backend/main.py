@@ -41,13 +41,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Include API Routers under standard API prefix
+# Include API Routers under standard /api prefix AND root prefix for 100% team compatibility
 app.include_router(auth_routes.router, prefix=settings.API_PREFIX)
 app.include_router(profile_routes.router, prefix=settings.API_PREFIX)
 app.include_router(dataset_routes.router, prefix=settings.API_PREFIX)
 app.include_router(admin_routes.router, prefix=settings.API_PREFIX)
 app.include_router(grant_matching_routes.router, prefix=settings.API_PREFIX)
 app.include_router(technology_routes.router, prefix=settings.API_PREFIX)
+
+# Also mount under root (without /api) so team members calling /technology/* or /grants/* direct endpoints succeed 100%
+app.include_router(grant_matching_routes.router)
+app.include_router(technology_routes.router)
+app.include_router(dataset_routes.router)
+
 
 
 

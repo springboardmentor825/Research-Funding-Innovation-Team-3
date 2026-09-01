@@ -48,7 +48,7 @@ Copy the example env file and fill it in:
 
 
 
-The default values in `.env.example` already match the Docker Compose credentials above, so for local dev you usually don't need to change `DATABASE\_URL` or `MONGO\_URL` — only replace `SECRET\_KEY` with your own random string.
+The default values in `.env.example` already match the Docker Compose credentials above, so for local dev you usually don't need to change `DATABASE\\\_URL` or `MONGO\\\_URL` — only replace `SECRET\\\_KEY` with your own random string.
 
 
 
@@ -82,5 +82,49 @@ A response of `{"status": "ok", "database": "connected"}` confirms Postgres is r
 
 \- If you already run Postgres/Mongo locally on the default ports, the custom ports here (5433, 27018) avoid conflicts — no need to stop your existing services.
 
-\- Container data persists in named Docker volumes (`postgres\_data`, `mongo\_data`), so restarting containers won't wipe data — use `docker-compose down -v` only if you intentionally want a clean slate.
+\- Container data persists in named Docker volumes (`postgres\\\_data`, `mongo\\\_data`), so restarting containers won't wipe data — use `docker-compose down -v` only if you intentionally want a clean slate.
+
+
+
+
+
+\## Milestone 3 additions
+
+
+
+\### patent\_records table (PostgreSQL)
+
+
+
+Added by Member 1 (Kesiya) for Patent Landscape Analysis. Uses the same shared `innovafund\_db` database — no separate database needed.
+
+
+
+| Column | Type | Notes |
+
+|---|---|---|
+
+| id | Integer | primary key |
+
+| title | String | |
+
+| assignee | String | nullable |
+
+| filing\_date | Date | nullable |
+
+| classification | String | nullable |
+
+| technology\_domain | String | nullable |
+
+| citation\_count | Integer | default 0 |
+
+| abstract | String | nullable — used for clustering text |
+
+
+
+Table is created automatically via SQLAlchemy's `Base.metadata.create\_all()` on app startup, same as existing tables — no manual migration needed as long as the model is imported before startup.
+
+
+
+Seeded from a 10,000-row Lens.org patent CSV via a local seed script (Member 1).
 

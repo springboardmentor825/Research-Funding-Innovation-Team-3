@@ -36,6 +36,9 @@ export const AuthProvider = ({ children }) => {
           const activeUser = savedUser || DEFAULT_USER;
           setUser(activeUser);
         }
+      } else {
+        const activeUser = savedUser || DEFAULT_USER;
+        setUser(activeUser);
       }
       setLoading(false);
     };

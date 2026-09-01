@@ -13,17 +13,20 @@ export default function DashboardPage() {
 
 
   
-  const currentUser = user || (() => {
-    const saved = localStorage.getItem('user');
-    if (saved) {
-      try { return JSON.parse(saved); } catch(e) {}
+  const savedUser = (() => {
+    try {
+      const saved = localStorage.getItem('user');
+      return saved ? JSON.parse(saved) : null;
+    } catch (e) {
+      return null;
     }
-    return {
-      full_name: 'Platform Innovator',
-      role: 'researcher',
-      email: 'user@innovafund.ai'
-    };
   })();
+
+  const currentUser = {
+    full_name: user?.full_name || savedUser?.full_name || 'Platform Innovator',
+    role: user?.role || savedUser?.role || 'researcher',
+    email: user?.email || savedUser?.email || 'user@innovafund.ai'
+  };
 
 
   const getRoleStats = () => {

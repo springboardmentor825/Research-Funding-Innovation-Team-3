@@ -11,7 +11,7 @@ export default function Sidebar() {
     { to: '/dashboard', icon: <HiChartSquareBar />, label: 'Dashboard' },
     { to: '/profile', icon: <HiUserCircle />, label: 'Research Profile' },
     { to: '/publications', icon: <HiBookOpen />, label: 'Publications' },
-    { to: '/patents', icon: <HiLightBulb />, label: 'Patent & Tech Intel' },
+    { to: '/patents', icon: <HiLightBulb />, label: 'Patent Landscape' },
     { to: '/architecture', icon: <HiChip />, label: 'System Architecture' },
     { to: '/settings', icon: <HiCog />, label: 'Settings' },
   ];

@@ -44,7 +44,6 @@ export default function App() {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/publications" element={<PublicationsPage />} />
           <Route path="/patents" element={<PatentsPage />} />
-          <Route path="/patent-intelligence" element={<PatentsPage />} />
           <Route path="/architecture" element={<ArchitecturePage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/settings" element={<SettingsPage />} />

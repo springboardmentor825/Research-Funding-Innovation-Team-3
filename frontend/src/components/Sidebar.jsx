@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { HiChartSquareBar, HiUserCircle, HiBookOpen, HiLightBulb, HiShieldCheck, HiCog, HiChip } from 'react-icons/hi';
+import { HiChartSquareBar, HiUserCircle, HiBookOpen, HiLightBulb, HiShieldCheck, HiCog, HiChip, HiSparkles } from 'react-icons/hi';
 import InnovaLogo from './InnovaLogo';
 
 export default function Sidebar() {

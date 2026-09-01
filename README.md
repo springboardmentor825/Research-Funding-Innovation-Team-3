@@ -29,9 +29,10 @@
 - **Innovation Score Integration**: Supplies **Technology Maturity Score (0-100)** as **15% of the weighted score** to Member 4's Innovation Model.
 - **Competitor Activity Tracking**: Monitors top patent assignees and market share percentages.
 
-### 🔹 4. Multi-Source Search & Aggregation
-- **Publications Dataset**: Live arXiv API integration + OpenAlex + CrossRef + Semantic Scholar returning 15-30+ items per search.
-- **Patents Dataset**: Aggregated search across USPTO, Google Patents, and The Lens.
+### 🔹 4. Multi-Source Search & Aggregation & Recommendations
+- **Publications Dataset**: Live arXiv API integration + OpenAlex + CrossRef + Semantic Scholar returning up to **100+ real records per search** with automatic initial load, active DOI links, and one-click CSV export.
+- **Patents Dataset**: Aggregated search across USPTO Public Data, Google Patents, and The Lens IP returning up to **100+ real patent records** with status filtering and CSV export.
+- **AI Grant Recommendations UI**: Dedicated Recommendations Dashboard featuring match score badges, potential funding value stats, filter controls, and grant bookmarking.
 
 ---
 

@@ -41,6 +41,19 @@ def auto_migrate_schema(target_engine):
                     logger.info("Auto-healing schema migration: Successfully added 'source_id' column to funding_opportunities.")
                 except Exception as ex:
                     logger.debug(f"Migration note: {ex}")
+            
+            # Auto-rename password_hash to hashed_password if existing DB used old column name
+            try:
+                conn.execute(text("SELECT password_hash FROM users LIMIT 1"))
+                try:
+                    conn.execute(text("ALTER TABLE users RENAME COLUMN password_hash TO hashed_password"))
+                    if hasattr(conn, 'commit'):
+                        conn.commit()
+                    logger.info("Auto-healing schema migration: Successfully renamed 'password_hash' to 'hashed_password' in users table.")
+                except Exception as ex:
+                    logger.debug(f"User table column rename note: {ex}")
+            except Exception:
+                pass
     except Exception:
         pass
 

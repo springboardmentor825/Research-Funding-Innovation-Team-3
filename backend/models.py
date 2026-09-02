@@ -26,13 +26,15 @@ class Role(Base):
     permissions = Column(Text, nullable=True)
 
 
+from sqlalchemy.ext.hybrid import hybrid_property
+
 class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
     full_name = Column(String(150), nullable=False)
     email = Column(String(150), unique=True, nullable=False, index=True)
-    password_hash = Column(String(255), nullable=False)
+    hashed_password = Column(String(255), nullable=False)
     role = Column(String(50), nullable=False, default="researcher", index=True)
     organization_id = Column(Integer, ForeignKey("organizations.id", ondelete="SET NULL"), nullable=True)
     is_active = Column(Boolean, default=True)
@@ -44,6 +46,14 @@ class User(Base):
     sessions = relationship("Session", back_populates="user", cascade="all, delete-orphan")
     audit_logs = relationship("AuditLog", back_populates="user", cascade="all, delete-orphan")
     notifications = relationship("Notification", back_populates="user", cascade="all, delete-orphan")
+
+    @hybrid_property
+    def password_hash(self):
+        return self.hashed_password
+
+    @password_hash.setter
+    def password_hash(self, value):
+        self.hashed_password = value
 
 
 class ResearchProfile(Base):

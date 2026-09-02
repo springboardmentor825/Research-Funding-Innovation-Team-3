@@ -2,7 +2,11 @@ import logging
 import httpx
 from typing import List, Dict, Any, Optional
 from sqlalchemy.orm import Session
-from config import settings
+try:
+    from config import settings
+except ImportError:
+    from app.core.config import settings
+
 from database import get_mongo_db
 from repositories.publication_repository import PublicationRepository
 from repositories.patent_repository import PatentRepository

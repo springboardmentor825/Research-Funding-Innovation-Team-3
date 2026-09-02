@@ -39,3 +39,11 @@ class Patent(Base):
     metadata_json: Mapped[str | None] = mapped_column(Text)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
     profiles: Mapped[list["ResearchProfile"]] = relationship(secondary=profile_patents, back_populates="patents")
+
+class TechnologyDomain(Base):
+    __tablename__ = "technology_domains"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    domain_name: Mapped[str] = mapped_column(String(200), index=True)
+    description: Mapped[str | None] = mapped_column(Text)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+

@@ -10,26 +10,21 @@ export default function PublicationsPage() {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
-  const [error, setError] = useState(null);
 
   const handleSearch = async (e) => {
     if (e) e.preventDefault();
     if (!query) return;
     setLoading(true);
-    setError(null);
     try {
       const data = await searchPublications(query, source, limit);
       setResults(data || []);
     } catch (err) {
       console.error(err);
-      setError(err.response?.data?.detail || 'Failed to fetch publication data.');
-      setResults([]);
     } finally {
       setLoading(false);
       setSearched(true);
     }
   };
-
 
   const handleExportCSV = () => {
     if (!results || results.length === 0) return;

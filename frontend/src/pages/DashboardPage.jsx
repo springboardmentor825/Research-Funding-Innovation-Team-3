@@ -1,20 +1,15 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { HiBookOpen, HiLightBulb, HiCurrencyDollar, HiChartBar, HiUsers, HiUserCircle, HiSparkles, HiArrowRight, HiShieldCheck, HiTrendingUp, HiChip, HiBriefcase, HiCalculator } from 'react-icons/hi';
+import { HiBookOpen, HiLightBulb, HiCurrencyDollar, HiChartBar, HiUsers, HiUserCircle, HiSparkles, HiArrowRight, HiShieldCheck, HiTrendingUp, HiChip } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
 import GrantMatchingModal from '../components/GrantMatchingModal';
 import TechnologyIntelligenceModal from '../components/TechnologyIntelligenceModal';
-import InnovationScoringModal from '../components/InnovationScoringModal';
-import CommercializationModal from '../components/CommercializationModal';
 
 export default function DashboardPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [isMatchModalOpen, setIsMatchModalOpen] = useState(false);
   const [isTechModalOpen, setIsTechModalOpen] = useState(false);
-  const [isScoringModalOpen, setIsScoringModalOpen] = useState(false);
-  const [isCommercialModalOpen, setIsCommercialModalOpen] = useState(false);
-
 
 
   
@@ -254,23 +249,13 @@ export default function DashboardPage() {
 
         {/* Quick Actions Panel */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-          <div className="glass-card" style={{ padding: '1.5rem', cursor: 'pointer' }} onClick={() => setIsScoringModalOpen(true)}>
-            <div style={{ width: '40px', height: '40px', borderRadius: '0.75rem', background: 'rgba(16,185,129,0.2)', color: '#6ee7b7', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.3rem', marginBottom: '0.85rem' }}>
-              <HiCalculator />
+          <div className="glass-card" style={{ padding: '1.5rem', cursor: 'pointer' }} onClick={() => navigate('/publications')}>
+            <div style={{ width: '40px', height: '40px', borderRadius: '0.75rem', background: 'rgba(14,165,233,0.2)', color: '#7dd3fc', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.3rem', marginBottom: '0.85rem' }}>
+              <HiBookOpen />
             </div>
-            <h3 style={{ fontSize: '1.1rem', fontWeight: '700', margin: '0 0 0.35rem 0' }}>Innovation Scoring</h3>
+            <h3 style={{ fontSize: '1.1rem', fontWeight: '700', margin: '0 0 0.35rem 0' }}>Publication Search</h3>
             <p style={{ color: '#94a3b8', fontSize: '0.825rem', margin: 0, lineHeight: 1.5 }}>
-              Calculate weighted 5-pillar Innovation Index (Novelty 30%, Patent 20%, Tech 15%, Market 20%, Grant 15%).
-            </p>
-          </div>
-
-          <div className="glass-card" style={{ padding: '1.5rem', cursor: 'pointer' }} onClick={() => setIsCommercialModalOpen(true)}>
-            <div style={{ width: '40px', height: '40px', borderRadius: '0.75rem', background: 'rgba(245,158,11,0.2)', color: '#fcd34d', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.3rem', marginBottom: '0.85rem' }}>
-              <HiBriefcase />
-            </div>
-            <h3 style={{ fontSize: '1.1rem', fontWeight: '700', margin: '0 0 0.35rem 0' }}>Commercialization</h3>
-            <p style={{ color: '#94a3b8', fontSize: '0.825rem', margin: 0, lineHeight: 1.5 }}>
-              View productization, licensing, spin-off startup, and industry partnership recommendations.
+              Query OpenAlex, CrossRef, and Semantic Scholar academic repositories.
             </p>
           </div>
 
@@ -280,7 +265,17 @@ export default function DashboardPage() {
             </div>
             <h3 style={{ fontSize: '1.1rem', fontWeight: '700', margin: '0 0 0.35rem 0' }}>Patent Intelligence</h3>
             <p style={{ color: '#94a3b8', fontSize: '0.825rem', margin: 0, lineHeight: 1.5 }}>
-              Search USPTO, Google Patents, and The Lens IP landscape records & clusters.
+              Search USPTO, Google Patents, and The Lens IP landscape records.
+            </p>
+          </div>
+
+          <div className="glass-card" style={{ padding: '1.5rem', cursor: 'pointer' }} onClick={() => navigate('/profile')}>
+            <div style={{ width: '40px', height: '40px', borderRadius: '0.75rem', background: 'rgba(6,182,212,0.2)', color: '#67e8f9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.3rem', marginBottom: '0.85rem' }}>
+              <HiUserCircle />
+            </div>
+            <h3 style={{ fontSize: '1.1rem', fontWeight: '700', margin: '0 0 0.35rem 0' }}>Update Profile</h3>
+            <p style={{ color: '#94a3b8', fontSize: '0.825rem', margin: 0, lineHeight: 1.5 }}>
+              Manage research domains, technology keywords, and publication links.
             </p>
           </div>
         </div>
@@ -291,15 +286,8 @@ export default function DashboardPage() {
 
       {/* Interactive Member 2 Milestone 3 Technology Intelligence Engine Modal */}
       <TechnologyIntelligenceModal isOpen={isTechModalOpen} onClose={() => setIsTechModalOpen(false)} />
-
-      {/* Interactive Milestone 3 Innovation Scoring Engine Modal */}
-      <InnovationScoringModal isOpen={isScoringModalOpen} onClose={() => setIsScoringModalOpen(false)} />
-
-      {/* Interactive Milestone 3 Commercialization Engine Modal */}
-      <CommercializationModal isOpen={isCommercialModalOpen} onClose={() => setIsCommercialModalOpen(false)} />
     </div>
   );
 }
-
 
 

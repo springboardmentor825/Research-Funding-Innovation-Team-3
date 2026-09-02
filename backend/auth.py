@@ -7,7 +7,11 @@ except ImportError:
     JWTError = jwt.PyJWTError
 
 from passlib.context import CryptContext
-from config import settings
+try:
+    from config import settings
+except ImportError:
+    from app.core.config import settings
+
 
 # Patch passlib bcrypt __about__ version warning for newer bcrypt versions
 import bcrypt

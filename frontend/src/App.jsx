@@ -9,6 +9,8 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
 import ProfilePage from './pages/ProfilePage';
+import Funding from './pages/Funding';
+import RecommendationsPage from './pages/RecommendationsPage';
 import PublicationsPage from './pages/PublicationsPage';
 import PatentsPage from './pages/PatentsPage';
 import ArchitecturePage from './pages/ArchitecturePage';
@@ -42,6 +44,8 @@ export default function App() {
         <Route element={<Layout />}>
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/funding" element={<Funding />} />
+          <Route path="/recommendations" element={<RecommendationsPage />} />
           <Route path="/publications" element={<PublicationsPage />} />
           <Route path="/patents" element={<PatentsPage />} />
           <Route path="/architecture" element={<ArchitecturePage />} />

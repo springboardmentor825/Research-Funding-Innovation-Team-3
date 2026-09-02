@@ -1,2 +1,18 @@
-import {Navigate,useLocation} from 'react-router-dom'; import {useAuth} from '../context/AuthContext';
-export default function ProtectedRoute({children,roles}){const {user,loading}=useAuth();const loc=useLocation();if(loading)return <div className="state">Loading…</div>;if(!user)return <Navigate to="/login" state={{from:loc}} replace/>;if(roles&&!roles.includes(user.role))return <div className="state error">You are not authorized to view this page.</div>;return children;}
+import React from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import LoadingSpinner from './LoadingSpinner';
+
+export default function ProtectedRoute() {
+  const { user, loading } = useAuth();
+  
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+  
+  if (!user && !localStorage.getItem('token')) {
+    return <Navigate to="/login" replace />;
+  }
+  
+  return <Outlet />;
+}

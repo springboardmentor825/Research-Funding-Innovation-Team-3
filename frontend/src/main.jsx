@@ -1,49 +1,17 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
-import { ThemeProvider } from './context/ThemeContext';
-import Layout from './components/Layout';
-import ProtectedRoute from './components/ProtectedRoute';
-import Landing from './pages/Landing';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Dashboard from './pages/Dashboard';
-import Profile from './pages/Profile';
-import Publications from './pages/Publications';
-import Patents from './pages/Patents';
-import Admin from './pages/Admin';
-import Trends from './pages/Trends';
-import Funding from './pages/Funding';
-import './styles/app.css';
-
-function App() {
-  return (
-    <ThemeProvider>
-      <AuthProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route element={<Layout />}>
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-              <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-              <Route path="/publications" element={<ProtectedRoute><Publications /></ProtectedRoute>} />
-              <Route path="/patents" element={<ProtectedRoute><Patents /></ProtectedRoute>} />
-              <Route path="/funding" element={<ProtectedRoute><Funding /></ProtectedRoute>} />
-              <Route path="/trends" element={<ProtectedRoute><Trends /></ProtectedRoute>} />
-              <Route path="/admin" element={<ProtectedRoute roles={['Administrator']}><Admin /></ProtectedRoute>} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </AuthProvider>
-    </ThemeProvider>
-  );
-}
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import { BrowserRouter } from 'react-router-dom'
+import { AuthProvider } from './context/AuthContext.jsx'
+import './index.css'
+import './styles/pages.css'
+import App from './App.jsx'
 
 createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+  <StrictMode>
+    <BrowserRouter>
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    </BrowserRouter>
+  </StrictMode>,
+)

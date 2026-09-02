@@ -2,8 +2,10 @@ import os
 import sys
 import logging
 
-# Ensure backend directory is in python sys.path
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+# Ensure backend directory and innovation-scoring-service are in python sys.path
+backend_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, backend_dir)
+sys.path.insert(0, os.path.abspath(os.path.join(backend_dir, "..", "innovation-scoring-service")))
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -11,14 +13,14 @@ from sqlalchemy import text
 
 from config import settings
 from database import engine, SessionLocal, get_mongo_db
-from models import Base, Role, User, Organization
+from models import Base, Role, User, Organization, InnovationScoreHistory, InnovationScoreInput
 from auth import hash_password
-from routers import auth_routes, profile_routes, dataset_routes, admin_routes, grant_matching_routes, technology_routes
+from routers import auth_routes, profile_routes, dataset_routes, admin_routes, grant_matching_routes, technology_routes, scoring_routes
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Create PostgreSQL database tables automatically
+# Create database tables automatically
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
@@ -48,11 +50,13 @@ app.include_router(dataset_routes.router, prefix=settings.API_PREFIX)
 app.include_router(admin_routes.router, prefix=settings.API_PREFIX)
 app.include_router(grant_matching_routes.router, prefix=settings.API_PREFIX)
 app.include_router(technology_routes.router, prefix=settings.API_PREFIX)
+app.include_router(scoring_routes.router, prefix=settings.API_PREFIX)
 
-# Also mount under root (without /api) so team members calling /technology/* or /grants/* direct endpoints succeed 100%
+# Also mount under root (without /api) so team members calling /technology/* or /scoring/* direct endpoints succeed 100%
 app.include_router(grant_matching_routes.router)
 app.include_router(technology_routes.router)
 app.include_router(dataset_routes.router)
+app.include_router(scoring_routes.router)
 
 
 

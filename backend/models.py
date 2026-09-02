@@ -1,4 +1,6 @@
-from sqlalchemy import Column, Integer, Float, String, Text, Boolean, TIMESTAMP, ForeignKey, Date
+from sqlalchemy import Column, Integer, Float, String, Text, Boolean, TIMESTAMP, ForeignKey, Date, DateTime, Index
+from sqlalchemy.dialects import postgresql
+from sqlalchemy.types import JSON
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from database import Base
@@ -263,4 +265,13 @@ class CompetitorActivity(Base):
     created_at = Column(TIMESTAMP, server_default=func.now())
 
     domain = relationship("TechnologyDomain", back_populates="competitors")
+
+
+# ==========================================
+# Milestone 3: Innovation Scoring Engine Models (Member 4 Deliverable)
+# ==========================================
+
+from app.db.models import InnovationScoreHistory, InnovationScoreInput
+
+
 

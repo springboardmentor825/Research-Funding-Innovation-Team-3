@@ -4,12 +4,14 @@ import { HiBookOpen, HiLightBulb, HiCurrencyDollar, HiChartBar, HiUsers, HiUserC
 import { useNavigate } from 'react-router-dom';
 import GrantMatchingModal from '../components/GrantMatchingModal';
 import TechnologyIntelligenceModal from '../components/TechnologyIntelligenceModal';
+import InnovationScoringModal from '../components/scoring/InnovationScoringModal';
 
 export default function DashboardPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [isMatchModalOpen, setIsMatchModalOpen] = useState(false);
   const [isTechModalOpen, setIsTechModalOpen] = useState(false);
+  const [isScoringModalOpen, setIsScoringModalOpen] = useState(false);
 
 
   
@@ -84,9 +86,14 @@ export default function DashboardPage() {
           </p>
         </div>
 
-        <button onClick={() => navigate('/profile')} className="btn-gradient" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0 }}>
-          Manage Profile <HiArrowRight />
-        </button>
+        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+          <button onClick={() => setIsScoringModalOpen(true)} className="btn-gradient" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'linear-gradient(135deg, #0284c7 0%, #6366f1 100%)', flexShrink: 0 }}>
+            <HiSparkles /> Innovation Scoring (Member 4)
+          </button>
+          <button onClick={() => navigate('/profile')} className="btn-outline" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0 }}>
+            Manage Profile <HiArrowRight />
+          </button>
+        </div>
       </div>
 
       {/* Metrics Grid */}
@@ -289,6 +296,9 @@ export default function DashboardPage() {
 
       {/* Interactive Member 2 Milestone 3 Technology Intelligence Engine Modal */}
       <TechnologyIntelligenceModal isOpen={isTechModalOpen} onClose={() => setIsTechModalOpen(false)} />
+
+      {/* Interactive Member 4 Milestone 3 Innovation Scoring Engine Modal */}
+      <InnovationScoringModal isOpen={isScoringModalOpen} onClose={() => setIsScoringModalOpen(false)} />
     </div>
   );
 }

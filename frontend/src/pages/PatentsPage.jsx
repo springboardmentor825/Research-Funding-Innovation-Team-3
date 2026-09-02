@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { searchPatents } from '../api/research';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { HiSearch, HiLightBulb, HiShieldCheck, HiSparkles, HiCheckCircle, HiDownload } from 'react-icons/hi';
+import { HiSearch, HiLightBulb, HiShieldCheck, HiSparkles, HiCheckCircle, HiDownload, HiTrendingUp } from 'react-icons/hi';
 
 export default function PatentsPage() {
+  const navigate = useNavigate();
   const [query, setQuery] = useState('quantum computing');
   const [source, setSource] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
@@ -30,7 +32,6 @@ export default function PatentsPage() {
       setSearched(true);
     }
   };
-
 
   const handleExportCSV = () => {
     if (!results || results.length === 0) return;
@@ -69,16 +70,36 @@ export default function PatentsPage() {
 
   return (
     <div style={{ padding: '2rem', maxWidth: '1400px', margin: '0 auto' }} className="animate-fade-in">
-      <div style={{ marginBottom: '2rem' }}>
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: '#c084fc', fontSize: '0.85rem', fontWeight: '600', marginBottom: '0.4rem' }}>
-          <HiSparkles /> Global Intellectual Property Engine
+      <div style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
+        <div>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: '#c084fc', fontSize: '0.85rem', fontWeight: '600', marginBottom: '0.4rem' }}>
+            <HiSparkles /> Global Intellectual Property Engine
+          </div>
+          <h1 style={{ fontSize: '2.25rem', fontWeight: '800', margin: '0 0 0.5rem 0', background: 'linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+            Patent Landscape Analytics
+          </h1>
+          <p style={{ color: '#94a3b8', margin: 0, fontSize: '0.95rem' }}>
+            Explore global patent records across USPTO Public Data, Google Patents, and The Lens IP datasets.
+          </p>
         </div>
-        <h1 style={{ fontSize: '2.25rem', fontWeight: '800', margin: '0 0 0.5rem 0', background: 'linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-          Patent Landscape Analytics
-        </h1>
-        <p style={{ color: '#94a3b8', margin: 0, fontSize: '0.95rem' }}>
-          Explore global patent records across USPTO Public Data, Google Patents, and The Lens IP datasets.
-        </p>
+
+        <button
+          onClick={() => navigate('/scoring')}
+          className="btn-gradient"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.6rem',
+            padding: '0.85rem 1.5rem',
+            fontSize: '0.95rem',
+            fontWeight: '700',
+            boxShadow: '0 4px 20px rgba(2, 132, 199, 0.4)',
+            background: 'linear-gradient(135deg, #0284c7 0%, #6366f1 100%)'
+          }}
+        >
+          <HiTrendingUp style={{ fontSize: '1.2rem' }} />
+          <span>Innovation Scoring Engine (Member 4)</span>
+        </button>
       </div>
 
       {/* Search Bar Container */}

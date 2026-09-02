@@ -15,6 +15,7 @@ import RecommendationsPage from './pages/RecommendationsPage';
 import ArchitecturePage from './pages/ArchitecturePage';
 import AdminPage from './pages/AdminPage';
 import SettingsPage from './pages/SettingsPage';
+import ScoringPage from './pages/ScoringPage';
 import './App.css';
 
 const Layout = () => {
@@ -43,6 +44,7 @@ export default function App() {
         <Route element={<Layout />}>
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/scoring" element={<ScoringPage />} />
           <Route path="/recommendations" element={<RecommendationsPage />} />
           <Route path="/publications" element={<PublicationsPage />} />
           <Route path="/patents" element={<PatentsPage />} />

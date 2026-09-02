@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { HiChartSquareBar, HiUserCircle, HiBookOpen, HiLightBulb, HiShieldCheck, HiCog, HiChip, HiSparkles } from 'react-icons/hi';
+import { HiChartSquareBar, HiUserCircle, HiBookOpen, HiLightBulb, HiShieldCheck, HiCog, HiChip, HiSparkles, HiTrendingUp } from 'react-icons/hi';
 import InnovaLogo from './InnovaLogo';
 
 export default function Sidebar() {
@@ -10,6 +10,7 @@ export default function Sidebar() {
   const links = [
     { to: '/dashboard', icon: <HiChartSquareBar />, label: 'Dashboard' },
     { to: '/profile', icon: <HiUserCircle />, label: 'Research Profile' },
+    { to: '/scoring', icon: <HiTrendingUp />, label: 'Innovation Scoring' },
     { to: '/recommendations', icon: <HiSparkles />, label: 'Grant Recommendations' },
     { to: '/publications', icon: <HiBookOpen />, label: 'Publications' },
     { to: '/patents', icon: <HiLightBulb />, label: 'Patent Landscape' },

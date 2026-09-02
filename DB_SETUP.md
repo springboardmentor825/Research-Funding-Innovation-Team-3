@@ -128,3 +128,55 @@ Table is created automatically via SQLAlchemy's `Base.metadata.create\_all()` on
 
 Seeded from a 10,000-row Lens.org patent CSV via a local seed script (Member 1).
 
+
+### Technology Intelligence tables (PostgreSQL)
+
+Added by Member 2 (Mayank) for the Technology Intelligence Engine. From `origin/mayank` branch. Also uses shared `innovafund_db` — no separate database needed. **Not yet merged into the working base branch as of 2026-09-01.**
+
+**technology_domains**
+
+| Column | Type | Notes |
+|---|---|---|
+| id | Integer | primary key |
+| name | String(150) | unique, e.g. "Generative AI", "Quantum Computing" |
+| category | String(100) | default "DeepTech" |
+| patent_count | Integer | default 0 |
+| publication_count | Integer | default 0 |
+| growth_rate_pct | Float | e.g. +42.5% YoY |
+| is_emerging | Boolean | default true |
+| description | Text | nullable |
+| created_at | Timestamp | |
+
+**technology_maturities** (1:1 with technology_domains)
+
+| Column | Type | Notes |
+|---|---|---|
+| id | Integer | primary key |
+| domain_id | Integer | FK → technology_domains.id, unique |
+| lifecycle_stage | String(50) | Emerging / Growth / Mature / Declining |
+| trl_level | Integer | Technology Readiness Level, 1–9 |
+| maturity_score | Float | 0.0–100.0 — supplies the 15% "Technology Maturity" weight to Member 4's Innovation Scoring model |
+| adoption_velocity | String(50) | Low / Moderate / High / Rapid |
+| commercial_readiness | String(100) | e.g. "R&D Phase" |
+| updated_at | Timestamp | |
+
+**competitor_activities** (many:1 with technology_domains)
+
+| Column | Type | Notes |
+|---|---|---|
+| id | Integer | primary key |
+| domain_id | Integer | FK → technology_domains.id |
+| assignee_name | String(200) | e.g. company/org name |
+| patent_holdings | Integer | default 1 |
+| market_share_pct | Float | default 0.0 |
+| activity_status | String(50) | Active / Dominant / Emerging / Inactive |
+| created_at | Timestamp | |
+
+### Innovation Scoring & Commercialization tables
+
+Not yet defined by Member 4 (scoring) or Member 5 (commercialization) as of 2026-09-01 — no models found on checked branches. Will be documented here once available.
+
+### Known cross-branch schema conflict
+
+The shared `innovafund_db`'s `users` table currently has a `hashed_password` column (from Milestone 1). Mayank's branch model uses `password_hash` instead — a naming mismatch, not a missing column. No formal migration exists yet to reconcile this. See `QA_FINDINGS.md` for details. **Do not merge a model expecting `password_hash` without first migrating the live column name, or auth will break.**
+

@@ -174,7 +174,7 @@ Added by Member 2 (Mayank) for the Technology Intelligence Engine. From `origin/
 
 ### Innovation Scoring & Commercialization tables
 
-Not yet defined by Member 4 (scoring) or Member 5 (commercialization) as of 2026-09-01 — no models found on checked branches. Will be documented here once available.
+Confirmed on Anuhya-Kurakula's branch (`backend/schemas.py`): both are currently **stateless calculators, not database-backed**. `POST /scoring/calculate` takes a `ScoringRequest` (project_id, project_title, and the 5 weighted component scores) directly in the request body and returns a computed `ScoringResponse` — nothing is persisted to Postgres. Same for `GET /commercialization/recommendations/{project_id}` — computed on the fly, no table. If the team wants scoring/commercialization history to persist (e.g. for a `GET /scoring/{project_id}` lookup, per the Milestone 3 spec), tables will need to be added — not yet done as of 2026-09-01.
 
 ### Known cross-branch schema conflict
 

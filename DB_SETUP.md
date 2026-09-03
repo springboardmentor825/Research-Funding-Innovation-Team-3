@@ -1,137 +1,73 @@
-\# Database Setup — InnovaFund Backend
-
-
+# Database Setup - InnovaFund Backend
 
 This project uses PostgreSQL (via SQLAlchemy) and MongoDB, both run locally through Docker Compose. Non-standard ports are used to avoid clashing with any Postgres/Mongo you may already have installed.
 
+## 1. Start the databases
 
+From the project root (where docker-compose.yml lives):
 
-\## 1. Start the databases
-
-
-
-From the project root (where `docker-compose.yml` lives):
-
-
-
-&#x20;   docker-compose up -d
-
-
+    docker-compose up -d
 
 This starts two containers:
-
-\- `innovafund-postgres` — Postgres 16, exposed on host port \*\*5433\*\* (maps to container's 5432)
-
-\- `innovafund-mongo` — MongoDB 7, exposed on host port \*\*27018\*\* (maps to container's 27017)
-
-
+- innovafund-postgres - Postgres 16, exposed on host port 5433 (maps to container's 5432)
+- innovafund-mongo - MongoDB 7, exposed on host port 27018 (maps to container's 27017)
 
 Check both are running:
 
+    docker ps
 
-
-&#x20;   docker ps
-
-
-
-\## 2. Configure environment variables
-
-
+## 2. Configure environment variables
 
 Copy the example env file and fill it in:
 
+    cd backend
+    copy .env.example .env
 
+The default values in .env.example already match the Docker Compose credentials above, so for local dev you usually don't need to change DATABASE_URL or MONGO_URL - only replace SECRET_KEY with your own random string.
 
-&#x20;   cd backend
+IMPORTANT - variable naming varies by branch: the canonical shared config below uses DATABASE_URL. Some branches (e.g. Mayank's, Kesiya's) read a differently-named variable (POSTGRES_URL) in their own config.py/database.py instead. If your branch's app silently falls back to SQLite or fails to connect, check what variable name your own config file actually reads before assuming the connection string is wrong.
 
-&#x20;   copy .env.example .env
-
-
-
-The default values in `.env.example` already match the Docker Compose credentials above, so for local dev you usually don't need to change `DATABASE\\\_URL` or `MONGO\\\_URL` — only replace `SECRET\\\_KEY` with your own random string.
-
-
-
-\## 3. Verify the connection
-
-
+## 3. Verify the connection
 
 Start the backend:
 
-
-
-&#x20;   uvicorn main:app --reload
-
-
+    uvicorn main:app --reload
 
 Then check:
 
+    GET http://localhost:8000/health
 
+A response of {"status": "ok", "database": "connected"} confirms Postgres is reachable. MongoDB isn't checked by /health in every branch - it's implicitly verified when you hit a profile-related endpoint.
 
-&#x20;   GET http://localhost:8000/health
+## Notes
+- .env is gitignored - never commit real secrets.
+- If you already run Postgres/Mongo locally on the default ports, the custom ports here (5433, 27018) avoid conflicts - no need to stop your existing services.
+- Container data persists in named Docker volumes (postgres_data, mongo_data), so restarting containers won't wipe data - use docker-compose down -v only if you intentionally want a clean slate.
 
+## Milestone 3 additions
 
+### patent_records table (PostgreSQL)
 
-A response of `{"status": "ok", "database": "connected"}` confirms Postgres is reachable. MongoDB isn't checked by `/health` yet — it's implicitly verified when you hit `/profile`.
-
-
-
-\## Notes
-
-\- `.env` is gitignored — never commit real secrets.
-
-\- If you already run Postgres/Mongo locally on the default ports, the custom ports here (5433, 27018) avoid conflicts — no need to stop your existing services.
-
-\- Container data persists in named Docker volumes (`postgres\\\_data`, `mongo\\\_data`), so restarting containers won't wipe data — use `docker-compose down -v` only if you intentionally want a clean slate.
-
-
-
-
-
-\## Milestone 3 additions
-
-
-
-\### patent\_records table (PostgreSQL)
-
-
-
-Added by Member 1 (Kesiya) for Patent Landscape Analysis. Uses the same shared `innovafund\_db` database — no separate database needed.
-
-
+Added by Member 1 (Kesiya) for Patent Landscape Analysis. Uses the same shared innovafund_db database - no separate database needed.
 
 | Column | Type | Notes |
-
 |---|---|---|
-
 | id | Integer | primary key |
-
 | title | String | |
-
 | assignee | String | nullable |
-
-| filing\_date | Date | nullable |
-
+| filing_date | Date | nullable |
 | classification | String | nullable |
+| technology_domain | String | nullable |
+| citation_count | Integer | default 0 |
+| abstract | String | nullable - used for clustering text |
 
-| technology\_domain | String | nullable |
-
-| citation\_count | Integer | default 0 |
-
-| abstract | String | nullable — used for clustering text |
-
-
-
-Table is created automatically via SQLAlchemy's `Base.metadata.create\_all()` on app startup, same as existing tables — no manual migration needed as long as the model is imported before startup.
-
-
+Table is created automatically via SQLAlchemy's Base.metadata.create_all() on app startup, same as existing tables - no manual migration needed as long as the model is imported before startup.
 
 Seeded from a 10,000-row Lens.org patent CSV via a local seed script (Member 1).
 
-
 ### Technology Intelligence tables (PostgreSQL)
 
-Added by Member 2 (Mayank) for the Technology Intelligence Engine. From `origin/mayank` branch. Also uses shared `innovafund_db` — no separate database needed. **Not yet merged into the working base branch as of 2026-09-01.**
+Added by Member 2 (Mayank) for the Technology Intelligence Engine, on the origin/mayank branch. Also uses shared innovafund_db - no separate database needed. This branch is currently the most stable working backend for Milestone 3 - see QA_FINDINGS.md.
 
 **technology_domains**
 
@@ -152,10 +88,10 @@ Added by Member 2 (Mayank) for the Technology Intelligence Engine. From `origin/
 | Column | Type | Notes |
 |---|---|---|
 | id | Integer | primary key |
-| domain_id | Integer | FK → technology_domains.id, unique |
+| domain_id | Integer | FK to technology_domains.id, unique |
 | lifecycle_stage | String(50) | Emerging / Growth / Mature / Declining |
-| trl_level | Integer | Technology Readiness Level, 1–9 |
-| maturity_score | Float | 0.0–100.0 — supplies the 15% "Technology Maturity" weight to Member 4's Innovation Scoring model |
+| trl_level | Integer | Technology Readiness Level, 1-9 |
+| maturity_score | Float | 0.0-100.0 - supplies the 15% "Technology Maturity" weight to Member 4's Innovation Scoring model |
 | adoption_velocity | String(50) | Low / Moderate / High / Rapid |
 | commercial_readiness | String(100) | e.g. "R&D Phase" |
 | updated_at | Timestamp | |
@@ -165,7 +101,7 @@ Added by Member 2 (Mayank) for the Technology Intelligence Engine. From `origin/
 | Column | Type | Notes |
 |---|---|---|
 | id | Integer | primary key |
-| domain_id | Integer | FK → technology_domains.id |
+| domain_id | Integer | FK to technology_domains.id |
 | assignee_name | String(200) | e.g. company/org name |
 | patent_holdings | Integer | default 1 |
 | market_share_pct | Float | default 0.0 |
@@ -174,9 +110,17 @@ Added by Member 2 (Mayank) for the Technology Intelligence Engine. From `origin/
 
 ### Innovation Scoring & Commercialization tables
 
-Confirmed on Anuhya-Kurakula's branch (`backend/schemas.py`): both are currently **stateless calculators, not database-backed**. `POST /scoring/calculate` takes a `ScoringRequest` (project_id, project_title, and the 5 weighted component scores) directly in the request body and returns a computed `ScoringResponse` — nothing is persisted to Postgres. Same for `GET /commercialization/recommendations/{project_id}` — computed on the fly, no table. If the team wants scoring/commercialization history to persist (e.g. for a `GET /scoring/{project_id}` lookup, per the Milestone 3 spec), tables will need to be added — not yet done as of 2026-09-01.
+Confirmed on Anuhya-Kurakula's branch (backend/schemas.py): both are currently stateless calculators, not database-backed. POST /scoring/calculate takes a ScoringRequest (project_id, project_title, and the 5 weighted component scores) directly in the request body and returns a computed ScoringResponse - nothing is persisted to Postgres. Same for GET /commercialization/recommendations/{project_id} - computed on the fly, no table. If the team wants scoring/commercialization history to persist (e.g. for a GET /scoring/{project_id} lookup, per the Milestone 3 spec), tables will need to be added - not yet done as of 2026-09-02.
 
-### Known cross-branch schema conflict
+### Cross-branch schema conflict - RESOLVED
 
-The shared `innovafund_db`'s `users` table currently has a `hashed_password` column (from Milestone 1). Mayank's branch model uses `password_hash` instead — a naming mismatch, not a missing column. No formal migration exists yet to reconcile this. See `QA_FINDINGS.md` for details. **Do not merge a model expecting `password_hash` without first migrating the live column name, or auth will break.**
+The shared innovafund_db's users table originally had a hashed_password column (from Milestone 1). Mayank's branch (and everything built on top of it: kanishka, Kesiya-Sunny) uses password_hash instead - a naming mismatch, not a missing column, caused by two branch lineages diverging early.
 
+**Fixed on 2026-09-02.** Run backend/migrate_password_column.py once against the shared database to apply the fix:
+
+    cd backend
+    python migrate_password_column.py
+
+This is a safe, idempotent script - it checks the current column name first and does nothing if already migrated. It has already been run against the live shared innovafund_db, so this only needs to be re-run if the database is ever rebuilt from scratch (e.g. after docker-compose down -v).
+
+As of this fix: password_hash is the correct, current column name on the shared users table. Any new branch work should assume password_hash, not hashed_password.

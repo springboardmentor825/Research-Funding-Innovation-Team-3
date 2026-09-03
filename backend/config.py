@@ -15,9 +15,9 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24  # 24 Hours
     
     # Database URLs
-    POSTGRES_URL: str = os.getenv("POSTGRES_URL", "postgresql://postgres:postgres@localhost:5433/funding_innovation_platform")
+    POSTGRES_URL: str = os.getenv("POSTGRES_URL", "postgresql://postgres:postgres@localhost:5433/innovafund_db")
     MONGO_URL: str = os.getenv("MONGO_URL", "mongodb://localhost:27017")
-    MONGO_DB_NAME: str = os.getenv("MONGO_DB_NAME", "funding_innovation_platform")
+    MONGO_DB_NAME: str = os.getenv("MONGO_DB_NAME", "innovafund_db")
     
     # External API Keys (Optional with fallback handling)
     SERPAPI_KEY: str = os.getenv("SERPAPI_KEY", "")

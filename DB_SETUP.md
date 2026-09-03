@@ -114,13 +114,19 @@ Confirmed on Anuhya-Kurakula's branch (backend/schemas.py): both are currently s
 
 ### Cross-branch schema conflict - RESOLVED
 
-The shared innovafund_db's users table originally had a hashed_password column (from Milestone 1). Mayank's branch (and everything built on top of it: kanishka, Kesiya-Sunny) uses password_hash instead - a naming mismatch, not a missing column, caused by two branch lineages diverging early.
+The original Milestone 1 users table predates the newer branch lineage (Mayank -> kanishka -> Kesiya-Sunny), which added several columns to the User model: password_hash (renamed from hashed_password), organization_id (FK to a new organizations table), is_active, and updated_at.
 
-**Fixed on 2026-09-02.** Run backend/migrate_password_column.py once against the shared database to apply the fix:
+**Fully fixed on 2026-09-02.** Three migration scripts were run against the shared innovafund_db, in order:
 
     cd backend
     python migrate_password_column.py
+    python migrate_add_organization_id.py
+    python migrate_add_is_active_updated_at.py
 
-This is a safe, idempotent script - it checks the current column name first and does nothing if already migrated. It has already been run against the live shared innovafund_db, so this only needs to be re-run if the database is ever rebuilt from scratch (e.g. after docker-compose down -v).
+All three are safe, idempotent scripts - each checks current state first and does nothing if already applied. They have already been run against the live shared innovafund_db, so this only needs to be re-run if the database is ever rebuilt from scratch (e.g. after docker-compose down -v) - in that case, run all three in the order above.
 
-As of this fix: password_hash is the correct, current column name on the shared users table. Any new branch work should assume password_hash, not hashed_password.
+Verified: an app built on the newer lineage (tested against Kesiya-Sunny) now starts against the shared DB with zero schema warnings. The users table now has all 9 expected columns: id, full_name, email, password_hash, role, created_at, organization_id, is_active, updated_at.
+
+### Known remaining issue: duplicate patent tables
+
+Two separate patent tables now coexist on the shared DB: `patents` (from Milestone 1/2) and `patent_records` (Kesiya's Milestone 3 Patent Landscape work). These were not designed together and likely need to be reconciled - flagged to the team, not yet resolved as of 2026-09-02.

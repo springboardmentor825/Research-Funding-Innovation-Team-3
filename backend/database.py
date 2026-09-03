@@ -1,35 +1,14 @@
 import logging
 from sqlalchemy import create_engine, text
-from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy.orm import sessionmaker
 from pymongo import MongoClient
+from app.db.postgres import Base, engine, SessionLocal, get_db
 try:
     from config import settings
 except ImportError:
     from app.core.config import settings
 
-
 logger = logging.getLogger(__name__)
-
-# Try PostgreSQL first; if unavailable, fallback to local SQLite for instant developer setup
-try:
-    engine = create_engine(
-        settings.POSTGRES_URL,
-        pool_pre_ping=True,
-        pool_size=10,
-        max_overflow=20
-    )
-    with engine.connect() as conn:
-        conn.execute(text("SELECT 1"))
-    logger.info("Connected to PostgreSQL database successfully.")
-except Exception:
-    logger.info("PostgreSQL service not detected on port 5433. Auto-fallback activated: Using local SQLite database (funding_innovation_platform.db).")
-    engine = create_engine(
-        "sqlite:///./funding_innovation_platform.db",
-        connect_args={"check_same_thread": False}
-    )
-
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-Base = declarative_base()
 
 def auto_migrate_schema(target_engine):
     """Auto-healing schema migration for developer SQLite & PostgreSQL environments"""
@@ -50,7 +29,6 @@ def auto_migrate_schema(target_engine):
 
 auto_migrate_schema(engine)
 
-
 # MongoDB PyMongo Client
 try:
     mongo_client = MongoClient(settings.MONGO_URL, serverSelectionTimeoutMS=1000)
@@ -62,15 +40,5 @@ except Exception:
     mongo_client = None
     mongo_db = None
 
-
-# Dependency to get DB Session
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-# Helper to get MongoDB instance
 def get_mongo_db():
     return mongo_db

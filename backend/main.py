@@ -1,9 +1,10 @@
 import os
 import sys
 
-# Ensure backend directory and app modules are in python sys.path
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "app"))
+# Ensure backend directory is first in sys.path
+backend_dir = os.path.dirname(os.path.abspath(__file__))
+if backend_dir not in sys.path:
+    sys.path.insert(0, backend_dir)
 
 from app.main import app
 

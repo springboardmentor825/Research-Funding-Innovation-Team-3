@@ -48,18 +48,6 @@ async def lifespan(app: FastAPI):
         except Exception:
             pass
         
-        # Seed default roles
-        roles = [
-            ("researcher", "Academic & Industry Scientists"),
-            ("startup_founder", "Tech Entrepreneurs & DeepTech Founders"),
-            ("innovation_manager", "University Tech Transfer & R&D Directors"),
-            ("administrator", "Platform IT Administrators")
-        ]
-        for role_name, desc in roles:
-            existing = db.query(Role).filter(Role.name == role_name).first()
-            if not existing:
-                db.add(Role(name=role_name, description=desc))
-        
         # Seed default admin account
         admin = db.query(User).filter(User.email == "admin@researchsphere.ai").first()
         if not admin:

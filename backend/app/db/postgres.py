@@ -19,7 +19,7 @@ def get_db():
 from sqlalchemy import inspect, text
 
 def init_db():
-    from app.models import all_models  # noqa: F401
+    import models  # noqa: F401
     Base.metadata.create_all(bind=engine)
     try:
         inspector = inspect(engine)
@@ -32,4 +32,3 @@ def init_db():
                 Base.metadata.create_all(bind=engine)
     except Exception as e:
         print(f"Database schema auto-check note: {e}")
-

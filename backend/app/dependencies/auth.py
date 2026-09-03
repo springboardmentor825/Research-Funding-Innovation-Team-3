@@ -52,9 +52,18 @@ def get_current_user(
     raise credentials_error
 
 def require_roles(*roles):
+    # Normalize expected roles to lowercase and underscore/space free for robust comparison
+    allowed_normalized = set()
+    for r in roles:
+        val = getattr(r, "value", str(r))
+        allowed_normalized.add(val.lower().replace(" ", "_").replace("-", "_"))
+        allowed_normalized.add(val.lower())
+        allowed_normalized.add(val)
+
     def dependency(current_user: User = Depends(get_current_user)):
-        user_role = getattr(current_user.role, "value", current_user.role)
-        if user_role not in roles and current_user.role not in roles:
+        user_role = getattr(current_user.role, "value", str(current_user.role))
+        user_norm = user_role.lower().replace(" ", "_").replace("-", "_")
+        if user_norm not in allowed_normalized and user_role not in allowed_normalized and user_role.lower() not in allowed_normalized:
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Insufficient permissions")
         return current_user
     return dependency

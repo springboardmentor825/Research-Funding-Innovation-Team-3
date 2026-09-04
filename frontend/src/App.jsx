@@ -18,7 +18,6 @@ import './App.css';
 import RecommendationsPage from './pages/RecommendationsPage';
 import InnovationManagerPage from './pages/InnovationManagerPage';
 
-
 const Layout = () => {
   return (
     <div className="app-layout">
@@ -40,7 +39,7 @@ export default function App() {
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
-      
+
       <Route element={<ProtectedRoute />}>
         <Route element={<Layout />}>
           <Route path="/dashboard" element={<DashboardPage />} />
@@ -54,7 +53,7 @@ export default function App() {
           <Route path="/innovation-manager" element={<InnovationManagerPage />} />
         </Route>
       </Route>
-      
+
       {/* Fallback */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

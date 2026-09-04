@@ -13,6 +13,7 @@ export default function Sidebar() {
   { to: '/publications', icon: <HiBookOpen />, label: 'Publications' },
   { to: '/patents', icon: <HiLightBulb />, label: 'Patent Landscape' },
   { to: '/recommendations', icon: <HiSparkles />, label: 'Funding Recommendations' },
+  { to: '/innovation-manager', icon: <HiChartSquareBar />, label: 'Innovation Manager' },
   { to: '/architecture', icon: <HiChip />, label: 'System Architecture' },
   { to: '/settings', icon: <HiCog />, label: 'Settings' },
 ];

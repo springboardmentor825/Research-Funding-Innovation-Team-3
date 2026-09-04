@@ -16,6 +16,7 @@ import AdminPage from './pages/AdminPage';
 import SettingsPage from './pages/SettingsPage';
 import './App.css';
 import RecommendationsPage from './pages/RecommendationsPage';
+import InnovationManagerPage from './pages/InnovationManagerPage';
 
 
 const Layout = () => {
@@ -50,6 +51,7 @@ export default function App() {
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/recommendations" element={<RecommendationsPage />} />
+          <Route path="/innovation-manager" element={<InnovationManagerPage />} />
         </Route>
       </Route>
       
